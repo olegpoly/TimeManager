@@ -21,15 +21,53 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
-public class MainActivity extends Activity {
-    ApplicationData appState;
-    TimeSpan startStopPeriod;
-    long currentSessionNumber;
-    // It takes time from the timer service and displays it in this view
-    private TimerService timerService;  // service that manages the timer
-    private boolean timerServiceBound;  // indicates whether timer service is bound or not
-    private ServiceConnection timerServiceConnection = new ServiceConnection() {
+import TImeManagerDataBase.TimePeriodDBTableEntry;
+import TImeManagerDataBase.UserActivityDB;
+import TImeManagerDataBase.UserActivityDBTableEntry;
 
+public class MainActivity extends Activity {
+    /**
+     * contains timers that need to maintain their values when the the phone sleeps
+     */
+    private ApplicationData appState;
+    /**
+     *  time span between two events: 1)start button clicked 2)stop button clicked
+     */
+    private TimeSpan startStopPeriod;
+    /**
+     * Represents the current session number. All time periods in database is associated with a
+     * session number. To start a new timer - start a new session by using a value that hasn't been
+     * used yet.
+     */
+    private long currentSessionNumber;
+    /**
+     * the service that manages the main timer
+     */
+    private TimerService timerService;
+    /**
+     * indicates whether timer service is bound or not
+     */
+    private boolean timerServiceBound;
+    /**
+     * runs in MainActivity's thread (not in the timer service).
+     * Takes time from the service and displays it on the screen.
+     */
+    private Timer setPassedTimeTimer;
+    /**
+     * the textView for displaying the timer
+     */
+    private TextView timerTextView;
+    /**
+     * spinner for all user's activities
+     */
+    private Spinner activitiesSpinner;
+    /**
+     * TimerTask that displays time on the screen when called
+     */
+    private TimerTask displayTime = createDisplayTimeTimerTask();
+
+
+    private ServiceConnection timerServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName className,
                                        IBinder service) {
@@ -44,16 +82,15 @@ public class MainActivity extends Activity {
             timerServiceBound = false;
         }
     };
-    private Timer setPassedTimeTimer;  // timer that runs in MainActivity's thread (not in the timer service).
-    private TextView timerTextView;  // the textView for displaying the timer
-    private Spinner activitiesSpinner; // spinner that shows all user's activities
-    private TimerTask displayTime = createDisplayTimeTimerTask();
 
+    /**
+     * Gets current time period from the timer service and displays on the screen
+     */
     private TimerTask createDisplayTimeTimerTask() {
         TimerTask displayTime = new TimerTask() {
             @Override
             public void run() {
-                long secs = timerService.getTime();
+                long secs = timerService.getSecondsPassed();
 
                 String timeString = getFormattedTimeString(secs);
 
@@ -64,19 +101,26 @@ public class MainActivity extends Activity {
         return displayTime;
     }
 
+    /**
+     * Load correct timer values when new user's activity is selected in the activities spinner.
+     */
     AdapterView.OnItemSelectedListener activitiesSpinnerSelectedItemChanged  = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-            selectedItemChanged(parentView);
+            loadDataForCurrentActivity();
         }
 
         @Override
         public void onNothingSelected(AdapterView<?> parentView) {
-            // your code here
         }
 
     };
 
+    /**
+     * Creates a user friendly time string - h:m:s
+     * @param secs seconds
+     * @return a user friendly time string
+     */
     private String getFormattedTimeString(long secs) {
         long hours = TimeUnit.SECONDS.toHours(secs);
         long minutes = TimeUnit.SECONDS.toMinutes(secs) - TimeUnit.HOURS.toMinutes(hours);
@@ -100,6 +144,7 @@ public class MainActivity extends Activity {
         timerTextView = (TextView) findViewById(R.id.timerTextView);
         activitiesSpinner = (Spinner) findViewById(R.id.activitiesSpinner);
 
+        // for testing porpoises, loads all table entries into the spinner
         loadTimePeriodsIntoSpinner();
 
         appState = ((ApplicationData) getApplicationContext());
@@ -113,40 +158,59 @@ public class MainActivity extends Activity {
         activitiesSpinner.setOnItemSelectedListener(activitiesSpinnerSelectedItemChanged);
     }
 
-    public void selectedItemChanged(AdapterView<?> parentView) {
-        UserActivityDB db = new UserActivityDB(parentView.getContext());
+    /**
+     * Load all data for the currently selected activity
+     */
+    private void loadDataForCurrentActivity() {
+        UserActivityDB db = new UserActivityDB(activitiesSpinner.getContext());
 
+        // get selected user's activity
         UserActivityDBTableEntry selectedUserActivity = (UserActivityDBTableEntry) activitiesSpinner.getSelectedItem();
 
+        // get all time periods for the current session
         List<TimePeriodDBTableEntry> allPassedTimes = db.getAllPassedTimes(currentSessionNumber, selectedUserActivity.getId());
 
-        long totalTime = 0;
+        long totalTime = 0; // total time of all time periods for the current session
 
         for (TimePeriodDBTableEntry timePeriod : allPassedTimes) {
             totalTime += timePeriod.getSecsPassed();
         }
 
-        timerService.setTime(totalTime);
-
+        // set timerService's starting time and display it on the screen
+        timerService.setSecondsPassed(totalTime);
         String timeString = getFormattedTimeString(totalTime);
-
         setTimerViewText(timeString);
     }
 
     @Override
     protected void onStart() {
-        setResumed();
+        resumed();
         super.onStart();
         loadActivitiesIntoActivitiesSpinner();
     }
 
     @Override
     protected void onResume() {
-        setResumed();
+        resumed();
         super.onResume();
     }
 
-    void setResumed() {
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopped();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopped();
+    }
+
+    /**
+     * When the phone wakes up this app, calculate the time duration of sleep and add it to the timer
+     */
+    private void resumed() {
         if (appState.getTimeInSleep() == null) return;
 
         Time now = new Time();
@@ -155,24 +219,15 @@ public class MainActivity extends Activity {
         long difference = (now.toMillis(false) - appState.getTimeInSleep().toMillis(false)) / 1000;
 
         if (timerService != null)
-            timerService.addTime(difference);
+            timerService.addSeconds(difference);
 
         appState.setTimeInSleep(null);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        setStopped();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        setStopped();
-    }
-
-    void setStopped() {
+    /**
+     * Save the time when the phone stops this app and it's timer service
+     */
+    private void stopped() {
         Time now = new Time();
         now.setToNow();
 
@@ -186,7 +241,8 @@ public class MainActivity extends Activity {
         }
     }
 
-    public void loadTimePeriodsIntoSpinner() {
+    // only for testing purposes
+    private void loadTimePeriodsIntoSpinner() {
         Spinner s = (Spinner) findViewById(R.id.spinner);
 
         ArrayAdapter<TimePeriodDBTableEntry> activitiesAdaptor = new ArrayAdapter<TimePeriodDBTableEntry>(this,
@@ -195,9 +251,10 @@ public class MainActivity extends Activity {
         s.setAdapter(activitiesAdaptor);
     }
 
-    // Called when startTimerButton is clicked.
-    // Starts timer
-    public void startTimer(View v) {
+    /**
+    * Called when startTimerButton is clicked. Starts the service's timer.
+    */
+    private void startTimer() {
         if (timerServiceBound) {
             timerService.startTimer();
 
@@ -207,7 +264,6 @@ public class MainActivity extends Activity {
             int startWhen = 0;
             int period = 1000;
 
-            //startStopPeriod.setSeconds(timerService.getTime());
             startStopPeriod.setStartDate(Calendar.getInstance());
             displayTime = createDisplayTimeTimerTask();
 
@@ -215,14 +271,19 @@ public class MainActivity extends Activity {
         }
     }
 
-    // Called when startTimerButton is clicked.
-    // Stops timer
-    public void stopTimer(View view) {
+    /**
+    * Called when startTimerButton is clicked.
+    * Stops the service's timer
+    */
+    private void stopTimer() {
+        if (timerService != null)
         timerService.stopTimer();
 
-        setPassedTimeTimer.cancel();
-        setPassedTimeTimer.purge();
-        setPassedTimeTimer = null;
+        if (setPassedTimeTimer != null) {
+            setPassedTimeTimer.cancel();
+            setPassedTimeTimer.purge();
+            setPassedTimeTimer = null;
+        }
 
         UserActivityDB db = new UserActivityDB(this);
 
@@ -238,10 +299,16 @@ public class MainActivity extends Activity {
         db.putNewTime(tp);
 
         startStopPeriod.reset();
+
+        // for testing purposes, loads all table entries into the spinner
+        loadTimePeriodsIntoSpinner();
     }
 
-    // Set timerTextView's text
-    public void setTimerViewText(final String text) {
+    /**
+     * Set timerTextView's text on the ui thread
+     * @param text the text to set
+     */
+    private void setTimerViewText(final String text) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -250,11 +317,17 @@ public class MainActivity extends Activity {
         });
     }
 
-    public void manageActivitiesButton(View view) {
+    /**
+     * When the manageActivities button is clicked, start the corresponding activity
+     */
+    private void manageActivitiesButton() {
         startActivity(new Intent(this, ManageActivities.class));
     }
 
-    public void loadActivitiesIntoActivitiesSpinner() {
+    /**
+     * display all user's activities in the activities spinner
+     */
+    private void loadActivitiesIntoActivitiesSpinner() {
         ArrayAdapter<UserActivityDBTableEntry> activitiesAdaptor = new ArrayAdapter<UserActivityDBTableEntry>(this,
                 android.R.layout.simple_spinner_dropdown_item,
                 new UserActivityDB(this).getAllUserActivities());
@@ -262,9 +335,18 @@ public class MainActivity extends Activity {
         activitiesSpinner.setAdapter(activitiesAdaptor);
     }
 
-    // Create new session. Reload the timer textView.
-    public void newSessionButtonClicked(View view) {
+    /**
+     * Create new session. Reload the timer textView.
+     */
+    private void newSessionButtonClicked() {
+        startNewSession();
+        loadDataForCurrentActivity();
+    }
+
+    /**
+     * Start a new session.
+     */
+    private void startNewSession() {
         currentSessionNumber++;
-        selectedItemChanged(activitiesSpinner);
     }
 }

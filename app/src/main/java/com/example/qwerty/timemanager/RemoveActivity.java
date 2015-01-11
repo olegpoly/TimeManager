@@ -9,6 +9,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import TImeManagerDataBase.UserActivityDB;
+import TImeManagerDataBase.UserActivityDBTableEntry;
+
 
 public class RemoveActivity extends Fragment {
     Spinner userActivitiesSelectorSpinner;

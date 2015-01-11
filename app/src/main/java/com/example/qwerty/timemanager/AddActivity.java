@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import TImeManagerDataBase.UserActivityDB;
+import TImeManagerDataBase.UserActivityDBTableEntry;
+
 
 public class AddActivity extends Fragment {
     TextView newActivityNameTextView;
