@@ -170,7 +170,7 @@ public class MainActivity extends Activity {
         UserActivityDBTableEntry selectedUserActivity = (UserActivityDBTableEntry) activitiesSpinner.getSelectedItem();
 
         // get all time periods for the current session
-        List<TimePeriodDBTableEntry> allPassedTimes = db.getAllPassedTimes(currentSessionNumber, selectedUserActivity.getId());
+        List<TimePeriodDBTableEntry> allPassedTimes = db.getAllTimePeriods(currentSessionNumber, selectedUserActivity.getId());
 
         long totalTime = 0; // total time of all time periods for the current session
 
@@ -248,7 +248,7 @@ public class MainActivity extends Activity {
         Spinner s = (Spinner) findViewById(R.id.spinner);
 
         ArrayAdapter<TimePeriodDBTableEntry> activitiesAdaptor = new ArrayAdapter<TimePeriodDBTableEntry>(this,
-                android.R.layout.simple_spinner_dropdown_item, new UserActivityDB(this).getAllPassedTimes());
+                android.R.layout.simple_spinner_dropdown_item, new UserActivityDB(this).getAllTimePeriods());
 
         s.setAdapter(activitiesAdaptor);
     }
@@ -298,7 +298,7 @@ public class MainActivity extends Activity {
         UserActivityDBTableEntry ua = (UserActivityDBTableEntry) activitiesSpinner.getSelectedItem();
         tp.setIdUserActivity(ua.getId());
 
-        db.putNewTime(tp);
+        db.addNewTimePeriod(tp);
 
         startStopPeriod.reset();
 

@@ -61,6 +61,10 @@ public class TimePeriodDBTableEntry {
         return sessionNumber;
     }
 
+    /**
+     * Set session number
+     * @param sessionNumber session number
+     */
     public void setSessionNumber(long sessionNumber) {
         this.sessionNumber = sessionNumber;
     }
