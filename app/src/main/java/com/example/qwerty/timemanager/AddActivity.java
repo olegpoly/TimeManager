@@ -11,9 +11,18 @@ import android.widget.TextView;
 import TImeManagerDataBase.UserActivityDB;
 import TImeManagerDataBase.UserActivityDBTableEntry;
 
-
+/**
+ * this fragment lets user add user's activities
+ */
 public class AddActivity extends Fragment {
+    /**
+     * text view for new activity name
+     */
     TextView newActivityNameTextView;
+
+    /**
+     * create new activity on button click
+     */
     View.OnClickListener OnClickAddActivityButton = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -32,10 +41,12 @@ public class AddActivity extends Fragment {
         // Inflate the layout for this fragment
         View thisView = inflater.inflate(R.layout.activity_add_user_activity, container, false);
 
+        // initialize views
         Button addActivityButton = (Button) thisView.findViewById(R.id.AddActivityButton);
-        addActivityButton.setOnClickListener(OnClickAddActivityButton);
-
         newActivityNameTextView = (TextView) thisView.findViewById(R.id.newActivityNameEditText);
+
+        // set the addActivity's button onClick listener
+        addActivityButton.setOnClickListener(OnClickAddActivityButton);
 
         return thisView;
     }

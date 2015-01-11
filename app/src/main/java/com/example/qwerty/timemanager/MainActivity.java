@@ -32,6 +32,8 @@ public class MainActivity extends Activity {
     private ApplicationData appState;
     /**
      *  time span between two events: 1)start button clicked 2)stop button clicked
+     *  This object is stored in the application data, so it works correct when the app
+     *  is in sleep
      */
     private TimeSpan startStopPeriod;
     /**
