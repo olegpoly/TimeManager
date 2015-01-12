@@ -8,11 +8,19 @@ class userActivitiesTable {
     static final String ID_FIELD = "id";
     static final String NAME_FIELD = "name";
 
+    /**
+     * Get sql command for creating the table
+     * @return sql command in string
+     */
     static public String createTable() {
         return "create table " + TABLE_NAME + "(" + ID_FIELD + " integer primary key, " + NAME_FIELD + " text)";
     }
 
-    static public String DropIfExistst() {
+    /**
+     * Get sql command for dropping the table if it exists
+     * @return sql command in string
+     */
+    static public String DropIfExists() {
         return "drop table if exists " + TABLE_NAME;
     }
 }

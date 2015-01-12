@@ -14,13 +14,21 @@ class timePeriodTable {
     static final String ID_USER_ACTIVITY = "id_user_activity";
     static final String SESSION_NUMBER = "session_number";
 
+    /**
+     * Get sql command for creating the table
+     * @return sql command in string
+     */
     static public String createTable() {
         return "create table " + TABLE_NAME + "(" +
                 ID_FIELD + " integer primary key, " + DATE_STARTED_FIELD + " datetime, " + TIME_PASSED_FIELD + " int, " +
                 ID_USER_ACTIVITY + " int not null, " + SESSION_NUMBER + " integer)";
     }
 
-    static public String DropIfExistst() {
+    /**
+     * Get sql command for dropping the table if it exists
+     * @return sql command in string
+     */
+    static public String DropIfExists() {
         return "drop table if exists " + TABLE_NAME;
     }
 
@@ -33,7 +41,11 @@ class timePeriodTable {
         return cv;
     }
 
-    static public String getAll() {
+    /**
+     * Get sql command for getting all table's entries
+     * @return sql command in string
+     */
+    static public String getAllEntries() {
         String sql = "select * from " + TABLE_NAME;
 
         return sql;

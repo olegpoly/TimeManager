@@ -39,8 +39,8 @@ public class UserActivityDB extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(userActivitiesTable.DropIfExistst());
-        db.execSQL(timePeriodTable.DropIfExistst());
+        db.execSQL(userActivitiesTable.DropIfExists());
+        db.execSQL(timePeriodTable.DropIfExists());
         onCreate(db);
     }
 
@@ -83,7 +83,7 @@ public class UserActivityDB extends SQLiteOpenHelper {
 
     /**
      * Remove user's activity passed as an argument from the database
-     * @param ua
+     * @param ua user activity to delete
      */
     public void removeUserActivity(UserActivityDBTableEntry ua) {
         SQLiteDatabase db = getWritableDatabase();
@@ -96,7 +96,7 @@ public class UserActivityDB extends SQLiteOpenHelper {
      */
     public List<TimePeriodDBTableEntry> getAllTimePeriods() {
         SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery(timePeriodTable.getAll(), null);
+        Cursor cursor = db.rawQuery(timePeriodTable.getAllEntries(), null);
 
         cursor.moveToFirst();
 
@@ -111,7 +111,7 @@ public class UserActivityDB extends SQLiteOpenHelper {
      */
     public List<TimePeriodDBTableEntry> getAllTimePeriods(long session, long userActivityID) {
         SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery(timePeriodTable.getAll() +
+        Cursor cursor = db.rawQuery(timePeriodTable.getAllEntries() +
                 " WHERE " + timePeriodTable.SESSION_NUMBER + " = " + session +
                 " AND " + timePeriodTable.ID_USER_ACTIVITY + " = " + userActivityID, null);
 
@@ -165,7 +165,7 @@ public class UserActivityDB extends SQLiteOpenHelper {
      */
     public long getLastSessionNumber() {
         SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery(timePeriodTable.getAll(), null);
+        Cursor cursor = db.rawQuery(timePeriodTable.getAllEntries(), null);
         cursor.moveToLast();
         long lastSessionNumber = 0;
 
