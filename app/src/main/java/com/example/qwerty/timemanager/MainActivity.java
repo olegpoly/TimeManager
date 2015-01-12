@@ -68,7 +68,6 @@ public class MainActivity extends Activity {
      */
     private TimerTask displayTime = createDisplayTimeTimerTask();
 
-
     private ServiceConnection timerServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName className,
@@ -255,8 +254,9 @@ public class MainActivity extends Activity {
 
     /**
     * Called when startTimerButton is clicked. Starts the service's timer.
+    * @param view the view that invoked this event
     */
-    private void startTimer() {
+    public void startTimer(View view) {
         if (timerServiceBound) {
             timerService.startTimer();
 
@@ -276,8 +276,9 @@ public class MainActivity extends Activity {
     /**
     * Called when startTimerButton is clicked.
     * Stops the service's timer
+    * @param view the view that invoked this event
     */
-    private void stopTimer() {
+    public void stopTimer(View view) {
         if (timerService != null)
         timerService.stopTimer();
 
@@ -321,8 +322,9 @@ public class MainActivity extends Activity {
 
     /**
      * When the manageActivities button is clicked, start the corresponding activity
+     * @param view the view that invoked this event
      */
-    private void manageActivitiesButton() {
+    public void manageActivitiesButton(View view) {
         startActivity(new Intent(this, ManageActivities.class));
     }
 
@@ -339,8 +341,9 @@ public class MainActivity extends Activity {
 
     /**
      * Create new session. Reload the timer textView.
+     * @param view the view that invoked this event
      */
-    private void newSessionButtonClicked() {
+    public void newSessionButtonClicked(View view) {
         startNewSession();
         loadDataForCurrentActivity();
     }

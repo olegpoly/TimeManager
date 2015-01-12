@@ -19,7 +19,7 @@ public class ApplicationData extends Application {
 
     {
         // initialize variables with standard values
-       // startStopPeriod = new TimeSpan();
+        startStopPeriod = new TimeSpan();
         timeInSleep = new Time();
     }
 

@@ -122,6 +122,8 @@ public class UserActivityDB extends SQLiteOpenHelper {
 
     /**
      * Returns a list filled with time period entries taken with cursor passed as a parameter
+     * The cursor must be setup by the caller.
+     * This function does not move cursor to any position, it will start from the current cursor's position.
      * @param cursor cursor with table entries
      * @return list with time period entries
      */
@@ -166,11 +168,12 @@ public class UserActivityDB extends SQLiteOpenHelper {
     public long getLastSessionNumber() {
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor = db.rawQuery(timePeriodTable.getAllEntries(), null);
+
         cursor.moveToLast();
         long lastSessionNumber = 0;
 
         try {
-            cursor.getLong(cursor.getColumnIndex(timePeriodTable.SESSION_NUMBER));
+            lastSessionNumber = cursor.getLong(cursor.getColumnIndex(timePeriodTable.SESSION_NUMBER));
         } catch (CursorIndexOutOfBoundsException e) {
             Log.w(timePeriodTable.SESSION_NUMBER, e.getMessage());
         }
