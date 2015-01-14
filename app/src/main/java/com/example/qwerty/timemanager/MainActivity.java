@@ -8,12 +8,15 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.sql.SQLDataException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -137,7 +140,7 @@ public class MainActivity extends Activity {
 
         startStopPeriod = appState.getStartStopPeriod();
 
-        UserActivityDB db = new UserActivityDB(this);
+        UserActivityDB db = UserActivityDB.getInstance(this);;
 
         currentSessionNumber = db.getLastSessionNumber();
     }
@@ -147,7 +150,7 @@ public class MainActivity extends Activity {
      * @param view the view that invoked this event
      */
     public void loadDataForCurrentActivity(View view) {
-        UserActivityDB db = new UserActivityDB(activitiesSpinner.getContext());
+        UserActivityDB db = UserActivityDB.getInstance(this);
 
         // get selected user's activity
         UserActivityDBTableEntry selectedUserActivity = (UserActivityDBTableEntry) activitiesSpinner.getSelectedItem();
@@ -230,8 +233,26 @@ public class MainActivity extends Activity {
     private void loadTimePeriodsIntoSpinner() {
         Spinner s = (Spinner) findViewById(R.id.spinner);
 
-        ArrayAdapter<TimePeriodDBTableEntry> activitiesAdaptor = new ArrayAdapter<TimePeriodDBTableEntry>(this,
-                android.R.layout.simple_spinner_dropdown_item, new UserActivityDB(this).getAllTimePeriods());
+        UserActivityDB database = UserActivityDB.getInstance(this);
+        List<TimePeriodDBTableEntry> timePeriods = database.getAllTimePeriods();
+        List<String> timePeriodsStrings = new ArrayList<>();
+        String userActivityName = "non";
+
+        for (TimePeriodDBTableEntry timePeriod : timePeriods) {
+            try {
+                userActivityName = database.getActivityById(timePeriod.getId()).getName();
+            } catch (SQLDataException e) {
+                //Log.e("database: ", e.getCause().toString());
+                //continue;
+            }
+
+            timePeriodsStrings.add(timePeriod.toString() + " " + userActivityName);
+
+            userActivityName = "non";
+        }
+
+        ArrayAdapter<String> activitiesAdaptor = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_dropdown_item, timePeriodsStrings);
 
         s.setAdapter(activitiesAdaptor);
     }
@@ -272,7 +293,7 @@ public class MainActivity extends Activity {
             setPassedTimeTimer = null;
         }
 
-        UserActivityDB db = new UserActivityDB(this);
+        UserActivityDB db = UserActivityDB.getInstance(this);
 
         startStopPeriod.setEndDate(Calendar.getInstance());
 
@@ -316,9 +337,11 @@ public class MainActivity extends Activity {
      * display all user's activities in the activities spinner
      */
     private void loadActivitiesIntoActivitiesSpinner() {
+        UserActivityDB database = UserActivityDB.getInstance(this);
+
         ArrayAdapter<UserActivityDBTableEntry> activitiesAdaptor = new ArrayAdapter<UserActivityDBTableEntry>(this,
                 android.R.layout.simple_spinner_dropdown_item,
-                new UserActivityDB(this).getAllUserActivities());
+                database.getAllUserActivities());
 
         activitiesSpinner.setAdapter(activitiesAdaptor);
     }

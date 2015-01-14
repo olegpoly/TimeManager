@@ -29,8 +29,9 @@ public class AddActivity extends Fragment {
             String newUserActivityName = newActivityNameTextView.getText().toString();
             UserActivityDBTableEntry newUserActivity = new UserActivityDBTableEntry(newUserActivityName);
 
-            UserActivityDB db = new UserActivityDB(getView().getContext());
-            db.addUserActivity(newUserActivity);
+            UserActivityDB database = UserActivityDB.getInstance(getActivity());
+
+            database.addUserActivity(newUserActivity);
             newActivityNameTextView.setText("");
         }
     };
