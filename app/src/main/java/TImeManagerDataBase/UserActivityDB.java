@@ -8,11 +8,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.sql.SQLDataException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import java.lang.Exception.*;
 
 /**
  * Data base manipulation class
@@ -23,11 +26,22 @@ public class UserActivityDB extends SQLiteOpenHelper {
      */
     private final static String DATABASE_NAME = "timerAppDB";
 
+    private static UserActivityDB database;
+
+    public static UserActivityDB getInstance(Context context) {
+        if (database == null) {
+            // guarantee that only one database helper will exist across the entire application's lifecycle.
+            database = new UserActivityDB(context.getApplicationContext());
+        }
+
+        return database;
+    }
+
     /**
      * Constructor
      * @param context
      */
-    public UserActivityDB(Context context) {
+    private UserActivityDB(Context context) {
         super(context, DATABASE_NAME, null, 8);
     }
 
@@ -179,5 +193,32 @@ public class UserActivityDB extends SQLiteOpenHelper {
         }
 
         return lastSessionNumber;
+    }
+
+    /**
+     * Find UserActivityDBTableEntry from database by id.
+     * @param id needed UserActivityDBTableEntry's id
+     * @return UserActivityDBTableEntry
+     * @see UserActivityDBTableEntry
+     * @throws SQLDataException if UserActivityDBTableEntry is not found
+     */
+    public UserActivityDBTableEntry getActivityById(long id) throws SQLDataException {
+        SQLiteDatabase db = getWritableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + userActivitiesTable.TABLE_NAME + " where " +
+        userActivitiesTable.ID_FIELD + " = " + id, null);
+
+        // if no rows found throw an exception
+        if (cursor.getCount() == 0) {
+            throw new SQLDataException();
+        }
+
+        // create and initialize instance
+        cursor.moveToFirst();
+        String activityName = cursor.getString(cursor.getColumnIndex(userActivitiesTable.NAME_FIELD));
+        long activityId = cursor.getLong(cursor.getColumnIndex(userActivitiesTable.ID_FIELD));
+        UserActivityDBTableEntry userActivity = new UserActivityDBTableEntry(activityName, activityId);
+
+        return userActivity;
     }
 }
