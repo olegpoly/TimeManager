@@ -11,8 +11,8 @@ class timePeriodTable {
     static final String ID_FIELD = "id";
     static final String DATE_STARTED_FIELD = "date_started";
     static final String TIME_PASSED_FIELD = "secs_passed";
-    static final String ID_USER_ACTIVITY = "id_user_activity";
     static final String SESSION_NUMBER = "session_number";
+    static final String ID_USER_ACTIVITY = "id_user_activity";
 
     /**
      * Get sql command for creating the table
@@ -21,7 +21,9 @@ class timePeriodTable {
     static public String createTable() {
         return "create table " + TABLE_NAME + "(" +
                 ID_FIELD + " integer primary key, " + DATE_STARTED_FIELD + " datetime, " + TIME_PASSED_FIELD + " int, " +
-                ID_USER_ACTIVITY + " int not null, " + SESSION_NUMBER + " integer)";
+                ID_USER_ACTIVITY + " int not null, " + SESSION_NUMBER + " integer, " +
+                " FOREIGN KEY (" + ID_USER_ACTIVITY + ") REFERENCES " +
+                userActivitiesTable.TABLE_NAME + " (" + userActivitiesTable.ID_FIELD + "))";
     }
 
     /**
