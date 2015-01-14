@@ -26,8 +26,16 @@ public class UserActivityDB extends SQLiteOpenHelper {
      */
     private final static String DATABASE_NAME = "timerAppDB";
 
+    /**
+     * singleton instance
+     */
     private static UserActivityDB database;
 
+    /**
+     * Get instance of the database
+     * @param context context for database creation
+     * @return instance of the database
+     */
     public static UserActivityDB getInstance(Context context) {
         if (database == null) {
             // guarantee that only one database helper will exist across the entire application's lifecycle.
@@ -42,19 +50,23 @@ public class UserActivityDB extends SQLiteOpenHelper {
      * @param context
      */
     private UserActivityDB(Context context) {
-        super(context, DATABASE_NAME, null, 8);
+        super(context, DATABASE_NAME, null, 10);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        // create table
         db.execSQL(userActivitiesTable.createTable());
         db.execSQL(timePeriodTable.createTable());
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // delete tables
         db.execSQL(userActivitiesTable.DropIfExists());
         db.execSQL(timePeriodTable.DropIfExists());
+
+        // recreate tables
         onCreate(db);
     }
 
