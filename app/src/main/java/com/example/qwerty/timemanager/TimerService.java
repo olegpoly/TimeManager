@@ -3,13 +3,13 @@ package com.example.qwerty.timemanager;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Handler;
 import android.os.IBinder;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 /**
- * Created by Oleg on 11/20/2014.
+ * The service that manges the main timer. This timer must work when the app is active and
+ * when the app is on the background. When the phone is in sleep and this time doesn't work,
+ * the app uses different mechanisms to keep track of time passed.
  */
 public class TimerService extends Service {
     /**
@@ -17,10 +17,22 @@ public class TimerService extends Service {
      */
     private final IBinder mBinder = new LocalBinder();
     /**
-     * Timer that counts time. It's timer task increments the counter variable every time
-     * it is run.
+     * the handler that is used for timer ticks, where tick is a runnable task
      */
-    private Timer timeCounterTimer;
+    private Handler timerHandler = new Handler();
+    /**
+     * represents one tick of a timer
+     */
+    private Runnable mUpdateTimeTask = new Runnable() {
+        public void run() {
+            secPassed += 1;
+            timerHandler.postDelayed(mUpdateTimeTask, 1000);
+        }
+    };
+    /**
+     * true if timer is ticking, false otherwise
+     */
+    boolean timerWorking = false;
     /**
      * The counter variable. Represents the number of seconds passed.
      */
@@ -35,27 +47,23 @@ public class TimerService extends Service {
      * Starts the service's timer.
      */
     public void startTimer() {
-        if (timeCounterTimer != null) {
+        // can't run two timers on the same instance at once
+        if (timerWorking == true) {
             return;
         }
 
-        timeCounterTimer = new Timer();
-        // timer ticks every second, starting one second after it's scheduled.
-        timeCounterTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                secPassed++;
-            }
-        }, 1000, 1000);
+        // start the timer
+        timerHandler.postDelayed(mUpdateTimeTask, 100);
+        timerWorking = true;
     }
 
     /**
      * Stops the service's timer.
      */
     public void stopTimer() {
-        if (timeCounterTimer != null)
-            timeCounterTimer.cancel();
-        timeCounterTimer = null;
+        // stop the timer
+        timerHandler.removeCallbacks(mUpdateTimeTask);
+        timerWorking = false;
     }
 
     /**
