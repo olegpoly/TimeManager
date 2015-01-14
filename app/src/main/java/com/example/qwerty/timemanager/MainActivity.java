@@ -103,21 +103,6 @@ public class MainActivity extends Activity {
     }
 
     /**
-     * Load correct timer values when new user's activity is selected in the activities spinner.
-     */
-    AdapterView.OnItemSelectedListener activitiesSpinnerSelectedItemChanged  = new AdapterView.OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-            loadDataForCurrentActivity();
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parentView) {
-        }
-
-    };
-
-    /**
      * Creates a user friendly time string - h:m:s
      * @param secs seconds
      * @return a user friendly time string
@@ -155,14 +140,13 @@ public class MainActivity extends Activity {
         UserActivityDB db = new UserActivityDB(this);
 
         currentSessionNumber = db.getLastSessionNumber();
-
-        activitiesSpinner.setOnItemSelectedListener(activitiesSpinnerSelectedItemChanged);
     }
 
     /**
      * Load all data for the currently selected activity
+     * @param view the view that invoked this event
      */
-    private void loadDataForCurrentActivity() {
+    public void loadDataForCurrentActivity(View view) {
         UserActivityDB db = new UserActivityDB(activitiesSpinner.getContext());
 
         // get selected user's activity
@@ -345,7 +329,7 @@ public class MainActivity extends Activity {
      */
     public void newSessionButtonClicked(View view) {
         startNewSession();
-        loadDataForCurrentActivity();
+        loadDataForCurrentActivity(findViewById(R.id.loadActivityButton));
     }
 
     /**
