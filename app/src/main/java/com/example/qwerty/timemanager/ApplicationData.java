@@ -1,7 +1,10 @@
 package com.example.qwerty.timemanager;
 
 import android.app.Application;
+import android.content.Context;
 import android.text.format.Time;
+
+import TImeManagerDataBase.UserActivityDB;
 
 /**
  * Holds data that is needed to maintain it's state through all app's states.
@@ -17,7 +20,10 @@ public class ApplicationData extends Application {
      */
     Time timeInSleep;
 
-    {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
         // initialize variables with standard values
         startStopPeriod = new TimeSpan();
         timeInSleep = new Time();
