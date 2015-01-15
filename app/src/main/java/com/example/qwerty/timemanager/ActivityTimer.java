@@ -19,13 +19,17 @@ import TImeManagerDataBase.UserActivityDB;
 import TImeManagerDataBase.UserActivityDBTableEntry;
 
 /**
- * TODO: this class is not finished yet
+ * This timer interacts with the service's timer from an activity's context.
  */
 public class ActivityTimer {
+    /**
+     * Context of the activity where this timer is used
+     */
     Context activityContext;
-
+    /**
+     * Represents the current session number
+     */
     SessionNumber currentSessionNumber;
-
     /**
      * connection to the service timer
      */
@@ -44,40 +48,37 @@ public class ActivityTimer {
             timerServiceBound = false;
         }
     };
-
     /**
      * the service that manages the main timer
      */
     private TimerService timerService;
-
     /**
      * indicates whether timer service is bound or not
      */
     private boolean timerServiceBound;
-
     /**
      *  time span between two events: 1)start button clicked 2)stop button clicked
      *  This object is stored in the application data, so it works correct when the app
      *  is in sleep
      */
     private TimeSpan startStopPeriod;
-
     /**
-     * runs in MainActivity's thread (not in the timer service).
      * Takes time from the service and displays it on the screen.
      */
     private Timer setPassedTimeTimer;
-
     /**
      * TimerTask that displays time on the screen when called
      */
     private TimerTask displayTime = createDisplayTimeTimerTask();
-
     /**
      * contains timers that need to maintain their values when the the phone sleeps
      */
     private ApplicationData appState;
 
+    /**
+     * Constructor
+     * @param activityContext Context of the activity where this timer is used
+     */
     public ActivityTimer(Context activityContext) {
         this.activityContext = activityContext;
 
@@ -87,6 +88,8 @@ public class ActivityTimer {
         appState = ((ApplicationData)activityContext.getApplicationContext());
 
         startStopPeriod = appState.getStartStopPeriod();
+
+        currentSessionNumber = SessionNumber.getInstance();
     }
 
     /**
@@ -99,8 +102,9 @@ public class ActivityTimer {
     }
 
     /**
-     * @param seconds set the amount of second passed. The service's timer will now count seconds
-     * starting from this value.
+     * set the amount of second passed. The service's timer will now count seconds
+     * starting from the argument's value
+     * @param seconds the amount of second
      */
     public void setSecondsPassed(long seconds) {
         timerService.setSecondsPassed(seconds);
@@ -108,9 +112,8 @@ public class ActivityTimer {
 
     /**
      * Called when startTimerButton is clicked. Starts the service's timer.
-     * @param view the view that invoked this event
      */
-    public void startTimer(View view) {
+    public void startTimer() {
         if (timerServiceBound) {
             timerService.startTimer();
 
@@ -164,9 +167,9 @@ public class ActivityTimer {
     /**
      * Called when startTimerButton is clicked.
      * Stops the service's timer
-
+     * @param userActivityEntry user's activity
      */
-    public void stopTimer(UserActivityDBTableEntry ua) {
+    public void stopTimer(UserActivityDBTableEntry userActivityEntry) {
         if (timerService != null)
             timerService.stopTimer();
 
@@ -182,9 +185,9 @@ public class ActivityTimer {
 
         long secondsPassedSinceTimerStarted = startStopPeriod.getDuration(TimeUnit.SECONDS);
         TimePeriodDBTableEntry tp = new TimePeriodDBTableEntry(new Date(), secondsPassedSinceTimerStarted);
-        tp.setSessionNumber(currentSessionNumber);
+        tp.setSessionNumber(currentSessionNumber.getCurrentSessionNumber());
 
-        tp.setIdUserActivity(ua.getId());
+        tp.setIdUserActivity(userActivityEntry.getId());
 
         db.addNewTimePeriod(tp);
 

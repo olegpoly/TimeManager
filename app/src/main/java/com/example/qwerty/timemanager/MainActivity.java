@@ -32,7 +32,7 @@ public class MainActivity extends Activity {
      */
     private ApplicationData appState;
     /**
-     * TODO: write documentation
+     * This timer interacts with the service's timer from an activity's context.
      */
     ActivityTimer timer;
 
@@ -76,7 +76,7 @@ public class MainActivity extends Activity {
         }
 
         // set timerService's starting time and display it on the screen
-        timerService.setSecondsPassed(totalTime);
+        timer.setSecondsPassed(totalTime);
         String timeString = getFormattedTimeString(totalTime);
         setTimerViewText(timeString);
     }
@@ -117,8 +117,8 @@ public class MainActivity extends Activity {
 
         long difference = (now.toMillis(false) - appState.getTimeInSleep().toMillis(false)) / 1000;
 
-        /*if (timerService != null)
-            timerService.addSeconds(difference);*/
+        if (timer != null)
+            timer.addSeconds(difference);
 
         appState.setTimeInSleep(null);
     }
@@ -189,7 +189,7 @@ public class MainActivity extends Activity {
     * @param view the view that invoked this event
     */
     public void startTimer(View view) {
-
+       timer.startTimer();
     }
 
     /**
