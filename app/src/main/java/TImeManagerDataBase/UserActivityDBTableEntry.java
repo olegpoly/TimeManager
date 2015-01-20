@@ -57,7 +57,6 @@ public class UserActivityDBTableEntry {
 
     /**
      * Set name of the activity
-     * @return name of the activity
      */
     public void setName(String activityName) {
         this.activityName = activityName;
@@ -70,7 +69,7 @@ public class UserActivityDBTableEntry {
 
     /**
      * Implementation of the equals method
-     * @param o
+     * @param o check equality to this object
      * @return true if equals, false otherwise
      */
     @Override

@@ -27,7 +27,7 @@ public class RemoveActivity extends Fragment {
     View.OnClickListener removeActivityButtonClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            UserActivityDB database = UserActivityDB.getInstance(getActivity());
+            UserActivityDB database = UserActivityDB.getInstance();
 
             UserActivityDBTableEntry userActivityToBeRemoved = (UserActivityDBTableEntry) userActivitiesSelectorSpinner.getSelectedItem();
             database.removeUserActivity(userActivityToBeRemoved);
@@ -60,9 +60,9 @@ public class RemoveActivity extends Fragment {
      * load a list of user's activities into the spinner
      */
     public void loadActivitiesIntoActivitiesSelectorSpinner() {
-        UserActivityDB database = UserActivityDB.getInstance(getActivity());
+        UserActivityDB database = UserActivityDB.getInstance();
 
-        ArrayAdapter<UserActivityDBTableEntry> activitiesAdaptor = new ArrayAdapter<UserActivityDBTableEntry>(getView().getContext(),
+        ArrayAdapter<UserActivityDBTableEntry> activitiesAdaptor = new ArrayAdapter<>(getView().getContext(),
                 android.R.layout.simple_spinner_dropdown_item,
                 database.getAllUserActivities());
 

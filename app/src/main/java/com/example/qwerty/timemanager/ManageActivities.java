@@ -9,6 +9,10 @@ import android.support.v4.app.FragmentTabHost;
  */
 public class ManageActivities extends FragmentActivity {
 
+    /**
+     * Initialize FragmentTabHost and add to it tabs for adding and removing user activities
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,5 +28,4 @@ public class ManageActivities extends FragmentActivity {
         fragmentHost.addTab(fragmentHost.newTabSpec("tab2").setIndicator("remove"),
                 RemoveActivity.class, null);
     }
-
 }

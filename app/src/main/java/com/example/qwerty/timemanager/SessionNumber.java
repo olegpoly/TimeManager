@@ -18,7 +18,7 @@ public class SessionNumber {
      * Constructor
      */
     private SessionNumber() {
-        UserActivityDB db = UserActivityDB.getInstance(ApplicationData.getAppContext());
+        UserActivityDB db = UserActivityDB.getInstance();
         currentSessionNumber = db.getLastSessionNumber();
     }
 
