@@ -3,7 +3,7 @@ package TImeManagerDataBase;
 /**
  * Represents the activities table in database
  */
-class userActivitiesTable {
+class UserActivitiesTable {
     static final String TABLE_NAME = "activities";
     static final String ID_FIELD = "id";
     static final String NAME_FIELD = "name";

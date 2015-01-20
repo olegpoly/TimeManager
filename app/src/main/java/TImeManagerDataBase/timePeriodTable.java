@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 /**
  * Represents the time_period table in database
  */
-class timePeriodTable {
+class TimePeriodTable {
     static final String TABLE_NAME = "time_period";
     static final String ID_FIELD = "id";
     static final String DATE_STARTED_FIELD = "date_started";
@@ -23,7 +23,7 @@ class timePeriodTable {
                 ID_FIELD + " integer primary key, " + DATE_STARTED_FIELD + " datetime, " + TIME_PASSED_FIELD + " int, " +
                 ID_USER_ACTIVITY + " int not null, " + SESSION_NUMBER + " integer, " +
                 " FOREIGN KEY (" + ID_USER_ACTIVITY + ") REFERENCES " +
-                userActivitiesTable.TABLE_NAME + " (" + userActivitiesTable.ID_FIELD + "))";
+                UserActivitiesTable.TABLE_NAME + " (" + UserActivitiesTable.ID_FIELD + "))";
     }
 
     /**
