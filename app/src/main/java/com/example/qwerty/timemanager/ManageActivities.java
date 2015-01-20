@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentTabHost;
  * This FragmentActivity contain fragments for removing and adding activities
  */
 public class ManageActivities extends FragmentActivity {
-
     /**
      * Initialize FragmentTabHost and add to it tabs for adding and removing user activities
      * @param savedInstanceState
