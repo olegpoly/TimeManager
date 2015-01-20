@@ -31,7 +31,7 @@ public class AddActivity extends Fragment {
             String newUserActivityName = newActivityNameTextView.getText().toString();
 
             // check if the entered name already exists
-            UserActivityDB database = UserActivityDB.getInstance(getActivity());
+            UserActivityDB database = UserActivityDB.getInstance();
             boolean alreadyExists = database.checkIfActivityExists(newUserActivityName);
 
             // if activity already exists - return from function

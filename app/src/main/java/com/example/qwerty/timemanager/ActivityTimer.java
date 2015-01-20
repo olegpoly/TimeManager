@@ -5,13 +5,12 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Handler;
 import android.os.IBinder;
-import android.view.View;
+import android.util.Log;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import TImeManagerDataBase.TimePeriodDBTableEntry;
@@ -22,6 +21,10 @@ import TImeManagerDataBase.UserActivityDBTableEntry;
  * This timer interacts with the service's timer from an activity's context.
  */
 public class ActivityTimer {
+    /**
+     * Updates the timer textView on the activity this timer works on
+     */
+    UIApdater timerTextViewSetter;
     /**
      * Context of the activity where this timer is used
      */
@@ -65,11 +68,7 @@ public class ActivityTimer {
     /**
      * Takes time from the service and displays it on the screen.
      */
-    private Timer setPassedTimeTimer;
-    /**
-     * TimerTask that displays time on the screen when called
-     */
-    private TimerTask displayTime = createDisplayTimeTimerTask();
+    private Handler getTimeHandler;
     /**
      * contains timers that need to maintain their values when the the phone sleeps
      */
@@ -79,17 +78,43 @@ public class ActivityTimer {
      * Constructor
      * @param activityContext Context of the activity where this timer is used
      */
-    public ActivityTimer(Context activityContext) {
+    public ActivityTimer(Context activityContext, UIApdater timerTextViewSetter) {
         this.activityContext = activityContext;
+        this.timerTextViewSetter = timerTextViewSetter;
 
-        final Intent timerServiceIntent = new Intent(activityContext, TimerService.class);
-        activityContext.bindService(timerServiceIntent, timerServiceConnection, Context.BIND_AUTO_CREATE);
+        getTimeHandler = new Handler();
 
         appState = ((ApplicationData)activityContext.getApplicationContext());
 
         startStopPeriod = appState.getStartStopPeriod();
 
         currentSessionNumber = SessionNumber.getInstance();
+    }
+
+    /**
+     * Bind timer to TimerService. The service must be started beforehand.
+     * @see TimerService
+     */
+    public void bindTimer() {
+        final Intent timerServiceIntent = new Intent(activityContext, TimerService.class);
+        activityContext.bindService(timerServiceIntent, timerServiceConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    /**
+     * Start TimerService
+     * @see TimerService
+     */
+    public void startService() {
+        Intent serviceIntent = new Intent(activityContext, TimerService.class);
+        activityContext.startService(serviceIntent);
+    }
+
+    /**
+     * Unbind this object from TimerService
+     * @see TimerService
+     */
+    public void unbindTimer() {
+        activityContext.unbindService(timerServiceConnection);
     }
 
     /**
@@ -117,24 +142,19 @@ public class ActivityTimer {
         if (timerServiceBound) {
             timerService.startTimer();
 
-            if (setPassedTimeTimer != null) return;
-
-            setPassedTimeTimer = new Timer();
             int startWhen = 0;
             int period = 1000;
 
             startStopPeriod.setStartDate(Calendar.getInstance());
-            displayTime = createDisplayTimeTimerTask();
 
-            setPassedTimeTimer.schedule(displayTime, startWhen, period);
+            getTimeHandler.postDelayed(displayTime, period);
         }
     }
 
     /**
      * Gets current time period from the timer service and displays on the screen
      */
-    private TimerTask createDisplayTimeTimerTask() {
-        TimerTask displayTime = new TimerTask() {
+        Runnable displayTime = new Runnable() {
             @Override
             public void run() {
                 long secs = timerService.getSecondsPassed();
@@ -142,10 +162,13 @@ public class ActivityTimer {
                 String timeString = getFormattedTimeString(secs);
 
                 setTimerViewText(timeString);
+
+                getTimeHandler.postDelayed(displayTime, 1000);
             }
         };
 
-        return displayTime;
+    private void setTimerViewText(final String text) {
+        timerTextViewSetter.setTextViewText(text);
     }
 
     /**
@@ -164,32 +187,41 @@ public class ActivityTimer {
         return time;
     }
 
+    public void stopTimer() {
+        if (timerService != null)
+            timerService.stopTimer();
+    }
+
     /**
      * Called when startTimerButton is clicked.
      * Stops the service's timer
      * @param userActivityEntry user's activity
      */
     public void stopTimer(UserActivityDBTableEntry userActivityEntry) {
-        if (timerService != null)
-            timerService.stopTimer();
-
-        if (setPassedTimeTimer != null) {
-            setPassedTimeTimer.cancel();
-            setPassedTimeTimer.purge();
-            setPassedTimeTimer = null;
+        if (userActivityEntry == null) {
+            Log.e("stopTimer:", "userActivityEntry = null");
+            return;
         }
 
-        UserActivityDB db = UserActivityDB.getInstance(activityContext);
+        if (timerService != null) {
+            timerService.stopTimer();
+        } else {
+            return;
+        }
+
+        getTimeHandler.removeCallbacks(displayTime);
+
+        UserActivityDB db = UserActivityDB.getInstance();
 
         startStopPeriod.setEndDate(Calendar.getInstance());
 
         long secondsPassedSinceTimerStarted = startStopPeriod.getDuration(TimeUnit.SECONDS);
-        TimePeriodDBTableEntry tp = new TimePeriodDBTableEntry(new Date(), secondsPassedSinceTimerStarted);
-        tp.setSessionNumber(currentSessionNumber.getCurrentSessionNumber());
+        TimePeriodDBTableEntry timePeriodEntry = new TimePeriodDBTableEntry(new Date(), secondsPassedSinceTimerStarted);
+        timePeriodEntry.setSessionNumber(currentSessionNumber.getCurrentSessionNumber());
 
-        tp.setIdUserActivity(userActivityEntry.getId());
+        timePeriodEntry.setIdUserActivity(userActivityEntry.getId());
 
-        db.addNewTimePeriod(tp);
+        db.addNewTimePeriod(timePeriodEntry);
 
         startStopPeriod.reset();
     }

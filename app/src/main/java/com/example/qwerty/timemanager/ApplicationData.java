@@ -2,7 +2,6 @@ package com.example.qwerty.timemanager;
 
 import android.app.Application;
 import android.content.Context;
-import android.text.format.Time;
 
 /**
  * Holds data that is needed to maintain it's state through all app's states.
@@ -16,7 +15,7 @@ public class ApplicationData extends Application {
     /**
      * The service's timer is suspended during sleep, this variable represents the time spent is sleep.
      */
-    Time timeInSleep;
+    TimeSpan timeInSleep;
     /**
      * Application's context
      */
@@ -28,8 +27,7 @@ public class ApplicationData extends Application {
 
         // initialize variables with standard values
         startStopPeriod = new TimeSpan();
-        timeInSleep = new Time();
-        appContext = getApplicationContext();
+        timeInSleep = new TimeSpan();
     }
 
     /**
@@ -57,14 +55,7 @@ public class ApplicationData extends Application {
     /**
      * @return
      */
-    public Time getTimeInSleep() {
+    public TimeSpan getTimeInSleep() {
         return timeInSleep;
-    }
-
-    /**
-     * @param timeInSleep
-     */
-    public void setTimeInSleep(Time timeInSleep) {
-        this.timeInSleep = timeInSleep;
     }
 }
