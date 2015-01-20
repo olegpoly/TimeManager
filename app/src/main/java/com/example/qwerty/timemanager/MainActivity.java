@@ -283,6 +283,8 @@ public class MainActivity extends Activity {
         });
     }
 
+    // test
+    // TODO: save file in an appropriate place
     public void databaseToXml(View view) {
         File sd = Environment.getExternalStorageDirectory();
         String path = sd + "/" + "test" + ".xml";
