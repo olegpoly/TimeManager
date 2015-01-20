@@ -31,15 +31,6 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Load activity"
-        android:id="@+id/loadActivityButton"
-        android:layout_gravity="center_horizontal"
-        android:onClick="loadDataForCurrentActivity"
-        />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="Manage activities"
         android:id="@+id/ManageActivitiesButton"
         android:layout_gravity="center_horizontal"
@@ -58,6 +49,15 @@
         android:id="@+id/newSessionButton"
         android:layout_gravity="center_horizontal"
         android:onClick="newSessionButtonClicked"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Export to xml"
+        android:id="@+id/databaseToXmlButton"
+        android:layout_gravity="center_horizontal"
+        android:onClick="databaseToXml"
         />
 
 
