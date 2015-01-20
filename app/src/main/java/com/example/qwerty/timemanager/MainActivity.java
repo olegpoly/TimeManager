@@ -3,18 +3,22 @@ package com.example.qwerty.timemanager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.io.File;
 import java.sql.SQLDataException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import TImeManagerDataBase.DatabaseToXmlExporter;
 import TImeManagerDataBase.TimePeriodDBTableEntry;
 import TImeManagerDataBase.UserActivityDB;
 import TImeManagerDataBase.UserActivityDBTableEntry;
@@ -40,6 +44,22 @@ public class MainActivity extends Activity {
      * Indicates if the timer is running
      */
     boolean isTimerRunning;
+    /**
+     * Listener for item selection event from activitiesSpinner
+     */
+    AdapterView.OnItemSelectedListener activitiesSpinnerItemSelectedListener =
+            new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    if (!isTimerRunning)
+                        loadDataForCurrentActivity();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,13 +79,15 @@ public class MainActivity extends Activity {
         timer = new ActivityTimer(this, uiApdater);
         timer.startService();
         timer.bindTimer();
+
+        activitiesSpinner.setOnItemSelectedListener(activitiesSpinnerItemSelectedListener);
     }
 
     /**
      * Load all data for the currently selected activity
-     * @param view the view that invoked this event
+
      */
-    public void loadDataForCurrentActivity(View view) {
+    public void loadDataForCurrentActivity() {
         UserActivityDB db = UserActivityDB.getInstance();
 
         // get selected user's activity
@@ -193,6 +215,7 @@ public class MainActivity extends Activity {
     public void startTimer(View view) {
        timer.startTimer();
        isTimerRunning = true;
+       activitiesSpinner.setEnabled(false);
     }
 
     /**
@@ -206,7 +229,7 @@ public class MainActivity extends Activity {
         timer.stopTimer(ua);
 
         isTimerRunning = false;
-
+        activitiesSpinner.setEnabled(true);
         // for testing purposes, loads all table entries into the spinner
         loadTimePeriodsIntoSpinner();
     }
@@ -238,7 +261,7 @@ public class MainActivity extends Activity {
      */
     public void newSessionButtonClicked(View view) {
         startNewSession();
-        loadDataForCurrentActivity(findViewById(R.id.loadActivityButton));
+        loadDataForCurrentActivity();
     }
 
     /**
@@ -258,5 +281,15 @@ public class MainActivity extends Activity {
                 timerTextView.setText(text);
             }
         });
+    }
+
+    public void databaseToXml(View view) {
+        File sd = Environment.getExternalStorageDirectory();
+        String path = sd + "/" + "test" + ".xml";
+
+        UserActivityDB database = UserActivityDB.getInstance();
+
+        DatabaseToXmlExporter xmlExporter = new DatabaseToXmlExporter(database.getWritableDatabase(), path);
+        xmlExporter.exportData();
     }
 }
