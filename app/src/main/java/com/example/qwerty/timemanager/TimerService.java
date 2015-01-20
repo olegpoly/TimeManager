@@ -1,5 +1,7 @@
 package com.example.qwerty.timemanager;
 
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
@@ -41,6 +43,22 @@ public class TimerService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return mBinder;
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        start();
+        return (START_NOT_STICKY);
+    }
+
+    private void start() {
+            Notification note=new Notification(R.drawable.ic_launcher,
+                    "TimerService is on",
+                    System.currentTimeMillis());
+
+            note.flags|=Notification.FLAG_NO_CLEAR;
+
+            startForeground(1337, note);
     }
 
     /**

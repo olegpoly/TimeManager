@@ -3,7 +3,7 @@ package com.example.qwerty.timemanager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.format.Time;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import java.sql.SQLDataException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -35,6 +36,10 @@ public class MainActivity extends Activity {
      * This timer interacts with the service's timer from an activity's context.
      */
     ActivityTimer timer;
+    /**
+     * Indicates if the timer is running
+     */
+    boolean isTimerRunning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +55,10 @@ public class MainActivity extends Activity {
 
         appState = ((ApplicationData)getApplicationContext());
 
-        timer = new ActivityTimer(this);
+        UIApdater uiApdater = new UIApdater(this, timerTextView);
+        timer = new ActivityTimer(this, uiApdater);
+        timer.startService();
+        timer.bindTimer();
     }
 
     /**
@@ -58,7 +66,7 @@ public class MainActivity extends Activity {
      * @param view the view that invoked this event
      */
     public void loadDataForCurrentActivity(View view) {
-        UserActivityDB db = UserActivityDB.getInstance(this);
+        UserActivityDB db = UserActivityDB.getInstance();
 
         // get selected user's activity
         UserActivityDBTableEntry selectedUserActivity = (UserActivityDBTableEntry) activitiesSpinner.getSelectedItem();
@@ -81,63 +89,59 @@ public class MainActivity extends Activity {
         setTimerViewText(timeString);
     }
 
+    /**
+     * Prepare timers and the service for work
+     */
     @Override
     protected void onStart() {
-        resumed();
         super.onStart();
+
+        if (isTimerRunning) {
+            resumed();
+            timer.bindTimer();
+            timer.startTimer();
+        }
+
         loadActivitiesIntoActivitiesSpinner();
     }
 
-    @Override
-    protected void onResume() {
-        resumed();
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        stopped();
-    }
-
+    /**
+     * Prepare timers and the service for sleep
+     */
     @Override
     protected void onStop() {
-        super.onStop();
         stopped();
+        timer.stopTimer();
+        timer.unbindTimer();
+
+        super.onStop();
     }
 
     /**
      * When the phone wakes up this app, calculate the time duration of sleep and add it to the timer
      */
     private void resumed() {
-        if (appState.getTimeInSleep() == null) return;
+        TimeSpan timeInSleep = appState.getTimeInSleep();
 
-        Time now = new Time();
-        now.setToNow();
+        if (timeInSleep.isReseted()) {
+           return;
+        }
 
-        long difference = (now.toMillis(false) - appState.getTimeInSleep().toMillis(false)) / 1000;
+        timeInSleep.setEndDate(Calendar.getInstance());
+
+        long difference = timeInSleep.getDuration(TimeUnit.SECONDS);
 
         if (timer != null)
             timer.addSeconds(difference);
 
-        appState.setTimeInSleep(null);
+        timeInSleep.reset();
     }
 
     /**
      * Save the time when the phone stops this app and it's timer service
      */
     private void stopped() {
-        Time now = new Time();
-        now.setToNow();
-
-        if (appState.getTimeInSleep() == null) {
-            appState.setTimeInSleep(now);
-            return;
-        }
-
-        if ((appState.getTimeInSleep().toMillis(false) - now.toMillis(false)) > 0) {
-            appState.setTimeInSleep(now);
-        }
+            appState.getTimeInSleep().setStartDate(Calendar.getInstance());
     }
 
     /**
@@ -160,22 +164,20 @@ public class MainActivity extends Activity {
     private void loadTimePeriodsIntoSpinner() {
         Spinner s = (Spinner) findViewById(R.id.spinner);
 
-        UserActivityDB database = UserActivityDB.getInstance(this);
+        UserActivityDB database = UserActivityDB.getInstance();
         List<TimePeriodDBTableEntry> timePeriods = database.getAllTimePeriods();
         List<String> timePeriodsStrings = new ArrayList<>();
-        String userActivityName = "non";
+        String userActivityName;
 
         for (TimePeriodDBTableEntry timePeriod : timePeriods) {
             try {
-                userActivityName = database.getActivityById(timePeriod.getId()).getName();
+                userActivityName = database.getActivityById(timePeriod.getIdUserActivity()).getName();
             } catch (SQLDataException e) {
-                //Log.e("database: ", e.getCause().toString());
-                //continue;
+                Log.e("database: ", "database test fails in MainActivity");
+                continue;
             }
 
-            timePeriodsStrings.add(timePeriod.toString() + " " + userActivityName);
-
-            userActivityName = "non";
+            timePeriodsStrings.add(timePeriod.toString() + " " + timePeriod.getId() +  " " + userActivityName);
         }
 
         ArrayAdapter<String> activitiesAdaptor = new ArrayAdapter<>(this,
@@ -190,6 +192,7 @@ public class MainActivity extends Activity {
     */
     public void startTimer(View view) {
        timer.startTimer();
+       isTimerRunning = true;
     }
 
     /**
@@ -199,6 +202,10 @@ public class MainActivity extends Activity {
     */
     public void stopTimer(View view) {
         UserActivityDBTableEntry ua = (UserActivityDBTableEntry) activitiesSpinner.getSelectedItem();
+
+        timer.stopTimer(ua);
+
+        isTimerRunning = false;
 
         // for testing purposes, loads all table entries into the spinner
         loadTimePeriodsIntoSpinner();
@@ -216,9 +223,9 @@ public class MainActivity extends Activity {
      * display all user's activities in the activities spinner
      */
     private void loadActivitiesIntoActivitiesSpinner() {
-        UserActivityDB database = UserActivityDB.getInstance(this);
+        UserActivityDB database = UserActivityDB.getInstance();
 
-        ArrayAdapter<UserActivityDBTableEntry> activitiesAdaptor = new ArrayAdapter<UserActivityDBTableEntry>(this,
+        ArrayAdapter<UserActivityDBTableEntry> activitiesAdaptor = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item,
                 database.getAllUserActivities());
 
@@ -244,7 +251,7 @@ public class MainActivity extends Activity {
     /**
      * Set timerTextView's text on the ui thread
      */
-    private void setTimerViewText(final String text) {
+    public void setTimerViewText(final String text) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
