@@ -114,7 +114,8 @@ public class ActivityTimer {
      * @see TimerService
      */
     public void unbindTimer() {
-        activityContext.unbindService(timerServiceConnection);
+        if (timerServiceBound)
+            activityContext.unbindService(timerServiceConnection);
     }
 
     /**
