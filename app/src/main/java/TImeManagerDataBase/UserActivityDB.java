@@ -233,4 +233,20 @@ public class UserActivityDB extends SQLiteOpenHelper {
 
         return userActivity;
     }
+
+    /**
+     * Check if activity with the name passed as the parameter exists in the database
+     * @param activityName name of the activity
+     * @return true if exists, false otherwise
+     */
+    public boolean checkIfActivityExists(String activityName) {
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM " + userActivitiesTable.TABLE_NAME +
+                " WHERE " + userActivitiesTable.NAME_FIELD + " = '" + activityName + "'", null);
+
+        if (c.getCount() == 0)
+            return false;
+
+        return true;
+    }
 }
