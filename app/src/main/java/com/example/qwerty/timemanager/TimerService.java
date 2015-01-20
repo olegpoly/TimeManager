@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 
 /**
  * The service that manges the main timer. This timer must work when the app is active and
@@ -52,13 +53,19 @@ public class TimerService extends Service {
     }
 
     private void start() {
-            Notification note=new Notification(R.drawable.ic_launcher,
-                    "TimerService is on",
-                    System.currentTimeMillis());
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-            note.flags|=Notification.FLAG_NO_CLEAR;
+        PendingIntent pIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
 
-            startForeground(1337, note);
+        // Build notification
+        Notification note = new NotificationCompat.Builder(this)
+                .setContentTitle("TimerManager")
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setContentText("TimerManager is on")
+                .setContentIntent(pIntent).build();
+
+        startForeground(1337, note);
     }
 
     /**
