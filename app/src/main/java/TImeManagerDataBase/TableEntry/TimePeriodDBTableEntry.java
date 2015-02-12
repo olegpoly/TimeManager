@@ -1,4 +1,4 @@
-package TImeManagerDataBase;
+package TImeManagerDataBase.TableEntry;
 
 import java.util.Date;
 

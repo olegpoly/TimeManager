@@ -1,4 +1,4 @@
-package TImeManagerDataBase;
+package DataBaseExporter;
 
 import java.io.BufferedOutputStream;
 import java.io.File;

@@ -1,4 +1,6 @@
-package TImeManagerDataBase;
+package TImeManagerDataBase.TableEntry;
+
+import android.database.Cursor;
 
 /**
  * Data base table that represents user's activity
@@ -95,5 +97,9 @@ public class UserActivityDBTableEntry {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (activityName != null ? activityName.hashCode() : 0);
         return result;
+    }
+
+    public UserActivityDBTableEntry getNext(Cursor c) {
+        return null;
     }
 }

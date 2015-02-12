@@ -1,4 +1,4 @@
-package TImeManagerDataBase;
+package TImeManagerDataBase.Table;
 
 /**
  * Represents the activities table in database

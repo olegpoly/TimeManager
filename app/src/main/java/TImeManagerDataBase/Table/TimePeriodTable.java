@@ -1,7 +1,9 @@
-package TImeManagerDataBase;
+package TImeManagerDataBase.Table;
 
 import android.content.ContentValues;
 import java.text.SimpleDateFormat;
+
+import TImeManagerDataBase.TableEntry.TimePeriodDBTableEntry;
 
 /**
  * Represents the time_period table in database
