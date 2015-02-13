@@ -84,7 +84,7 @@
         android:layout_height="match_parent"
         app:layout="@layout/fragment_navigation_drawer"
         android:layout_gravity="start"
-        android:name="com.example.qwerty.timemanager.NavigationDrawerFragment"
+        android:name="com.github.TimeMager.UI.NavigationDrawerFragment"
         tools:layout="@layout/fragment_navigation_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

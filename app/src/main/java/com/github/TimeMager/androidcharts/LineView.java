@@ -15,6 +15,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.example.qwerty.timemanager.R;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -86,7 +88,7 @@ public class LineView extends View {
     //라인컬러
     private String[] colorArray = {"#e74c3c","#2980b9","#1abc9c"};
     //popup 컬러
-    private int[] popupColorArray = {R.drawable.popup_red,R.drawable.popup_blue,R.drawable.popup_green};
+    private int[] popupColorArray = {R.drawable.popup_red, R.drawable.popup_blue,R.drawable.popup_green};
 
     // onDraw optimisations
     private final Point tmpPoint = new Point();
