@@ -11,7 +11,7 @@ public class UIApdater {
     private TextView view;
 
     public UIApdater(Activity activity, TextView view) {
-         this.activity = activity;
+        this.activity = activity;
         this.view = view;
     }
 

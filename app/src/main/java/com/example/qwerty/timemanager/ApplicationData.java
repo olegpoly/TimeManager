@@ -8,6 +8,10 @@ import android.content.Context;
  */
 public class ApplicationData extends Application {
     /**
+     * Application's context
+     */
+    private static Context appContext;
+    /**
      * this variable is used in the main activity for saving
      * time span between two events: 1)start button click 2)stop button click
      */
@@ -16,10 +20,15 @@ public class ApplicationData extends Application {
      * The service's timer is suspended during sleep, this variable represents the time spent is sleep.
      */
     TimeSpan timeInSleep;
+
     /**
-     * Application's context
+     * Get application's context
+     *
+     * @return application's context
      */
-    private static Context appContext;
+    public static Context getAppContext() {
+        return appContext;
+    }
 
     @Override
     public void onCreate() {
@@ -29,14 +38,6 @@ public class ApplicationData extends Application {
         startStopPeriod = new TimeSpan();
         timeInSleep = new TimeSpan();
         appContext = getApplicationContext();
-    }
-
-    /**
-     * Get application's context
-     * @return application's context
-     */
-    public static Context getAppContext() {
-        return appContext;
     }
 
     /**

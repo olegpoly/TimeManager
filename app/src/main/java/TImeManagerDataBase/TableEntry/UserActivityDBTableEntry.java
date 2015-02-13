@@ -20,7 +20,7 @@ public class UserActivityDBTableEntry {
      * @param activityName name of the activity
      */
     public UserActivityDBTableEntry(String activityName) {
-        this.setName(activityName);
+        this.setActivityName(activityName);
     }
 
     /**
@@ -29,7 +29,7 @@ public class UserActivityDBTableEntry {
      * @param id table entry's id
      */
     public UserActivityDBTableEntry(String name, long id) {
-        this.setName(name);
+        this.setActivityName(name);
         this.setId(id);
     }
 
@@ -53,14 +53,14 @@ public class UserActivityDBTableEntry {
      * Get name of the activity
      * @return name of the activity
      */
-    public String getName() {
+    public String getActivityName() {
         return activityName;
     }
 
     /**
      * Set name of the activity
      */
-    public void setName(String activityName) {
+    public void setActivityName(String activityName) {
         this.activityName = activityName;
     }
 

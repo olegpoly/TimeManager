@@ -13,9 +13,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import TImeManagerDataBase.TimePeriodDBTableEntry;
-import TImeManagerDataBase.UserActivityDB;
-import TImeManagerDataBase.UserActivityDBTableEntry;
+import TImeManagerDataBase.Table.TimePeriodTable;
+import TImeManagerDataBase.TableEntry.TimePeriodDBTableEntry;
+import TImeManagerDataBase.TableEntry.UserActivityDBTableEntry;
 
 /**
  * This timer interacts with the service's timer from an activity's context.
@@ -33,6 +33,14 @@ public class ActivityTimer {
      * Represents the current session number
      */
     SessionNumber currentSessionNumber;
+    /**
+     * the service that manages the main timer
+     */
+    private TimerService timerService;
+    /**
+     * indicates whether timer service is bound or not
+     */
+    private boolean timerServiceBound;
     /**
      * connection to the service timer
      */
@@ -52,17 +60,9 @@ public class ActivityTimer {
         }
     };
     /**
-     * the service that manages the main timer
-     */
-    private TimerService timerService;
-    /**
-     * indicates whether timer service is bound or not
-     */
-    private boolean timerServiceBound;
-    /**
-     *  time span between two events: 1)start button clicked 2)stop button clicked
-     *  This object is stored in the application data, so it works correct when the app
-     *  is in sleep
+     * time span between two events: 1)start button clicked 2)stop button clicked
+     * This object is stored in the application data, so it works correct when the app
+     * is in sleep
      */
     private TimeSpan startStopPeriod;
     /**
@@ -76,6 +76,7 @@ public class ActivityTimer {
 
     /**
      * Constructor
+     *
      * @param activityContext Context of the activity where this timer is used
      */
     public ActivityTimer(Context activityContext, UIApdater timerTextViewSetter) {
@@ -84,7 +85,7 @@ public class ActivityTimer {
 
         getTimeHandler = new Handler();
 
-        appState = ((ApplicationData)activityContext.getApplicationContext());
+        appState = ((ApplicationData) activityContext.getApplicationContext());
 
         startStopPeriod = appState.getStartStopPeriod();
 
@@ -93,6 +94,7 @@ public class ActivityTimer {
 
     /**
      * Bind timer to TimerService. The service must be started beforehand.
+     *
      * @see TimerService
      */
     public void bindTimer() {
@@ -102,6 +104,7 @@ public class ActivityTimer {
 
     /**
      * Start TimerService
+     *
      * @see TimerService
      */
     public void startService() {
@@ -111,15 +114,17 @@ public class ActivityTimer {
 
     /**
      * Unbind this object from TimerService
+     *
      * @see TimerService
      */
     public void unbindTimer() {
-        if (timerServiceBound)
-            activityContext.unbindService(timerServiceConnection);
+        // if (timerServiceBound)
+        //    activityContext.unbindService(timerServiceConnection);
     }
 
     /**
      * Increase the amount of seconds passed by the provided value.
+     *
      * @param secondsToAdd the amount of seconds to add
      */
     public void addSeconds(long secondsToAdd) {
@@ -130,6 +135,7 @@ public class ActivityTimer {
     /**
      * set the amount of second passed. The service's timer will now count seconds
      * starting from the argument's value
+     *
      * @param seconds the amount of second
      */
     public void setSecondsPassed(long seconds) {
@@ -152,28 +158,27 @@ public class ActivityTimer {
         }
     }
 
-    /**
-     * Gets current time period from the timer service and displays on the screen
-     */
-        Runnable displayTime = new Runnable() {
-            @Override
-            public void run() {
-                long secs = timerService.getSecondsPassed();
-
-                String timeString = getFormattedTimeString(secs);
-
-                setTimerViewText(timeString);
-
-                getTimeHandler.postDelayed(displayTime, 1000);
-            }
-        };
-
     private void setTimerViewText(final String text) {
         timerTextViewSetter.setTextViewText(text);
-    }
+    }    /**
+     * Gets current time period from the timer service and displays on the screen
+     */
+    Runnable displayTime = new Runnable() {
+        @Override
+        public void run() {
+            long secs = timerService.getSecondsPassed();
+
+            String timeString = getFormattedTimeString(secs);
+
+            setTimerViewText(timeString);
+
+            getTimeHandler.postDelayed(displayTime, 1000);
+        }
+    };
 
     /**
      * Creates a user friendly time string - h:m:s
+     *
      * @param secs seconds
      * @return a user friendly time string
      */
@@ -196,6 +201,7 @@ public class ActivityTimer {
     /**
      * Called when startTimerButton is clicked.
      * Stops the service's timer
+     *
      * @param userActivityEntry user's activity
      */
     public void stopTimer(UserActivityDBTableEntry userActivityEntry) {
@@ -212,7 +218,7 @@ public class ActivityTimer {
 
         getTimeHandler.removeCallbacks(displayTime);
 
-        UserActivityDB db = UserActivityDB.getInstance();
+        //UserActivityDB db = UserActivityDB.getInstance();
 
         startStopPeriod.setEndDate(Calendar.getInstance());
 
@@ -222,8 +228,11 @@ public class ActivityTimer {
 
         timePeriodEntry.setIdUserActivity(userActivityEntry.getId());
 
-        db.addNewTimePeriod(timePeriodEntry);
+        // db.addNewTimePeriod(timePeriodEntry);
+        TimePeriodTable.add(timePeriodEntry);
 
         startStopPeriod.reset();
     }
+
+
 }

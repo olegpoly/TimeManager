@@ -1,6 +1,6 @@
 package com.example.qwerty.timemanager;
 
-import TImeManagerDataBase.UserActivityDB;
+import TImeManagerDataBase.Table.TimePeriodTable;
 
 /**
  * Singleton.
@@ -10,6 +10,10 @@ import TImeManagerDataBase.UserActivityDB;
  */
 public class SessionNumber {
     /**
+     * singleton's instance
+     */
+    private static SessionNumber instance = new SessionNumber();
+    /**
      * session number descriptor
      */
     private Long currentSessionNumber;
@@ -18,12 +22,24 @@ public class SessionNumber {
      * Constructor
      */
     private SessionNumber() {
-        UserActivityDB db = UserActivityDB.getInstance();
-        currentSessionNumber = db.getLastSessionNumber();
+        // UserActivityDB db = UserActivityDB.getInstance();
+        //currentSessionNumber = db.getLastSessionNumber();
+
+        currentSessionNumber = TimePeriodTable.getLastSessionNumber();
+    }
+
+    /**
+     * get singleton's instance
+     *
+     * @return instance of the session number
+     */
+    public static SessionNumber getInstance() {
+        return instance;
     }
 
     /**
      * Get current session number
+     *
      * @return current session number
      */
     public Long getCurrentSessionNumber() {
@@ -32,23 +48,11 @@ public class SessionNumber {
 
     /**
      * Set current session number
+     *
      * @param currentSessionNumber
      */
     public void setCurrentSessionNumber(Long currentSessionNumber) {
         this.currentSessionNumber = currentSessionNumber;
-    }
-
-    /**
-     * singleton's instance
-     */
-    private static SessionNumber instance = new SessionNumber();
-
-    /**
-     * get singleton's instance
-     * @return instance of the session number
-     */
-    public static SessionNumber getInstance() {
-        return instance;
     }
 
     /**

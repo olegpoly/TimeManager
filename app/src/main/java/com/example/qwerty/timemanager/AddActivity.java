@@ -9,8 +9,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import TImeManagerDataBase.UserActivityDB;
-import TImeManagerDataBase.UserActivityDBTableEntry;
+import TImeManagerDataBase.Table.UserActivitiesTable;
+import TImeManagerDataBase.TableEntry.UserActivityDBTableEntry;
 
 /**
  * this fragment lets user add user's activities
@@ -31,8 +31,9 @@ public class AddActivity extends Fragment {
             String newUserActivityName = newActivityNameTextView.getText().toString();
 
             // check if the entered name already exists
-            UserActivityDB database = UserActivityDB.getInstance();
-            boolean alreadyExists = database.checkIfActivityExists(newUserActivityName);
+            //UserActivityDB database = UserActivityDB.getInstance();
+            //boolean alreadyExists = database.checkIfActivityExists(newUserActivityName);
+            boolean alreadyExists = UserActivitiesTable.checkIfExists(newUserActivityName);
 
             // if activity already exists - return from function
             if (alreadyExists) {
@@ -43,7 +44,8 @@ public class AddActivity extends Fragment {
             UserActivityDBTableEntry newUserActivity = new UserActivityDBTableEntry(newUserActivityName);
 
             // add activity to database and clear the textView
-            database.addUserActivity(newUserActivity);
+            //database.addUserActivity(newUserActivity);
+            UserActivitiesTable.add(newUserActivity);
             newActivityNameTextView.setText("");
         }
     };

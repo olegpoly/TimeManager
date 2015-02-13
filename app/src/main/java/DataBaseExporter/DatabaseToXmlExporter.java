@@ -1,12 +1,13 @@
 package DataBaseExporter;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
 /**
  * Based on http://www.phonesdevelopers.com/1788273/

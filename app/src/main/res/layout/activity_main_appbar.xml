@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include android:id="@+id/app_bar" layout="@layout/app_bar" />
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <Button android:id="@+id/startTimerButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="start"
+                android:onClick="startTimer"/>
+
+            <Button android:id="@+id/stopTimerButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="stop"
+                android:onClick="stopTimer" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="0:0:0"
+                android:id="@+id/timerTextView"
+                android:layout_gravity="center_horizontal" />
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/activitiesSpinner"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Manage activities"
+                android:id="@+id/ManageActivitiesButton"
+                android:layout_gravity="center_horizontal"
+                android:onClick="manageActivitiesButton"/>
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner"
+                android:layout_gravity="center_horizontal" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="new Session"
+                android:id="@+id/newSessionButton"
+                android:layout_gravity="center_horizontal"
+                android:onClick="newSessionButtonClicked"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Export to xml"
+                android:id="@+id/databaseToXmlButton"
+                android:layout_gravity="center_horizontal"
+                android:onClick="databaseToXml"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="show charts"
+                android:id="@+id/button"
+                android:layout_gravity="center_horizontal"
+                android:onClick="openChart"
+                />
+
+
+        </LinearLayout>
+
+        <fragment
+            android:id="@+id/fragment_navigation_drawer"
+            android:layout_width="@dimen/nav_drawer_width"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:name="com.example.qwerty.timemanager.NavigationDrawerFragment"
+            tools:layout="@layout/fragment_navigation_drawer" />
+
+    </android.support.v4.widget.DrawerLayout>
+
+</LinearLayout>

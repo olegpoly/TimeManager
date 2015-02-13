@@ -12,6 +12,7 @@ public class TimeSpan {
 
     /**
      * Get the start date
+     *
      * @return the start date
      */
     public Calendar getStartDate() {
@@ -20,6 +21,7 @@ public class TimeSpan {
 
     /**
      * Sets the start date
+     *
      * @param startDate the start date
      */
     public void setStartDate(Calendar startDate) {
@@ -28,6 +30,7 @@ public class TimeSpan {
 
     /**
      * Get the end date
+     *
      * @return the end date
      */
     public Calendar getEndDate() {
@@ -36,6 +39,7 @@ public class TimeSpan {
 
     /**
      * Sets the end date
+     *
      * @param endDate the end date
      */
     public void setEndDate(Calendar endDate) {
@@ -76,6 +80,7 @@ public class TimeSpan {
 
     /**
      * Checks if this object is reseted or not.
+     *
      * @return true if reseted, false otherwise
      */
     public boolean isReseted() {

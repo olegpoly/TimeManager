@@ -39,6 +39,20 @@ public class TimePeriodDBTableEntry {
 
     /**
      * Constructor
+     * @param idUserActivity UserActivity table entry associated with this entry
+     * @param started start of time period
+     * @param secsPassed seconds passed since dateStarted
+     * @param sessionNumber session number associated with this entry
+     */
+    public TimePeriodDBTableEntry(long idUserActivity, Date started, long secsPassed, long sessionNumber) {
+        this.setDateStarted(started);
+        this.setSecsPassed(secsPassed);
+        this.setIdUserActivity(idUserActivity);
+        this.setSessionNumber(sessionNumber);
+    }
+
+    /**
+     * Constructor
      * @param id table entry id
      * @param idUserActivity UserActivity table entry associated with this entry
      * @param started start of time period

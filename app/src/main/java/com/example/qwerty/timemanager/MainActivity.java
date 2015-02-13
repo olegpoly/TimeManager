@@ -1,15 +1,24 @@
 package com.example.qwerty.timemanager;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.Charts.Chart;
+import com.ListCheckBox.ListViewCheckboxesActivity;
 
 import java.io.File;
 import java.sql.SQLDataException;
@@ -18,24 +27,14 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import TImeManagerDataBase.DatabaseToXmlExporter;
-import TImeManagerDataBase.TimePeriodDBTableEntry;
+import DataBaseExporter.DataBaseToJson;
+import TImeManagerDataBase.Table.TimePeriodTable;
+import TImeManagerDataBase.Table.UserActivitiesTable;
+import TImeManagerDataBase.TableEntry.TimePeriodDBTableEntry;
+import TImeManagerDataBase.TableEntry.UserActivityDBTableEntry;
 import TImeManagerDataBase.UserActivityDB;
-import TImeManagerDataBase.UserActivityDBTableEntry;
 
-public class MainActivity extends Activity {
-    /**
-     * the textView for displaying the timer
-     */
-    private TextView timerTextView;
-    /**
-     * spinner for all user's activities
-     */
-    private Spinner activitiesSpinner;
-    /**
-     * contains timers that need to maintain their values when the the phone sleeps
-     */
-    private ApplicationData appState;
+public class MainActivity extends ActionBarActivity {
     /**
      * This timer interacts with the service's timer from an activity's context.
      */
@@ -60,11 +59,79 @@ public class MainActivity extends Activity {
 
                 }
             };
+    /**
+     * the textView for displaying the timer
+     */
+    private TextView timerTextView;
+    /**
+     * spinner for all user's activities
+     */
+    private Spinner activitiesSpinner;
+    /**
+     * contains timers that need to maintain their values when the the phone sleeps
+     */
+    private ApplicationData appState;
+
+    /**
+     * This hook is called whenever an item in your options menu is selected.
+     *
+     * @param item The menu item that was selected.
+     * @return boolean Return false to allow normal menu processing to
+     * proceed, true to consume it here.
+     * @see #onCreateOptionsMenu
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+
+        }
+
+        if (id == R.id.navigate) {
+            Toast.makeText(this, "Hey", Toast.LENGTH_SHORT).show();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Initialize the contents of the Activity's standard options menu.
+     *
+     * @param menu The options menu in which you place your items.
+     * @return You must return true for the menu to be displayed;
+     * if you return false it will not be shown.
+     * @see #onPrepareOptionsMenu
+     * @see #onOptionsItemSelected
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_appbar);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
+
+        NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment)
+                getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
+        drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
+
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        // TODO: delete these test lines
+      /*  this.deleteDatabase(TimePeriodTable.TABLE_NAME);
+        this.deleteDatabase(UserActivitiesTable.TABLE_NAME);
+        UserActivityDB db = UserActivityDB.getInstance();
+        UserActivityDB.deleteAll();
+        UserActivityDB.addAll(); */
 
         // initialize pointers to view's elements
         timerTextView = (TextView) findViewById(R.id.timerTextView);
@@ -73,7 +140,7 @@ public class MainActivity extends Activity {
         // for testing porpoises, loads all table entries into the spinner
         loadTimePeriodsIntoSpinner();
 
-        appState = ((ApplicationData)getApplicationContext());
+        appState = ((ApplicationData) getApplicationContext());
 
         UIApdater uiApdater = new UIApdater(this, timerTextView);
         timer = new ActivityTimer(this, uiApdater);
@@ -85,7 +152,6 @@ public class MainActivity extends Activity {
 
     /**
      * Load all data for the currently selected activity
-
      */
     public void loadDataForCurrentActivity() {
         UserActivityDB db = UserActivityDB.getInstance();
@@ -96,7 +162,10 @@ public class MainActivity extends Activity {
         SessionNumber sessionNumber = SessionNumber.getInstance();
 
         // get all time periods for the current session
-        List<TimePeriodDBTableEntry> allPassedTimes = db.getAllTimePeriods(sessionNumber.getCurrentSessionNumber(),
+        //List<TimePeriodDBTableEntry> allPassedTimes = db.getAllTimePeriods(sessionNumber.getCurrentSessionNumber(),
+        //        selectedUserActivity.getId());
+
+        List<TimePeriodDBTableEntry> allPassedTimes = TimePeriodTable.getAll(sessionNumber.getCurrentSessionNumber(),
                 selectedUserActivity.getId());
 
         long totalTime = 0; // total time of all time periods for the current session
@@ -146,7 +215,7 @@ public class MainActivity extends Activity {
         TimeSpan timeInSleep = appState.getTimeInSleep();
 
         if (timeInSleep.isReseted()) {
-           return;
+            return;
         }
 
         timeInSleep.setEndDate(Calendar.getInstance());
@@ -163,11 +232,12 @@ public class MainActivity extends Activity {
      * Save the time when the phone stops this app and it's timer service
      */
     private void stopped() {
-            appState.getTimeInSleep().setStartDate(Calendar.getInstance());
+        appState.getTimeInSleep().setStartDate(Calendar.getInstance());
     }
 
     /**
      * Creates a user friendly time string - h:m:s
+     *
      * @param secs seconds
      * @return a user friendly time string
      */
@@ -186,20 +256,22 @@ public class MainActivity extends Activity {
     private void loadTimePeriodsIntoSpinner() {
         Spinner s = (Spinner) findViewById(R.id.spinner);
 
-        UserActivityDB database = UserActivityDB.getInstance();
-        List<TimePeriodDBTableEntry> timePeriods = database.getAllTimePeriods();
+        //UserActivityDB database = UserActivityDB.getInstance();
+        //List<TimePeriodDBTableEntry> timePeriods = database.getAllTimePeriods();
+        List<TimePeriodDBTableEntry> timePeriods = TimePeriodTable.getAll();
         List<String> timePeriodsStrings = new ArrayList<>();
         String userActivityName;
 
         for (TimePeriodDBTableEntry timePeriod : timePeriods) {
             try {
-                userActivityName = database.getActivityById(timePeriod.getIdUserActivity()).getName();
+                // userActivityName = database.getActivityById(timePeriod.getIdUserActivity()).getActivityName();
+                userActivityName = UserActivitiesTable.get(timePeriod.getIdUserActivity()).getActivityName();
             } catch (SQLDataException e) {
                 Log.e("database: ", "database test fails in MainActivity");
                 continue;
             }
 
-            timePeriodsStrings.add(timePeriod.toString() + " " + timePeriod.getId() +  " " + userActivityName);
+            timePeriodsStrings.add(timePeriod.toString() + " " + timePeriod.getId() + " " + userActivityName);
         }
 
         ArrayAdapter<String> activitiesAdaptor = new ArrayAdapter<>(this,
@@ -209,20 +281,22 @@ public class MainActivity extends Activity {
     }
 
     /**
-    * Called when startTimerButton is clicked. Starts the service's timer.
-    * @param view the view that invoked this event
-    */
+     * Called when startTimerButton is clicked. Starts the service's timer.
+     *
+     * @param view the view that invoked this event
+     */
     public void startTimer(View view) {
-       timer.startTimer();
-       isTimerRunning = true;
-       activitiesSpinner.setEnabled(false);
+        timer.startTimer();
+        isTimerRunning = true;
+        activitiesSpinner.setEnabled(false);
     }
 
     /**
-    * Called when startTimerButton is clicked.
-    * Stops the service's timer
-    * @param view the view that invoked this event
-    */
+     * Called when startTimerButton is clicked.
+     * Stops the service's timer
+     *
+     * @param view the view that invoked this event
+     */
     public void stopTimer(View view) {
         UserActivityDBTableEntry ua = (UserActivityDBTableEntry) activitiesSpinner.getSelectedItem();
 
@@ -236,6 +310,7 @@ public class MainActivity extends Activity {
 
     /**
      * When the manageActivities button is clicked, start the corresponding activity
+     *
      * @param view the view that invoked this event
      */
     public void manageActivitiesButton(View view) {
@@ -246,17 +321,22 @@ public class MainActivity extends Activity {
      * display all user's activities in the activities spinner
      */
     private void loadActivitiesIntoActivitiesSpinner() {
-        UserActivityDB database = UserActivityDB.getInstance();
+        //UserActivityDB database = UserActivityDB.getInstance();
+
+        //ArrayAdapter<UserActivityDBTableEntry> activitiesAdaptor = new ArrayAdapter<>(this,
+        //       android.R.layout.simple_spinner_dropdown_item,
+        //       database.getAllUserActivities());
 
         ArrayAdapter<UserActivityDBTableEntry> activitiesAdaptor = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item,
-                database.getAllUserActivities());
+                UserActivitiesTable.getAll());
 
         activitiesSpinner.setAdapter(activitiesAdaptor);
     }
 
     /**
      * Create new session. Reload the timer textView.
+     *
      * @param view the view that invoked this event
      */
     public void newSessionButtonClicked(View view) {
@@ -287,11 +367,24 @@ public class MainActivity extends Activity {
     // TODO: save file in an appropriate place
     public void databaseToXml(View view) {
         File sd = Environment.getExternalStorageDirectory();
-        String path = sd + "/" + "test" + ".xml";
 
+       /*
+       String path = sd + "/" + "test" + ".xml";
         UserActivityDB database = UserActivityDB.getInstance();
-
         DatabaseToXmlExporter xmlExporter = new DatabaseToXmlExporter(database.getWritableDatabase(), path);
         xmlExporter.exportData();
+        */
+
+        String path = sd + "/" + "test" + ".json";
+        DataBaseToJson dataBaseToJson = new DataBaseToJson(path);
+        dataBaseToJson.exportData();
+    }
+
+    public void openChart(View view) {
+        startActivity(new Intent(this, Chart.class));
+    }
+
+    public void showList(View view) {
+        startActivity(new Intent(this, ListViewCheckboxesActivity.class));
     }
 }

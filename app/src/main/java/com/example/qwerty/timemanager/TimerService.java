@@ -20,10 +20,13 @@ public class TimerService extends Service {
      */
     private final IBinder mBinder = new LocalBinder();
     /**
+     * true if timer is ticking, false otherwise
+     */
+    boolean timerWorking = false;
+    /**
      * the handler that is used for timer ticks, where tick is a runnable task
      */
-    private Handler timerHandler = new Handler();
-    /**
+    private Handler timerHandler = new Handler();    /**
      * represents one tick of a timer
      */
     private Runnable mUpdateTimeTask = new Runnable() {
@@ -32,10 +35,6 @@ public class TimerService extends Service {
             timerHandler.postDelayed(mUpdateTimeTask, 1000);
         }
     };
-    /**
-     * true if timer is ticking, false otherwise
-     */
-    boolean timerWorking = false;
     /**
      * The counter variable. Represents the number of seconds passed.
      */
@@ -100,7 +99,7 @@ public class TimerService extends Service {
 
     /**
      * @param seconds set the amount of second passed. The service's timer will now count seconds
-     * starting from this value.
+     *                starting from this value.
      */
     public void setSecondsPassed(long seconds) {
         secPassed = seconds;
@@ -108,6 +107,7 @@ public class TimerService extends Service {
 
     /**
      * Increase the amount of seconds passed by the provided value.
+     *
      * @param secondsToAdd the amount of seconds to add
      */
     public void addSeconds(long secondsToAdd) {
@@ -123,5 +123,7 @@ public class TimerService extends Service {
             return TimerService.this;
         }
     }
+
+
 
 }
