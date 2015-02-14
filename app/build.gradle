@@ -4,7 +4,7 @@ android {
     compileSdkVersion 21
     buildToolsVersion '21.1.2'
     defaultConfig {
-        applicationId "com.example.qwerty.timemanager"
+        applicationId "com.github.olegpoly.TimeManager"
         minSdkVersion 17
         targetSdkVersion 21
         versionCode 1
@@ -27,5 +27,5 @@ dependencies {
     compile 'com.google.guava:guava:18.0'
     compile 'com.android.support:support-v4:21.0.3'
     compile 'com.android.support:recyclerview-v7:21.0.+'
-    compile 'org.lucasr.dspec:dspec:0.1.1'
+    compile files('libs/nineoldandroids-2.4.0-2.jar')
 }

@@ -49,6 +49,14 @@
         android:layout_gravity="center_horizontal" />
 
     <Button
+        android:onClick="showPieChart23"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="show test chart"
+        android:id="@+id/buttonChart"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="new Session"
@@ -84,7 +92,7 @@
         android:layout_height="match_parent"
         app:layout="@layout/fragment_navigation_drawer"
         android:layout_gravity="start"
-        android:name="com.github.TimeMager.UI.NavigationDrawerFragment"
+        android:name="com.github.olegpoly.TimeManager.UI.NavigationDrawerFragment"
         tools:layout="@layout/fragment_navigation_drawer" />
 
 </android.support.v4.widget.DrawerLayout>
