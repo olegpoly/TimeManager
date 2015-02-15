@@ -9,8 +9,8 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 
-import com.github.olegpoly.TimeManager.R;
 import com.github.olegpoly.TimeManager.MainActivity;
+import com.github.olegpoly.TimeManager.R;
 
 /**
  * The service that manges the main timer. This timer must work when the app is active and

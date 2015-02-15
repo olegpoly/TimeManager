@@ -22,7 +22,17 @@ import com.github.olegpoly.TimeManager.Core.ActivityTimer;
 import com.github.olegpoly.TimeManager.Core.ApplicationData;
 import com.github.olegpoly.TimeManager.Core.SessionNumber;
 import com.github.olegpoly.TimeManager.Core.TimeSpan;
+import com.github.olegpoly.TimeManager.DataBaseExporter.DataBaseToJson;
 import com.github.olegpoly.TimeManager.ListCheckBox.ListViewCheckboxesActivity;
+import com.github.olegpoly.TimeManager.TImeManagerDataBase.Table.TimePeriodTable;
+import com.github.olegpoly.TimeManager.TImeManagerDataBase.Table.UserActivitiesTable;
+import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.TimePeriodDBEntry;
+import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.UserActivityDBEntry;
+import com.github.olegpoly.TimeManager.TImeManagerDataBase.UserActivityDB;
+import com.github.olegpoly.TimeManager.UI.ManageActivities;
+import com.github.olegpoly.TimeManager.UI.NavigationDrawerFragment;
+import com.github.olegpoly.TimeManager.UI.PieChartActivity;
+import com.github.olegpoly.TimeManager.UI.UIApdater;
 
 import java.io.File;
 import java.sql.SQLDataException;
@@ -30,18 +40,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import com.github.olegpoly.TimeManager.DataBaseExporter.DataBaseToJson;
-import com.github.olegpoly.TimeManager.TImeManagerDataBase.Table.TimePeriodTable;
-import com.github.olegpoly.TimeManager.TImeManagerDataBase.Table.UserActivitiesTable;
-import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.TimePeriodDBEntry;
-import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.UserActivityDBEntry;
-import com.github.olegpoly.TimeManager.TImeManagerDataBase.UserActivityDB;
-import com.github.olegpoly.TimeManager.TestChart.PieChart;
-import com.github.olegpoly.TimeManager.TestChart.PieChartActivity;
-import com.github.olegpoly.TimeManager.UI.ManageActivities;
-import com.github.olegpoly.TimeManager.UI.NavigationDrawerFragment;
-import com.github.olegpoly.TimeManager.UI.UIApdater;
 
 public class MainActivity extends ActionBarActivity {
     /**

@@ -1,5 +1,8 @@
 package com.github.olegpoly.TimeManager.DataBaseExporter;
 
+import com.github.olegpoly.TimeManager.DataBaseExporter.TypeAdapters.UserActivityAdapter;
+import com.github.olegpoly.TimeManager.TImeManagerDataBase.Table.UserActivitiesTable;
+import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.UserActivityDBEntry;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -7,10 +10,6 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
-import com.github.olegpoly.TimeManager.DataBaseExporter.TypeAdapters.UserActivityAdapter;
-import com.github.olegpoly.TimeManager.TImeManagerDataBase.Table.UserActivitiesTable;
-import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.UserActivityDBEntry;
 
 /**
  * Created by root on 08.02.15.

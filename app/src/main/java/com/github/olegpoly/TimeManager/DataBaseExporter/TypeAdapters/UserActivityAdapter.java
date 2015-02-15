@@ -1,13 +1,12 @@
 package com.github.olegpoly.TimeManager.DataBaseExporter.TypeAdapters;
 
+import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.UserActivityDBEntry;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
-
-import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.UserActivityDBEntry;
 
 /**
  * Converts UserActivityDBTableEntry objects to and from JSON.

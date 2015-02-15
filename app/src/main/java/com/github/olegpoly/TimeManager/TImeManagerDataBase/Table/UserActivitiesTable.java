@@ -4,12 +4,12 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.UserActivityDBEntry;
+import com.github.olegpoly.TimeManager.TImeManagerDataBase.UserActivityDB;
+
 import java.sql.SQLDataException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.UserActivityDBEntry;
-import com.github.olegpoly.TimeManager.TImeManagerDataBase.UserActivityDB;
 
 /**
  * Represents the activities table in database

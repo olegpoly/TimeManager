@@ -1,5 +1,4 @@
-
-package com.github.olegpoly.TimeManager.TestChart;
+package com.github.olegpoly.TimeManager.UI;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -9,9 +8,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
+import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.Legend;
 
 import com.github.olegpoly.TimeManager.R;
 
@@ -21,7 +27,7 @@ public class PieChartActivity
        // extends DemoBase мій комент
         extends FragmentActivity
         implements
-        OnSeekBarChangeListener,
+       // OnSeekBarChangeListener,
         OnChartValueSelectedListener
 {
 
@@ -44,14 +50,14 @@ public class PieChartActivity
 
         mSeekBarY.setProgress(10);
 
-        mSeekBarX.setOnSeekBarChangeListener(this);
-        mSeekBarY.setOnSeekBarChangeListener(this);
+        //mSeekBarX.setOnSeekBarChangeListener(this);
+        //mSeekBarY.setOnSeekBarChangeListener(this);
 
         mChart = (PieChart) findViewById(R.id.chart1);
 
         // change the color of the center-hole
-//        mChart.setHoleColor(Color.rgb(235, 235, 235));
-        mChart.setHoleColorTransparent(true);
+        mChart.setHoleColor(ColorTemplate.getHoloBlue());
+       // mChart.setHoleColorTransparent(true);
 
         Typeface tf = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
 
@@ -86,7 +92,7 @@ public class PieChartActivity
 
         mChart.setCenterText("MPAndroidChart\nLibrary");
 
-        setData(3, 100);
+        setData(6);
 
         mChart.animateXY(1500, 1500);
         // mChart.spin(2000, 0, 360);
@@ -171,20 +177,7 @@ public class PieChartActivity
         return true;
     }
 
-    @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        Toast.makeText(this, "onProgressChanged", Toast.LENGTH_SHORT).show();
-
-        tvX.setText("" + (mSeekBarX.getProgress() + 1));
-        tvY.setText("" + (mSeekBarY.getProgress()));
-
-        setData(mSeekBarX.getProgress(), mSeekBarY.getProgress());
-    }
-
-    private void setData(int count, float range) {
-
-        float mult = range;
-
+    private void setData(int count) {
         ArrayList<Entry> yVals1 = new ArrayList<Entry>();
         ArrayList<String> xVals = new ArrayList<String>();
 
@@ -192,28 +185,21 @@ public class PieChartActivity
         // xIndex (even if from different DataSets), since no values can be
         // drawn above each other.
         for (int i = 0; i < count + 1; i++) {
-            // це генератор випадкових чисел для процентів.
-            // Це щось подібно на вагу кожного ентрі. Ящо у всіх вага одинаова то проценти також будуть одні
             yVals1.add(new Entry((float) 2, i));
-           // yVals1.add(new Entry((float) (Math.random() * mult) + mult / 5, i));
-        }
-
-        for (int i = 0; i < count + 1; i++) {
-           // xVals.add(mParties[i % mParties.length]);
             xVals.add("par" + i);
         }
 
         PieDataSet set1 = new PieDataSet(yVals1, "Election Results");
-        set1.setSliceSpace(3f);
-        
+        set1.setSliceSpace(20f);
+
         // add a lot of colors
 
-        ArrayList<Integer> colors = new ArrayList<Integer>();
+       // ArrayList<Integer> colors = new ArrayList<Integer>();
 
-        for (int c : ColorTemplate.VORDIPLOM_COLORS)
-            colors.add(c);
+        //for (int c : ColorTemplate.TEST_COLORS)
+        //    colors.add(c);
 
-        for (int c : ColorTemplate.JOYFUL_COLORS)
+        /*for (int c : ColorTemplate.JOYFUL_COLORS)
             colors.add(c);
 
         for (int c : ColorTemplate.COLORFUL_COLORS)
@@ -221,13 +207,13 @@ public class PieChartActivity
 
         for (int c : ColorTemplate.LIBERTY_COLORS)
             colors.add(c);
-        
-        for (int c : ColorTemplate.PASTEL_COLORS)
-            colors.add(c);
-        
-        colors.add(ColorTemplate.getHoloBlue());
 
-        set1.setColors(colors);
+        for (int c : ColorTemplate.PASTEL_COLORS)
+            colors.add(c);*/
+
+        //colors.add(ColorTemplate.getHoloBlue());
+
+      // set1.setColors(colors);
 
         PieData data = new PieData(xVals, set1);
         mChart.setData(data);
@@ -254,60 +240,4 @@ public class PieChartActivity
         Toast.makeText(this, "onNothingSelected", Toast.LENGTH_SHORT).show();
         Log.i("PieChart", "nothing selected");
     }
-
-    @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
-        Toast.makeText(this, "onStartTrackingTouch", Toast.LENGTH_SHORT).show();
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
-        Toast.makeText(this, "onStopTrackingTouch", Toast.LENGTH_SHORT).show();
-        // TODO Auto-generated method stub
-
-    }
-
-    // private void removeLastEntry() {
-    //
-    // PieData data = mChart.getDataOriginal();
-    //
-    // if (data != null) {
-    //
-    // PieDataSet set = data.getDataSet();
-    //
-    // if (set != null) {
-    //
-    // Entry e = set.getEntryForXIndex(set.getEntryCount() - 1);
-    //
-    // data.removeEntry(e, 0);
-    // // or remove by index
-    // // mData.removeEntry(xIndex, dataSetIndex);
-    //
-    // mChart.notifyDataSetChanged();
-    // mChart.invalidate();
-    // }
-    // }
-    // }
-    //
-    // private void addEntry() {
-    //
-    // PieData data = mChart.getDataOriginal();
-    //
-    // if (data != null) {
-    //
-    // PieDataSet set = data.getDataSet();
-    // // set.addEntry(...);
-    //
-    // data.addEntry(new Entry((float) (Math.random() * 25) + 20f,
-    // set.getEntryCount()), 0);
-    //
-    // // let the chart know it's data has changed
-    // mChart.notifyDataSetChanged();
-    //
-    // // redraw the chart
-    // mChart.invalidate();
-    // }
-    // }
 }

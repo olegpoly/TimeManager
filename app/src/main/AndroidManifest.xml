@@ -36,7 +36,7 @@
             android:label="ListView title" >
         </activity>
 
-        <activity android:name=".TestChart.PieChartActivity"></activity>
+        <activity android:name=".UI.PieChartActivity"></activity>
 
     </application>
 
