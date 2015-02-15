@@ -1,8 +1,8 @@
-package com.github.olegpoly.TimeManager.UI;
-
+package com.github.olegpoly.TimeManager.Fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
@@ -13,8 +13,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.github.olegpoly.TimeManager.R;
+import com.github.olegpoly.TimeManager.UiUtils.CustomRecyclerViewAdapter;
+import com.github.olegpoly.TimeManager.UiUtils.Information;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +33,7 @@ public class NavigationDrawerFragment extends Fragment {
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private RecyclerView recyclerView;
-    private VivzAdapter adapter;
+    private CustomRecyclerViewAdapter adapter;
     private View containerView;
     private boolean mUserLearnedDrawer;
     private boolean mFromSavedInstanceState;
@@ -39,17 +42,21 @@ public class NavigationDrawerFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static List<Information> getData() {
+    /**
+     * form list with menu options
+     * @return
+     */
+    public List<Information> getData() {
         List<Information> data = new ArrayList<>();
-        int[] icons = {R.drawable.abc_btn_check_material, R.drawable.abc_btn_check_material, R.drawable.abc_btn_check_material,
-                R.drawable.abc_btn_check_material};
+        int[] icons = {R.drawable.abc_btn_check_material};
 
-        String[] titles = {"1", "2", "3", "4"};
+        Resources res =  getResources();
+        String[] planets = res.getStringArray(R.array.menu_options);
 
-        for (int i = 0; i < titles.length && i < icons.length; i++) {
+        for (int i = 0; i < planets.length; i++) {
             Information current = new Information();
-            current.iconId = icons[i];
-            current.title = titles[i];
+            current.iconId = icons[0];
+            current.title = planets[i];
             data.add(current);
         }
 
@@ -85,13 +92,16 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mUserLearnedDrawer = Boolean.getBoolean(readFromReferences(getActivity(), KEY_USER_LEARNED_DRAWER,
+        mUserLearnedDrawer = Boolean.getBoolean(readFromReferences(getActivity(),
+                KEY_USER_LEARNED_DRAWER,
                 "false")); // default value
 
         if (savedInstanceState != null) {
             // after rotation
             mFromSavedInstanceState = true;
         }
+
+        Toast.makeText(this.getActivity(), "onCreate", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -102,9 +112,11 @@ public class NavigationDrawerFragment extends Fragment {
         View layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
         recyclerView = (RecyclerView) layout.findViewById(R.id.drawerList);
 
-        adapter = new VivzAdapter(getActivity(), getData());
+        adapter = new CustomRecyclerViewAdapter(getActivity(), getData());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        Toast.makeText(this.getActivity(), "onCreateView", Toast.LENGTH_SHORT).show();
 
         return layout;
     }
@@ -125,19 +137,16 @@ public class NavigationDrawerFragment extends Fragment {
 
                 // redraw the menu
                 getActivity().invalidateOptionsMenu();
+
+                Toast.makeText(drawerView.getContext(), "onDrawerOpened", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
                 getActivity().invalidateOptionsMenu();
-            }
 
-            @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-                if (slideOffset < 0.6) {
-                    toolbar.setAlpha(1 - slideOffset);
-                }
+                Toast.makeText(drawerView.getContext(), "onDrawerClosed", Toast.LENGTH_SHORT).show();
             }
         };
 

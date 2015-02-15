@@ -10,8 +10,8 @@ import android.util.Log;
 
 import com.github.olegpoly.TimeManager.TImeManagerDataBase.Table.TimePeriodTable;
 import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.TimePeriodDBEntry;
-import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.UserActivityDBEntry;
-import com.github.olegpoly.TimeManager.UI.UIApdater;
+import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.ActionDBEntry;
+import com.github.olegpoly.TimeManager.UiUtils.UIApdater;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * This timer interacts with the service's timer from an activity's context.
  */
-public class ActivityTimer {
+public class ActionTimer {
     /**
      * Updates the timer textView on the activity this timer works on
      */
@@ -79,7 +79,7 @@ public class ActivityTimer {
      *
      * @param activityContext Context of the activity where this timer is used
      */
-    public ActivityTimer(Context activityContext, UIApdater timerTextViewSetter) {
+    public ActionTimer(Context activityContext, UIApdater timerTextViewSetter) {
         this.activityContext = activityContext;
         this.timerTextViewSetter = timerTextViewSetter;
 
@@ -205,7 +205,7 @@ public class ActivityTimer {
      *
      * @param userActivityEntry user's activity
      */
-    public void stopTimer(UserActivityDBEntry userActivityEntry) {
+    public void stopTimer(ActionDBEntry userActivityEntry) {
         if (userActivityEntry == null) {
             Log.e("stopTimer:", "userActivityEntry = null");
             return;

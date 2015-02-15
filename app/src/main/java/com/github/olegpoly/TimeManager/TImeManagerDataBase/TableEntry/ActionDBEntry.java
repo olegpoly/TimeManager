@@ -5,7 +5,7 @@ import android.database.Cursor;
 /**
  * Data base table that represents user's activity
  */
-public class UserActivityDBEntry {
+public class ActionDBEntry {
     /**
      * table entry's id
      */
@@ -19,7 +19,7 @@ public class UserActivityDBEntry {
      * Constructor
      * @param activityName name of the activity
      */
-    public UserActivityDBEntry(String activityName) {
+    public ActionDBEntry(String activityName) {
         this.setActivityName(activityName);
     }
 
@@ -28,7 +28,7 @@ public class UserActivityDBEntry {
      * @param name name of the activity
      * @param id table entry's id
      */
-    public UserActivityDBEntry(String name, long id) {
+    public ActionDBEntry(String name, long id) {
         this.setActivityName(name);
         this.setId(id);
     }
@@ -79,7 +79,7 @@ public class UserActivityDBEntry {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UserActivityDBEntry that = (UserActivityDBEntry) o;
+        ActionDBEntry that = (ActionDBEntry) o;
 
         if (id != that.id) return false;
         if (activityName != null ? !activityName.equals(that.activityName) : that.activityName != null)
@@ -99,7 +99,7 @@ public class UserActivityDBEntry {
         return result;
     }
 
-    public UserActivityDBEntry getNext(Cursor c) {
+    public ActionDBEntry getNext(Cursor c) {
         return null;
     }
 }

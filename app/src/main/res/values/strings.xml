@@ -17,4 +17,11 @@
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
 
+    <string-array name="menu_options">
+        <item>home</item>
+        <item>manage activities</item>
+        <item>exports</item>
+        <item>charts</item>
+    </string-array>
+
 </resources>

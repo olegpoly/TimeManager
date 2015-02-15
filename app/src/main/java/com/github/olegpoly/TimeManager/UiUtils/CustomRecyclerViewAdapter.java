@@ -1,4 +1,4 @@
-package com.github.olegpoly.TimeManager.UI;
+package com.github.olegpoly.TimeManager.UiUtils;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -14,13 +14,13 @@ import com.github.olegpoly.TimeManager.R;
 import java.util.Collections;
 import java.util.List;
 
-public class VivzAdapter extends RecyclerView.Adapter<VivzAdapter.MyVeiwHolder> {
-
+public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecyclerViewAdapter.MyVeiwHolder> {
     private final LayoutInflater inflator;
+
     List<Information> data = Collections.emptyList();
     Context context;
 
-    public VivzAdapter(Context context, List<Information> data) {
+    public CustomRecyclerViewAdapter(Context context, List<Information> data) {
         inflator = LayoutInflater.from(context);
         this.data = data;
         this.context = context;
@@ -32,7 +32,7 @@ public class VivzAdapter extends RecyclerView.Adapter<VivzAdapter.MyVeiwHolder> 
 
     @Override
     public MyVeiwHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflator.inflate(R.layout.custom_row, parent, false);
+        View view = inflator.inflate(R.layout.custom_recycler_row, parent, false);
 
         MyVeiwHolder holder = new MyVeiwHolder(view);
 

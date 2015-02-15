@@ -1,8 +1,8 @@
 package com.github.olegpoly.TimeManager.DataBaseExporter;
 
-import com.github.olegpoly.TimeManager.DataBaseExporter.TypeAdapters.UserActivityAdapter;
-import com.github.olegpoly.TimeManager.TImeManagerDataBase.Table.UserActivitiesTable;
-import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.UserActivityDBEntry;
+import com.github.olegpoly.TimeManager.DataBaseExporter.TypeAdapters.ActionAdapter;
+import com.github.olegpoly.TimeManager.TImeManagerDataBase.Table.ActionTable;
+import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.ActionDBEntry;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -62,15 +62,15 @@ public class DataBaseToJson {
      * @throws IOException if there was a problem with the file or storage
      */
     private void exportTable() throws IOException {
-        UserActivitiesTable.getAll();
+        ActionTable.getAll();
 
         GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(UserActivityDBEntry.class, new UserActivityAdapter());
+        builder.registerTypeAdapter(ActionDBEntry.class, new ActionAdapter());
 
         Gson gson = builder.create();
         String json = "";
 
-        json = gson.toJson(UserActivitiesTable.getAll());
+        json = gson.toJson(ActionTable.getAll());
         outputStream.write(json.getBytes());
 
         outputStream.flush();

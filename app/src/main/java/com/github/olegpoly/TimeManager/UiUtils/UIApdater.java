@@ -1,4 +1,4 @@
-package com.github.olegpoly.TimeManager.UI;
+package com.github.olegpoly.TimeManager.UiUtils;
 
 import android.app.Activity;
 import android.widget.TextView;

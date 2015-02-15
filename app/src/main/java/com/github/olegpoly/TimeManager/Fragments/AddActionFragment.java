@@ -1,4 +1,4 @@
-package com.github.olegpoly.TimeManager.UI;
+package com.github.olegpoly.TimeManager.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,13 +10,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.olegpoly.TimeManager.R;
-import com.github.olegpoly.TimeManager.TImeManagerDataBase.Table.UserActivitiesTable;
-import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.UserActivityDBEntry;
+import com.github.olegpoly.TimeManager.TImeManagerDataBase.Table.ActionTable;
+import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.ActionDBEntry;
 
 /**
  * this fragment lets user add user's activities
  */
-public class AddActivity extends Fragment {
+public class AddActionFragment extends Fragment {
     /**
      * text view for new activity name
      */
@@ -34,7 +34,7 @@ public class AddActivity extends Fragment {
             // check if the entered name already exists
             //UserActivityDB database = UserActivityDB.getInstance();
             //boolean alreadyExists = database.checkIfActivityExists(newUserActivityName);
-            boolean alreadyExists = UserActivitiesTable.checkIfExists(newUserActivityName);
+            boolean alreadyExists = ActionTable.checkIfExists(newUserActivityName);
 
             // if activity already exists - return from function
             if (alreadyExists) {
@@ -42,11 +42,11 @@ public class AddActivity extends Fragment {
                 return;
             }
 
-            UserActivityDBEntry newUserActivity = new UserActivityDBEntry(newUserActivityName);
+            ActionDBEntry newUserActivity = new ActionDBEntry(newUserActivityName);
 
             // add activity to database and clear the textView
             //database.addUserActivity(newUserActivity);
-            UserActivitiesTable.add(newUserActivity);
+            ActionTable.add(newUserActivity);
             newActivityNameTextView.setText("");
         }
     };
@@ -55,7 +55,7 @@ public class AddActivity extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View thisView = inflater.inflate(R.layout.activity_add_user_activity, container, false);
+        View thisView = inflater.inflate(R.layout.activity_add_action, container, false);
 
         // initialize views
         Button addActivityButton = (Button) thisView.findViewById(R.id.AddActivityButton);

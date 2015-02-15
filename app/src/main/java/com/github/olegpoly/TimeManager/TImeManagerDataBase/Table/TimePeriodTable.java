@@ -6,8 +6,8 @@ import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.github.olegpoly.TimeManager.TImeManagerDataBase.DataBase;
 import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.TimePeriodDBEntry;
-import com.github.olegpoly.TimeManager.TImeManagerDataBase.UserActivityDB;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,7 +35,7 @@ public class TimePeriodTable {
                 ID_FIELD + " integer primary key, " + DATE_STARTED_FIELD + " datetime, " + TIME_PASSED_FIELD + " int, " +
                 ID_USER_ACTIVITY + " int not null, " + SESSION_NUMBER + " integer, " +
                 " FOREIGN KEY (" + ID_USER_ACTIVITY + ") REFERENCES " +
-                UserActivitiesTable.TABLE_NAME + " (" + UserActivitiesTable.ID_FIELD + "))";
+                ActionTable.TABLE_NAME + " (" + ActionTable.ID_FIELD + "))";
     }
 
     /**
@@ -70,7 +70,7 @@ public class TimePeriodTable {
      * @return a list filled with all time periods from the database
      */
     static public List<TimePeriodDBEntry> getAll() {
-        UserActivityDB database = UserActivityDB.getInstance();
+        DataBase database = DataBase.getInstance();
         SQLiteDatabase db = database.getWritableDatabase();
         Cursor cursor = db.rawQuery(TimePeriodTable.getAllEntries(), null);
 
@@ -86,7 +86,7 @@ public class TimePeriodTable {
      * @return a list filled with time periods that has the needed session number and user activity id
      */
     static public List<TimePeriodDBEntry> getAll(long session, long userActivityID) {
-        UserActivityDB database = UserActivityDB.getInstance();
+        DataBase database = DataBase.getInstance();
         SQLiteDatabase db = database.getWritableDatabase();
         Cursor cursor = db.rawQuery(TimePeriodTable.getAllEntries() +
                 " WHERE " + TimePeriodTable.SESSION_NUMBER + " = " + session +
@@ -99,7 +99,7 @@ public class TimePeriodTable {
 
     // TODO: write comment
     static public List<TimePeriodDBEntry> getAll(long userActivityID) {
-        UserActivityDB database = UserActivityDB.getInstance();
+        DataBase database = DataBase.getInstance();
         SQLiteDatabase db = database.getWritableDatabase();
         Cursor cursor = db.rawQuery(TimePeriodTable.getAllEntries() +
                 " WHERE " + TimePeriodTable.ID_USER_ACTIVITY + " = " + userActivityID, null);
@@ -111,7 +111,7 @@ public class TimePeriodTable {
 
     // TODO: write comment
     static public Long getAllTime(long userActivityID) {
-        UserActivityDB database = UserActivityDB.getInstance();
+        DataBase database = DataBase.getInstance();
         SQLiteDatabase db = database.getWritableDatabase();
         Cursor cursor = db.rawQuery(TimePeriodTable.getAllEntries() +
                 " WHERE " + TimePeriodTable.ID_USER_ACTIVITY + " = " + userActivityID, null);
@@ -131,7 +131,7 @@ public class TimePeriodTable {
 
     // TODO: write comment
     static public Long getAllTime2(long userActivityID) {
-        UserActivityDB database = UserActivityDB.getInstance();
+        DataBase database = DataBase.getInstance();
         SQLiteDatabase db = database.getWritableDatabase();
 
         String sql = "SELECT sum(strftime('%s', total_expend_time) - strftime('%s', '00:00:00')) FROM "
@@ -182,7 +182,7 @@ public class TimePeriodTable {
      * @param timePeriod timePeriod to add
      */
     static public void add(TimePeriodDBEntry timePeriod) {
-        UserActivityDB database = UserActivityDB.getInstance();
+        DataBase database = DataBase.getInstance();
         SQLiteDatabase db = database.getWritableDatabase();
         long id = db.insert(TimePeriodTable.TABLE_NAME, null, makeContentValues(timePeriod));
         timePeriod.setId(id);
@@ -193,7 +193,7 @@ public class TimePeriodTable {
      * @return session number
      */
     static public long getLastSessionNumber() {
-        UserActivityDB database = UserActivityDB.getInstance();
+        DataBase database = DataBase.getInstance();
         SQLiteDatabase db = database.getWritableDatabase();
         Cursor cursor = db.rawQuery(TimePeriodTable.getAllEntries(), null);
 

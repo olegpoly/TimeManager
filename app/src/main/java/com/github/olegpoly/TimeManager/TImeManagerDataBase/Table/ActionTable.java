@@ -4,8 +4,8 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.UserActivityDBEntry;
-import com.github.olegpoly.TimeManager.TImeManagerDataBase.UserActivityDB;
+import com.github.olegpoly.TimeManager.TImeManagerDataBase.DataBase;
+import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.ActionDBEntry;
 
 import java.sql.SQLDataException;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Represents the activities table in database
  */
-public class UserActivitiesTable {
+public class ActionTable {
     public static final String TABLE_NAME = "activities";
     public static final String ID_FIELD = "id";
     public static final String NAME_FIELD = "name";
@@ -41,13 +41,13 @@ public class UserActivitiesTable {
      * it's id set by this function.
      * @param activity activity to add
      */
-    static public void add(UserActivityDBEntry activity) {
+    static public void add(ActionDBEntry activity) {
         ContentValues cv = new ContentValues();
-        cv.put(UserActivitiesTable.NAME_FIELD, activity.getActivityName());
+        cv.put(ActionTable.NAME_FIELD, activity.getActivityName());
 
-        UserActivityDB database = UserActivityDB.getInstance();
+        DataBase database = DataBase.getInstance();
         SQLiteDatabase db = database.getWritableDatabase();
-        long idActivity = db.insert(UserActivitiesTable.TABLE_NAME, null, cv);
+        long idActivity = db.insert(ActionTable.TABLE_NAME, null, cv);
         activity.setId(idActivity);
     }
 
@@ -55,20 +55,20 @@ public class UserActivitiesTable {
      * Get all user's activities
      * @return a list filled with all user activities in the database
      */
-    static public List<UserActivityDBEntry> getAll() {
-        List<UserActivityDBEntry> activitiesFromDB = new ArrayList<>();
+    static public List<ActionDBEntry> getAll() {
+        List<ActionDBEntry> activitiesFromDB = new ArrayList<>();
 
-        UserActivityDB database = UserActivityDB.getInstance();
+        DataBase database = DataBase.getInstance();
         SQLiteDatabase db = database.getWritableDatabase();
 
-        Cursor cursor = db.rawQuery("select * from " + UserActivitiesTable.TABLE_NAME, null);
+        Cursor cursor = db.rawQuery("select * from " + ActionTable.TABLE_NAME, null);
 
         cursor.moveToFirst();
 
         while (!cursor.isAfterLast()) {
             String name = cursor.getString(cursor.getColumnIndex("name"));
             long id = cursor.getLong(cursor.getColumnIndex("id"));
-            activitiesFromDB.add(new UserActivityDBEntry(name, id));
+            activitiesFromDB.add(new ActionDBEntry(name, id));
             cursor.moveToNext();
         }
 
@@ -79,25 +79,25 @@ public class UserActivitiesTable {
      * Remove user's activity passed as an argument from the database
      * @param ua user activity to delete
      */
-    static public void remove(UserActivityDBEntry ua) {
-        UserActivityDB database = UserActivityDB.getInstance();
+    static public void remove(ActionDBEntry ua) {
+        DataBase database = DataBase.getInstance();
         SQLiteDatabase db = database.getWritableDatabase();
-        db.delete(UserActivitiesTable.TABLE_NAME, UserActivitiesTable.ID_FIELD + "= '" + ua.getId() + "'", null);
+        db.delete(ActionTable.TABLE_NAME, ActionTable.ID_FIELD + "= '" + ua.getId() + "'", null);
     }
 
     /**
      * Find UserActivityDBTableEntry from database by id.
      * @param id needed UserActivityDBTableEntry's id
      * @return UserActivityDBTableEntry
-     * @see com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.UserActivityDBEntry
+     * @see com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.ActionDBEntry
      * @throws SQLDataException if UserActivityDBTableEntry is not found
      */
-    static public UserActivityDBEntry get(long id) throws SQLDataException {
-        UserActivityDB database = UserActivityDB.getInstance();
+    static public ActionDBEntry get(long id) throws SQLDataException {
+        DataBase database = DataBase.getInstance();
         SQLiteDatabase db = database.getWritableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + UserActivitiesTable.TABLE_NAME + " where " +
-                UserActivitiesTable.ID_FIELD + " = " + id, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + ActionTable.TABLE_NAME + " where " +
+                ActionTable.ID_FIELD + " = " + id, null);
 
         // if no rows found throw an exception
         if (cursor.getCount() == 0) {
@@ -106,9 +106,9 @@ public class UserActivitiesTable {
 
         // create and initialize instance
         cursor.moveToFirst();
-        String activityName = cursor.getString(cursor.getColumnIndex(UserActivitiesTable.NAME_FIELD));
-        long activityId = cursor.getLong(cursor.getColumnIndex(UserActivitiesTable.ID_FIELD));
-        UserActivityDBEntry userActivity = new UserActivityDBEntry(activityName, activityId);
+        String activityName = cursor.getString(cursor.getColumnIndex(ActionTable.NAME_FIELD));
+        long activityId = cursor.getLong(cursor.getColumnIndex(ActionTable.ID_FIELD));
+        ActionDBEntry userActivity = new ActionDBEntry(activityName, activityId);
 
         return userActivity;
     }
@@ -119,11 +119,11 @@ public class UserActivitiesTable {
      * @return true if exists, false otherwise
      */
     static public boolean checkIfExists(String activityName) {
-        UserActivityDB database = UserActivityDB.getInstance();
+        DataBase database = DataBase.getInstance();
         SQLiteDatabase db = database.getWritableDatabase();
 
-        Cursor c = db.rawQuery("SELECT * FROM " + UserActivitiesTable.TABLE_NAME +
-                " WHERE " + UserActivitiesTable.NAME_FIELD + " = '" + activityName + "'", null);
+        Cursor c = db.rawQuery("SELECT * FROM " + ActionTable.TABLE_NAME +
+                " WHERE " + ActionTable.NAME_FIELD + " = '" + activityName + "'", null);
 
         if (c.getCount() == 0)
             return false;

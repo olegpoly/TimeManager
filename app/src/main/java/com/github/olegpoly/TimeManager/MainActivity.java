@@ -17,22 +17,21 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.olegpoly.TimeManager.Charts.Chart;
-import com.github.olegpoly.TimeManager.Core.ActivityTimer;
+import com.github.olegpoly.TimeManager.Core.ActionTimer;
 import com.github.olegpoly.TimeManager.Core.ApplicationData;
 import com.github.olegpoly.TimeManager.Core.SessionNumber;
 import com.github.olegpoly.TimeManager.Core.TimeSpan;
 import com.github.olegpoly.TimeManager.DataBaseExporter.DataBaseToJson;
-import com.github.olegpoly.TimeManager.ListCheckBox.ListViewCheckboxesActivity;
+import com.github.olegpoly.TimeManager.Activity.ListViewCheckboxesActivity;
 import com.github.olegpoly.TimeManager.TImeManagerDataBase.Table.TimePeriodTable;
-import com.github.olegpoly.TimeManager.TImeManagerDataBase.Table.UserActivitiesTable;
+import com.github.olegpoly.TimeManager.TImeManagerDataBase.Table.ActionTable;
 import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.TimePeriodDBEntry;
-import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.UserActivityDBEntry;
-import com.github.olegpoly.TimeManager.TImeManagerDataBase.UserActivityDB;
-import com.github.olegpoly.TimeManager.UI.ManageActivities;
-import com.github.olegpoly.TimeManager.UI.NavigationDrawerFragment;
-import com.github.olegpoly.TimeManager.UI.PieChartActivity;
-import com.github.olegpoly.TimeManager.UI.UIApdater;
+import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.ActionDBEntry;
+import com.github.olegpoly.TimeManager.TImeManagerDataBase.DataBase;
+import com.github.olegpoly.TimeManager.Activity.ManageActionsActivity;
+import com.github.olegpoly.TimeManager.Fragments.NavigationDrawerFragment;
+import com.github.olegpoly.TimeManager.Activity.PieChartActivity;
+import com.github.olegpoly.TimeManager.UiUtils.UIApdater;
 
 import java.io.File;
 import java.sql.SQLDataException;
@@ -45,7 +44,7 @@ public class MainActivity extends ActionBarActivity {
     /**
      * This timer interacts with the service's timer from an activity's context.
      */
-    ActivityTimer timer;
+    ActionTimer timer;
     /**
      * Indicates if the timer is running
      */
@@ -154,7 +153,7 @@ public class MainActivity extends ActionBarActivity {
         appState = ((ApplicationData) getApplicationContext());
 
         UIApdater uiApdater = new UIApdater(this, timerTextView);
-        timer = new ActivityTimer(this, uiApdater);
+        timer = new ActionTimer(this, uiApdater);
         timer.startService();
         timer.bindTimer();
 
@@ -165,10 +164,10 @@ public class MainActivity extends ActionBarActivity {
      * Load all data for the currently selected activity
      */
     public void loadDataForCurrentActivity() {
-        UserActivityDB db = UserActivityDB.getInstance();
+        DataBase db = DataBase.getInstance();
 
         // get selected user's activity
-        UserActivityDBEntry selectedUserActivity = (UserActivityDBEntry) activitiesSpinner.getSelectedItem();
+        ActionDBEntry selectedUserActivity = (ActionDBEntry) activitiesSpinner.getSelectedItem();
 
         SessionNumber sessionNumber = SessionNumber.getInstance();
 
@@ -276,7 +275,7 @@ public class MainActivity extends ActionBarActivity {
         for (TimePeriodDBEntry timePeriod : timePeriods) {
             try {
                 // userActivityName = database.getActivityById(timePeriod.getIdUserActivity()).getActivityName();
-                userActivityName = UserActivitiesTable.get(timePeriod.getIdUserActivity()).getActivityName();
+                userActivityName = ActionTable.get(timePeriod.getIdUserActivity()).getActivityName();
             } catch (SQLDataException e) {
                 Log.e("database: ", "database test fails in MainActivity");
                 continue;
@@ -309,7 +308,7 @@ public class MainActivity extends ActionBarActivity {
      * @param view the view that invoked this event
      */
     public void stopTimer(View view) {
-        UserActivityDBEntry ua = (UserActivityDBEntry) activitiesSpinner.getSelectedItem();
+        ActionDBEntry ua = (ActionDBEntry) activitiesSpinner.getSelectedItem();
 
         timer.stopTimer(ua);
 
@@ -325,7 +324,7 @@ public class MainActivity extends ActionBarActivity {
      * @param view the view that invoked this event
      */
     public void manageActivitiesButton(View view) {
-        startActivity(new Intent(this, ManageActivities.class));
+        startActivity(new Intent(this, ManageActionsActivity.class));
     }
 
     /**
@@ -338,9 +337,9 @@ public class MainActivity extends ActionBarActivity {
         //       android.R.layout.simple_spinner_dropdown_item,
         //       database.getAllUserActivities());
 
-        ArrayAdapter<UserActivityDBEntry> activitiesAdaptor = new ArrayAdapter<>(this,
+        ArrayAdapter<ActionDBEntry> activitiesAdaptor = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item,
-                UserActivitiesTable.getAll());
+                ActionTable.getAll());
 
         activitiesSpinner.setAdapter(activitiesAdaptor);
     }
@@ -392,7 +391,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void openChart(View view) {
-        startActivity(new Intent(this, Chart.class));
+        //startActivity(new Intent(this, Chart.class));
     }
 
     public void showList(View view) {

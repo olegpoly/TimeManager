@@ -1,14 +1,20 @@
-package com.github.olegpoly.TimeManager.UI;
+package com.github.olegpoly.TimeManager.Activity;
 
+import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.SeekBar;
-import android.widget.TextView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -19,9 +25,12 @@ import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.Legend;
 
+import com.github.olegpoly.TimeManager.ListCheckBox.TransformList;
+import com.github.olegpoly.TimeManager.ListCheckBox.UserActivityListItem;
 import com.github.olegpoly.TimeManager.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PieChartActivity
        // extends DemoBase мій комент
@@ -32,8 +41,106 @@ public class PieChartActivity
 {
 
     private PieChart mChart;
-    private SeekBar mSeekBarX, mSeekBarY;
-    private TextView tvX, tvY;
+    MyCustomAdapter dataAdapter = null;
+
+    private void displayListView() {
+
+        //Array list of countries
+        List<UserActivityListItem> countryList = TransformList.transform();
+
+        //create an ArrayAdaptar from the String Array
+        dataAdapter = new MyCustomAdapter(this, R.layout.filter_row, countryList);
+        ListView listView = (ListView) findViewById(R.id.listView1);
+        // Assign adapter to ListView
+        listView.setAdapter(dataAdapter);
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                // When clicked, show a toast with the TextView text
+                UserActivityListItem country = (UserActivityListItem) parent.getItemAtPosition(position);
+
+                Toast.makeText(getApplicationContext(),
+                        "Clicked on Row: " + country.getUserActivityName(),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+
+    }
+
+
+    private class MyCustomAdapter extends ArrayAdapter<UserActivityListItem> {
+
+        private List<UserActivityListItem> countryList;
+
+        public MyCustomAdapter(Context context, int textViewResourceId, List<UserActivityListItem> countryList) {
+            super(context, textViewResourceId, countryList);
+            this.countryList = new ArrayList<>();
+            this.countryList.addAll(countryList);
+        }
+
+        private class ViewHolder {
+            CheckBox name;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            Log.v("ConvertView", String.valueOf(position));
+
+            if (convertView == null) {
+                LayoutInflater vi = (LayoutInflater)getSystemService(
+                        Context.LAYOUT_INFLATER_SERVICE);
+                convertView = vi.inflate(R.layout.filter_row, null);
+
+                holder = new ViewHolder();
+                holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
+                convertView.setTag(holder);
+
+                holder.name.setOnClickListener( new View.OnClickListener() {
+                    public void onClick(View v) {
+                        CheckBox cb = (CheckBox) v ;
+                        UserActivityListItem country = (UserActivityListItem) cb.getTag();
+                        country.setIsSelected(cb.isChecked());
+                    }
+                });
+            }
+            else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+
+            UserActivityListItem country = countryList.get(position);
+            holder.name.setText(country.getUserActivityName());
+            //holder.name.setBackgroundColor(itColor1.next());
+            holder.name.setChecked(country.getIsSelected());
+            holder.name.setTag(country);
+
+          //  if (country.getIsSelected())
+           //     convertView.setBackgroundColor(itColor1.next());
+
+            return convertView;
+
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,17 +148,6 @@ public class PieChartActivity
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_piechart);
-
-        tvX = (TextView) findViewById(R.id.tvXMax);
-        tvY = (TextView) findViewById(R.id.tvYMax);
-
-        mSeekBarX = (SeekBar) findViewById(R.id.seekBar1);
-        mSeekBarY = (SeekBar) findViewById(R.id.seekBar2);
-
-        mSeekBarY.setProgress(10);
-
-        //mSeekBarX.setOnSeekBarChangeListener(this);
-        //mSeekBarY.setOnSeekBarChangeListener(this);
 
         mChart = (PieChart) findViewById(R.id.chart1);
 
@@ -95,6 +191,7 @@ public class PieChartActivity
         setData(6);
 
         mChart.animateXY(1500, 1500);
+        mChart.animateXY(1500, 1500);
         // mChart.spin(2000, 0, 360);
 
         Legend l = mChart.getLegend();
@@ -102,6 +199,7 @@ public class PieChartActivity
         l.setXEntrySpace(7f);
         l.setYEntrySpace(5f);
 
+        displayListView();
     }
 
     @Override

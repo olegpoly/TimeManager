@@ -1,4 +1,4 @@
-package com.github.olegpoly.TimeManager.ListCheckBox;
+package com.github.olegpoly.TimeManager.Activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,6 +16,8 @@ import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.github.olegpoly.TimeManager.ListCheckBox.TransformList;
+import com.github.olegpoly.TimeManager.ListCheckBox.UserActivityListItem;
 import com.github.olegpoly.TimeManager.R;
 
 import java.util.ArrayList;
@@ -41,7 +43,7 @@ public class ListViewCheckboxesActivity extends Activity {
         List<UserActivityListItem> countryList = TransformList.transform();
 
         //create an ArrayAdaptar from the String Array
-        dataAdapter = new MyCustomAdapter(this, R.layout.country_info, countryList);
+        dataAdapter = new MyCustomAdapter(this, R.layout.filter_row, countryList);
         ListView listView = (ListView) findViewById(R.id.listView1);
         // Assign adapter to ListView
         listView.setAdapter(dataAdapter);
@@ -80,7 +82,7 @@ public class ListViewCheckboxesActivity extends Activity {
             if (convertView == null) {
                 LayoutInflater vi = (LayoutInflater)getSystemService(
                         Context.LAYOUT_INFLATER_SERVICE);
-                convertView = vi.inflate(R.layout.country_info, null);
+                convertView = vi.inflate(R.layout.filter_row, null);
 
                 holder = new ViewHolder();
                 holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);

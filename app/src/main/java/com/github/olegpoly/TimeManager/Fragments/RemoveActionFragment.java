@@ -1,4 +1,4 @@
-package com.github.olegpoly.TimeManager.UI;
+package com.github.olegpoly.TimeManager.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,13 +11,13 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 import com.github.olegpoly.TimeManager.R;
-import com.github.olegpoly.TimeManager.TImeManagerDataBase.Table.UserActivitiesTable;
-import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.UserActivityDBEntry;
+import com.github.olegpoly.TimeManager.TImeManagerDataBase.Table.ActionTable;
+import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.ActionDBEntry;
 
 /**
  * User can remove user's activities on this fragment
  */
-public class RemoveActivity extends Fragment {
+public class RemoveActionFragment extends Fragment {
     /**
      * the spinner for displaying user's activities
      */
@@ -31,9 +31,9 @@ public class RemoveActivity extends Fragment {
         public void onClick(View v) {
             //UserActivityDB database = UserActivityDB.getInstance();
 
-            UserActivityDBEntry userActivityToBeRemoved = (UserActivityDBEntry) userActivitiesSelectorSpinner.getSelectedItem();
+            ActionDBEntry userActivityToBeRemoved = (ActionDBEntry) userActivitiesSelectorSpinner.getSelectedItem();
             // database.removeUserActivity(userActivityToBeRemoved);
-            UserActivitiesTable.remove(userActivityToBeRemoved);
+            ActionTable.remove(userActivityToBeRemoved);
 
             loadActivitiesIntoActivitiesSelectorSpinner();
         }
@@ -41,7 +41,7 @@ public class RemoveActivity extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.activity_remove_user_activity, container, false);
+        View rootView = inflater.inflate(R.layout.activity_remove_action, container, false);
 
         return rootView;
     }
@@ -89,9 +89,9 @@ public class RemoveActivity extends Fragment {
         //        android.R.layout.simple_spinner_dropdown_item,
         //       database.getAllUserActivities());
 
-        ArrayAdapter<UserActivityDBEntry> activitiesAdaptor = new ArrayAdapter<>(getView().getContext(),
+        ArrayAdapter<ActionDBEntry> activitiesAdaptor = new ArrayAdapter<>(getView().getContext(),
                 android.R.layout.simple_spinner_dropdown_item,
-                UserActivitiesTable.getAll());
+                ActionTable.getAll());
 
         userActivitiesSelectorSpinner.setAdapter(activitiesAdaptor);
     }
