@@ -1,8 +1,9 @@
-package com.github.olegpoly.TimeManager.Activity;
+package com.github.olegpoly.TimeManager.Fragments;
 
-import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,20 +23,20 @@ import com.github.olegpoly.TimeManager.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
-public class ListViewCheckboxesActivity extends Activity {
+public class ListViewCheckboxesFragment extends Fragment {
 
     MyCustomAdapter dataAdapter = null;
 
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.list_check_box);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        //Generate list View from ArrayList
         displayListView();
 
-        //checkButtonClick();
+        return view;
     }
 
     private void displayListView() {
@@ -43,8 +44,8 @@ public class ListViewCheckboxesActivity extends Activity {
         List<UserActivityListItem> countryList = TransformList.transform();
 
         //create an ArrayAdaptar from the String Array
-        dataAdapter = new MyCustomAdapter(this, R.layout.filter_row, countryList);
-        ListView listView = (ListView) findViewById(R.id.listView1);
+        dataAdapter = new MyCustomAdapter(getActivity(), R.layout.filter_row, countryList);
+        ListView listView = (ListView) getActivity().findViewById(R.id.listView1);
         // Assign adapter to ListView
         listView.setAdapter(dataAdapter);
 
@@ -54,7 +55,7 @@ public class ListViewCheckboxesActivity extends Activity {
                 // When clicked, show a toast with the TextView text
                 UserActivityListItem country = (UserActivityListItem) parent.getItemAtPosition(position);
 
-                Toast.makeText(getApplicationContext(),
+                Toast.makeText(getActivity(),
                         "Clicked on Row: " + country.getUserActivityName(),
                         Toast.LENGTH_LONG).show();
             }
@@ -80,7 +81,7 @@ public class ListViewCheckboxesActivity extends Activity {
             Log.v("ConvertView", String.valueOf(position));
 
             if (convertView == null) {
-                LayoutInflater vi = (LayoutInflater)getSystemService(
+                LayoutInflater vi = (LayoutInflater)getActivity().getSystemService(
                         Context.LAYOUT_INFLATER_SERVICE);
                 convertView = vi.inflate(R.layout.filter_row, null);
 
@@ -92,7 +93,7 @@ public class ListViewCheckboxesActivity extends Activity {
                     public void onClick(View v) {
                         CheckBox cb = (CheckBox) v ;
                         UserActivityListItem country = (UserActivityListItem) cb.getTag();
-                        Toast.makeText(getApplicationContext(),
+                        Toast.makeText(getActivity().getApplicationContext(),
                                 "Clicked on Checkbox: " + cb.getText() +
                                         " is " + cb.isChecked(),
                                 Toast.LENGTH_LONG).show();
@@ -113,7 +114,7 @@ public class ListViewCheckboxesActivity extends Activity {
         }
     }
 
-    private void checkButtonClick() {
+    /*private void checkButtonClick() {
         Button myButton = (Button) findViewById(R.id.findSelected);
         myButton.setOnClickListener(new OnClickListener() {
 
@@ -135,5 +136,5 @@ public class ListViewCheckboxesActivity extends Activity {
                         responseText, Toast.LENGTH_LONG).show();
             }
         });
-    }
+    }*/
 }

@@ -17,26 +17,32 @@
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".Activity.ManageActionsActivity"
             android:label="@string/title_activity_manage_activities" >
         </activity>
         <activity
-            android:screenOrientation="portrait"
             android:name=".Activity.Chart"
-            android:label="@string/title_activity_chart" >
+            android:label="@string/title_activity_chart"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".Activity.ListViewCheckboxesActivity"
+            android:name=".Fragments.ListViewCheckboxesFragment"
             android:label="ListView title" >
         </activity>
-
-        <activity android:name=".Activity.PieChartActivity"></activity>
-
+        <activity android:name=".Activity.PieChartActivity" />
+        <activity
+            android:name=".Activity.ChartsActivity"
+            android:label="@string/title_activity_charts" >
+        </activity>
+        <activity
+            android:name=".Activity.DemoActivity"
+            android:label="@string/title_activity_demo" >
+        </activity>
     </application>
 
 </manifest>

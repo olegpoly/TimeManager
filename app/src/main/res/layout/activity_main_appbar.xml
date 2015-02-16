@@ -65,10 +65,10 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="new Session"
+                android:text="test"
                 android:id="@+id/newSessionButton"
                 android:layout_gravity="center_horizontal"
-                android:onClick="newSessionButtonClicked"
+                android:onClick="showList"
                 />
 
             <Button

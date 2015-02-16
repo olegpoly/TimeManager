@@ -17,11 +17,22 @@
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
 
+
+    <string name="action_hide">Hide Panel</string>
+    <string name="action_show">Show Panel</string>
+    <string name="action_anchor_enable">Enable Anchor Point</string>
+    <string name="action_anchor_disable">Disable Anchor Point</string>
+    <string name="hello"><![CDATA[<b>The Awesome Sliding Up Panel</b><br/> Brought to you by<br/><a href="http://umanoapp.com">http://umanoapp.com</a>]]></string>
+    <string name="follow"><![CDATA[Follow us<br/>on <a href="http://twitter.com/umanoapp">Twitter</a>]]></string>
+
+
     <string-array name="menu_options">
         <item>home</item>
         <item>manage activities</item>
         <item>exports</item>
         <item>charts</item>
     </string-array>
+    <string name="title_activity_charts">ChartsActivity</string>
+    <string name="title_activity_demo">DemoActivity</string>
 
 </resources>

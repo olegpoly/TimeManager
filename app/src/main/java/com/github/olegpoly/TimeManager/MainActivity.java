@@ -17,12 +17,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.olegpoly.TimeManager.Activity.ChartsActivity;
+import com.github.olegpoly.TimeManager.Activity.DemoActivity;
 import com.github.olegpoly.TimeManager.Core.ActionTimer;
 import com.github.olegpoly.TimeManager.Core.ApplicationData;
 import com.github.olegpoly.TimeManager.Core.SessionNumber;
 import com.github.olegpoly.TimeManager.Core.TimeSpan;
 import com.github.olegpoly.TimeManager.DataBaseExporter.DataBaseToJson;
-import com.github.olegpoly.TimeManager.Activity.ListViewCheckboxesActivity;
+import com.github.olegpoly.TimeManager.Fragments.ListViewCheckboxesFragment;
 import com.github.olegpoly.TimeManager.TImeManagerDataBase.Table.TimePeriodTable;
 import com.github.olegpoly.TimeManager.TImeManagerDataBase.Table.ActionTable;
 import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.TimePeriodDBEntry;
@@ -395,7 +397,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void showList(View view) {
-        startActivity(new Intent(this, ListViewCheckboxesActivity.class));
+        startActivity(new Intent(this, DemoActivity.class));
     }
 
     public void showPieChart23(View view) {
