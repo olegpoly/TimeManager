@@ -14,7 +14,6 @@ import com.github.olegpoly.TimeManager.R;
  */
 public class FilterMinimizedFragment extends Fragment {
 
-
     public FilterMinimizedFragment() {
         // Required empty public constructor
     }

@@ -166,17 +166,12 @@ public class MainActivity extends ActionBarActivity {
      * Load all data for the currently selected activity
      */
     public void loadDataForCurrentActivity() {
-        DataBase db = DataBase.getInstance();
-
         // get selected user's activity
         ActionDBEntry selectedUserActivity = (ActionDBEntry) activitiesSpinner.getSelectedItem();
 
         SessionNumber sessionNumber = SessionNumber.getInstance();
 
         // get all time periods for the current session
-        //List<TimePeriodDBTableEntry> allPassedTimes = db.getAllTimePeriods(sessionNumber.getCurrentSessionNumber(),
-        //        selectedUserActivity.getId());
-
         List<TimePeriodDBEntry> allPassedTimes = TimePeriodTable.getAll(sessionNumber.getCurrentSessionNumber(),
                 selectedUserActivity.getId());
 
@@ -268,15 +263,12 @@ public class MainActivity extends ActionBarActivity {
     private void loadTimePeriodsIntoSpinner() {
         Spinner s = (Spinner) findViewById(R.id.spinner);
 
-        //UserActivityDB database = UserActivityDB.getInstance();
-        //List<TimePeriodDBTableEntry> timePeriods = database.getAllTimePeriods();
         List<TimePeriodDBEntry> timePeriods = TimePeriodTable.getAll();
         List<String> timePeriodsStrings = new ArrayList<>();
         String userActivityName;
 
         for (TimePeriodDBEntry timePeriod : timePeriods) {
             try {
-                // userActivityName = database.getActivityById(timePeriod.getIdUserActivity()).getActivityName();
                 userActivityName = ActionTable.get(timePeriod.getIdUserActivity()).getActivityName();
             } catch (SQLDataException e) {
                 Log.e("database: ", "database test fails in MainActivity");
@@ -333,12 +325,6 @@ public class MainActivity extends ActionBarActivity {
      * display all user's activities in the activities spinner
      */
     private void loadActivitiesIntoActivitiesSpinner() {
-        //UserActivityDB database = UserActivityDB.getInstance();
-
-        //ArrayAdapter<UserActivityDBTableEntry> activitiesAdaptor = new ArrayAdapter<>(this,
-        //       android.R.layout.simple_spinner_dropdown_item,
-        //       database.getAllUserActivities());
-
         ArrayAdapter<ActionDBEntry> activitiesAdaptor = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item,
                 ActionTable.getAll());

@@ -29,10 +29,7 @@ public class RemoveActionFragment extends Fragment {
     View.OnClickListener removeActivityButtonClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //UserActivityDB database = UserActivityDB.getInstance();
-
             ActionDBEntry userActivityToBeRemoved = (ActionDBEntry) userActivitiesSelectorSpinner.getSelectedItem();
-            // database.removeUserActivity(userActivityToBeRemoved);
             ActionTable.remove(userActivityToBeRemoved);
 
             loadActivitiesIntoActivitiesSelectorSpinner();
@@ -46,23 +43,9 @@ public class RemoveActionFragment extends Fragment {
         return rootView;
     }
 
-    /**
-     * Called when the fragment's activity has been created and this
-     * fragment's view hierarchy instantiated.  It can be used to do final
-     * initialization once these pieces are in place, such as retrieving
-     * views or restoring state.  It is also useful for fragments that use
-     * {@link #setRetainInstance(boolean)} to retain their instance,
-     * as this callback tells the fragment when it is fully associated with
-     * the new activity instance.  This is called after {@link #onCreateView}
-     * and before {@link #onViewStateRestored(android.os.Bundle)}.
-     *
-     * @param savedInstanceState If the fragment is being re-created from
-     *                           a previous saved state, this is the state.
-     */
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         View thisView = getView();
 
         // initialize views
@@ -83,12 +66,6 @@ public class RemoveActionFragment extends Fragment {
      * load a list of user's activities into the spinner
      */
     public void loadActivitiesIntoActivitiesSelectorSpinner() {
-        // UserActivityDB database = UserActivityDB.getInstance();
-
-        //ArrayAdapter<UserActivityDBTableEntry> activitiesAdaptor = new ArrayAdapter<>(getView().getContext(),
-        //        android.R.layout.simple_spinner_dropdown_item,
-        //       database.getAllUserActivities());
-
         ArrayAdapter<ActionDBEntry> activitiesAdaptor = new ArrayAdapter<>(getView().getContext(),
                 android.R.layout.simple_spinner_dropdown_item,
                 ActionTable.getAll());

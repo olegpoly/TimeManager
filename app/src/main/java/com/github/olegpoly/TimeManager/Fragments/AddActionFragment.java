@@ -32,8 +32,6 @@ public class AddActionFragment extends Fragment {
             String newUserActivityName = newActivityNameTextView.getText().toString();
 
             // check if the entered name already exists
-            //UserActivityDB database = UserActivityDB.getInstance();
-            //boolean alreadyExists = database.checkIfActivityExists(newUserActivityName);
             boolean alreadyExists = ActionTable.checkIfExists(newUserActivityName);
 
             // if activity already exists - return from function
@@ -45,7 +43,6 @@ public class AddActionFragment extends Fragment {
             ActionDBEntry newUserActivity = new ActionDBEntry(newUserActivityName);
 
             // add activity to database and clear the textView
-            //database.addUserActivity(newUserActivity);
             ActionTable.add(newUserActivity);
             newActivityNameTextView.setText("");
         }
