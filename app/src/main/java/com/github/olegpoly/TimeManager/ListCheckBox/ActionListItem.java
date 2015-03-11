@@ -3,25 +3,25 @@ package com.github.olegpoly.TimeManager.ListCheckBox;
 /**
  * Created by root on 09.02.15.
  */
-public class UserActivityListItem {
+public class ActionListItem {
     String userActivityName;
     Boolean isSelected;
     Long id;
 
-    public UserActivityListItem() {
+    public ActionListItem() {
     }
 
-    public UserActivityListItem(String userActivityName) {
+    public ActionListItem(String userActivityName) {
         this.userActivityName = userActivityName;
         isSelected = false;
     }
 
-    public UserActivityListItem(String userActivityName, Boolean isSelected) {
+    public ActionListItem(String userActivityName, Boolean isSelected) {
         this.userActivityName = userActivityName;
         this.isSelected = isSelected;
     }
 
-    public UserActivityListItem(String userActivityName, Boolean isSelected, Long id) {
+    public ActionListItem(String userActivityName, Boolean isSelected, Long id) {
         this.userActivityName = userActivityName;
         this.isSelected = isSelected;
         this.id = id;

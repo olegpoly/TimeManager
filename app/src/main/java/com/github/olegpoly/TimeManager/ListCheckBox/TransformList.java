@@ -8,19 +8,19 @@ import com.google.common.collect.Lists;
 import java.util.List;
 
 public class TransformList {
-    static private Function<ActionDBEntry, UserActivityListItem> transforFunction =
-            new Function<ActionDBEntry,UserActivityListItem>() {
-                public UserActivityListItem apply(ActionDBEntry ua)
+    static private Function<ActionDBEntry, ActionListItem> transformFunction =
+            new Function<ActionDBEntry,ActionListItem>() {
+                public ActionListItem apply(ActionDBEntry ua)
                 {
-                    return new UserActivityListItem(ua.getActivityName(), true, ua.getId());
+                    return new ActionListItem(ua.getActivityName(), true, ua.getId());
                 }
             };
 
-    static public List<UserActivityListItem> transform(List<ActionDBEntry> ua) {
-        return Lists.transform(ua, transforFunction);
+    static public List<ActionListItem> transform(List<ActionDBEntry> ua) {
+        return Lists.transform(ua, transformFunction);
     }
 
-    static public List<UserActivityListItem> transform() {
+    static public List<ActionListItem> transform() {
         List<ActionDBEntry> ua = ActionTable.getAll();
         return transform(ua);
     }

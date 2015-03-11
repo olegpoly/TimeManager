@@ -30,10 +30,10 @@
             android:label="@string/title_activity_chart"
             android:screenOrientation="portrait" >
         </activity>
-        <activity
+       <!-- <activity
             android:name=".Fragments.ListViewCheckboxesFragment"
             android:label="ListView title" >
-        </activity>
+        </activity> -->
         <activity android:name=".Activity.PieChartActivity" />
         <activity
             android:name=".Activity.ChartsActivity"

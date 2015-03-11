@@ -44,12 +44,6 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
         Information current = data.get(position);
         holder.title.setText(current.title);
         holder.icon.setImageResource(current.iconId);
-        /*holder.icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });*/
     }
 
     @Override

@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -22,11 +21,12 @@ import com.github.mikephil.charting.utils.LargeValueFormatter;
 import com.github.mikephil.charting.utils.Legend;
 import com.github.mikephil.charting.utils.XLabels;
 import com.github.mikephil.charting.utils.YLabels;
+import com.github.olegpoly.TimeManager.Interfaces.ChartFragment;
 import com.github.olegpoly.TimeManager.R;
 
 import java.util.ArrayList;
 
-public class BarChartFragment extends Fragment implements OnChartValueSelectedListener {
+public class BarChartFragment extends Fragment implements OnChartValueSelectedListener, ChartFragment {
     private BarChart mChart;
     //private SeekBar mSeekBarX, mSeekBarY;
     private TextView tvX, tvY;
@@ -38,8 +38,6 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_bar_chart, container, false);
-        // listSetUp.c = container.getContext();
-        // listSetUp.v = v;
         return v;
     }
 
@@ -49,12 +47,6 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
 
         tvX = (TextView) v.findViewById(R.id.tvXMax);
         tvY = (TextView) v.findViewById(R.id.tvYMax);
-
-       // mSeekBarX = (SeekBar) v.findViewById(R.id.seekBar1);
-       // mSeekBarX.setOnSeekBarChangeListener(this);
-
-       // mSeekBarY = (SeekBar) v.findViewById(R.id.seekBar2);
-      //  mSeekBarY.setOnSeekBarChangeListener(this);
 
         mChart = (BarChart) v.findViewById(R.id.chartBar);
         mChart.setOnChartValueSelectedListener(this);
@@ -104,93 +96,7 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.actionToggleValues: {
-                if (mChart.isDrawYValuesEnabled())
-                    mChart.setDrawYValues(false);
-                else
-                    mChart.setDrawYValues(true);
-                mChart.invalidate();
-                break;
-            }
-            case R.id.actionTogglePinch: {
-                if (mChart.isPinchZoomEnabled())
-                    mChart.setPinchZoom(false);
-                else
-                    mChart.setPinchZoom(true);
-
-                mChart.invalidate();
-                break;
-            }
-            case R.id.actionToggle3D: {
-                if (mChart.is3DEnabled())
-                    mChart.set3DEnabled(false);
-                else
-                    mChart.set3DEnabled(true);
-                mChart.invalidate();
-                break;
-            }
-            case R.id.actionToggleHighlight: {
-                if (mChart.isHighlightEnabled())
-                    mChart.setHighlightEnabled(false);
-                else
-                    mChart.setHighlightEnabled(true);
-                mChart.invalidate();
-                break;
-            }
-            case R.id.actionToggleHighlightArrow: {
-                if (mChart.isDrawHighlightArrowEnabled())
-                    mChart.setDrawHighlightArrow(false);
-                else
-                    mChart.setDrawHighlightArrow(true);
-                mChart.invalidate();
-                break;
-            }
-            case R.id.actionToggleStartzero: {
-                if (mChart.isStartAtZeroEnabled())
-                    mChart.setStartAtZero(false);
-                else
-                    mChart.setStartAtZero(true);
-
-                mChart.invalidate();
-                break;
-            }
-            case R.id.actionToggleAdjustXLegend: {
-                XLabels xLabels = mChart.getXLabels();
-
-                if (xLabels.isAdjustXLabelsEnabled())
-                    xLabels.setAdjustXLabels(false);
-                else
-                    xLabels.setAdjustXLabels(true);
-
-                mChart.invalidate();
-                break;
-            }
-            case R.id.actionSave: {
-                // mChart.saveToGallery("title"+System.currentTimeMillis());
-                mChart.saveToPath("title" + System.currentTimeMillis(), "");
-                break;
-            }
-            case R.id.animateX: {
-                mChart.animateX(3000);
-                break;
-            }
-            case R.id.animateY: {
-                mChart.animateY(3000);
-                break;
-            }
-            case R.id.animateXY: {
-
-                mChart.animateXY(3000, 3000);
-                break;
-            }
-        }
-        return true;
-    }
-
-    public void setData() {
+    public void changeFilter(int count) {
 
         int xProg = 2;
         int yProg = 2;

@@ -1,14 +1,14 @@
 package com.github.olegpoly.TimeManager.Fragments;
 
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.github.olegpoly.TimeManager.ListSetUp;
+import com.github.olegpoly.TimeManager.ListCheckBox.ListSetUp;
 import com.github.olegpoly.TimeManager.R;
 
 /**
@@ -36,8 +36,8 @@ View v;
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_filter, container, false);
-            listSetUp.c = getActivity();
-            listSetUp.v = v;
+            listSetUp.setContext(getActivity());
+            listSetUp.setThisView(v);
 
         Button b = (Button) v.findViewById(R.id.applyFilterButton);
         b.setOnClickListener(new View.OnClickListener() {

@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.github.olegpoly.TimeManager.Activity.stab.MyFragmentPagerAdapter;
+import com.github.olegpoly.TimeManager.Activity.stab.ChartFragmentPagerAdapter;
 import com.github.olegpoly.TimeManager.Activity.stab.SlidingTabLayout;
 import com.github.olegpoly.TimeManager.Fragments.FilterFragment;
 import com.github.olegpoly.TimeManager.R;
@@ -34,9 +34,8 @@ public class ChartsActivity extends FragmentActivity {
 
         // getSupportFragmentManager allows use to interact with the fragments
         // MyFragmentPagerAdapter will return a fragment based on an index that is passed
-        MyFragmentPagerAdapter myFragmentPagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager(),
-                ChartsActivity.this);
-        viewPager.setAdapter(myFragmentPagerAdapter);
+        ChartFragmentPagerAdapter chartFragmentPagerAdapter = new ChartFragmentPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(chartFragmentPagerAdapter);
 
         // Initialize the Sliding Tab Layout
         SlidingTabLayout slidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
@@ -66,7 +65,7 @@ public class ChartsActivity extends FragmentActivity {
 
         ////////
         FilterFragment ff = (FilterFragment)getSupportFragmentManager().findFragmentById(R.id.ff);
-        ff.filterListener = myFragmentPagerAdapter;
+        ff.filterListener = chartFragmentPagerAdapter;
     }
 
     @Override

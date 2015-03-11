@@ -18,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.olegpoly.TimeManager.Activity.ChartsActivity;
-import com.github.olegpoly.TimeManager.Activity.DemoActivity;
 import com.github.olegpoly.TimeManager.Activity.ManageActionsActivity;
 import com.github.olegpoly.TimeManager.Core.ActionTimer;
 import com.github.olegpoly.TimeManager.Core.ApplicationData;
@@ -383,7 +382,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void showList(View view) {
-        startActivity(new Intent(this, DemoActivity.class));
+        //startActivity(new Intent(this, DemoActivity.class));
     }
 
     public void showPieChart23(View view) {

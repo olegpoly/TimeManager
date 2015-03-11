@@ -1,6 +1,7 @@
 package com.github.olegpoly.TimeManager.Fragments;
 
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -16,19 +17,15 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.Legend;
-import com.github.olegpoly.TimeManager.ListCheckBox.UserActivityListItem;
-import com.github.olegpoly.TimeManager.ListSetUp;
+import com.github.olegpoly.TimeManager.Interfaces.ChartFragment;
+import com.github.olegpoly.TimeManager.ListCheckBox.ListSetUp;
 import com.github.olegpoly.TimeManager.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class PieChartFragment extends Fragment implements OnChartValueSelectedListener {
+public class PieChartFragment extends Fragment implements OnChartValueSelectedListener, ChartFragment {
     private PieChart mChart;
-    List<UserActivityListItem> countryList;
-    View v;
-
-    ListSetUp listSetUp = new ListSetUp();
+    View thisView;
 
     public PieChartFragment() {
         // Required empty public constructor
@@ -38,29 +35,24 @@ public class PieChartFragment extends Fragment implements OnChartValueSelectedLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        v = inflater.inflate(R.layout.fragment_pie_chart, container, false);
-       // listSetUp.c = container.getContext();
-       // listSetUp.v = v;
-        return v;
+        thisView = inflater.inflate(R.layout.fragment_pie_chart, container, false);
+        return thisView;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-      //  listSetUp.displayListView();
-
-        mChart = (PieChart) v.findViewById(R.id.chart1);
-        listSetUp.mChart = mChart;
+        mChart = (PieChart) thisView.findViewById(R.id.chart1);
 
         // change the color of the center-hole
         mChart.setHoleColor(ColorTemplate.getHoloBlue());
         // mChart.setHoleColorTransparent(true);
 
-        //Typeface tf = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
+        Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Regular.ttf");
 
-        //mChart.setValueTypeface(tf);
-//        mChart.setCenterTextTypeface(Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf"));
+        mChart.setValueTypeface(tf);
+        mChart.setCenterTextTypeface(Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Light.ttf"));
 
         mChart.setHoleRadius(60f);
 
@@ -68,7 +60,6 @@ public class PieChartFragment extends Fragment implements OnChartValueSelectedLi
 
         mChart.setDrawYValues(true);
         //mChart.setDrawCenterText(true);
-
         //mChart.setDrawHoleEnabled(true);
 
         mChart.setRotationAngle(0);
@@ -91,7 +82,7 @@ public class PieChartFragment extends Fragment implements OnChartValueSelectedLi
         //mChart.setCenterText("MPAndroidChart\nLibrary");
 
        // listSetUp.setData(listSetUp.countryList.size());
-setData(2);
+        changeFilter(2);
 
         mChart.animateXY(1500, 1500);
         mChart.animateXY(1500, 1500);
@@ -103,7 +94,8 @@ setData(2);
         l.setYEntrySpace(5f);
     }
 
-    public void setData(int count) {
+    @Override
+    public void changeFilter(int count) {
         ArrayList<Entry> yVals1 = new ArrayList<Entry>();
         ArrayList<String> xVals = new ArrayList<String>();
 
@@ -151,78 +143,10 @@ setData(2);
     public void onValueSelected(Entry e, int dataSetIndex) {
         if (e == null)
             return;
-        Log.i("VAL SELECTED",
-                "Value: " + e.getVal() + ", xIndex: " + e.getXIndex()
-                        + ", DataSet index: " + dataSetIndex);
     }
 
     @Override
     public void onNothingSelected() {
-        Log.i("PieChart", "nothing selected");
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.actionToggleValues: {
-                if (mChart.isDrawYValuesEnabled())
-                    mChart.setDrawYValues(false);
-                else
-                    mChart.setDrawYValues(true);
-                mChart.invalidate();
-                break;
-            }
-            case R.id.actionTogglePercent: {
-                if (mChart.isUsePercentValuesEnabled())
-                    mChart.setUsePercentValues(false);
-                else
-                    mChart.setUsePercentValues(true);
-                mChart.invalidate();
-                break;
-            }
-            case R.id.actionToggleHole: {
-                if (mChart.isDrawHoleEnabled())
-                    mChart.setDrawHoleEnabled(false);
-                else
-                    mChart.setDrawHoleEnabled(true);
-                mChart.invalidate();
-                break;
-            }
-            case R.id.actionDrawCenter: {
-                if (mChart.isDrawCenterTextEnabled())
-                    mChart.setDrawCenterText(false);
-                else
-                    mChart.setDrawCenterText(true);
-                mChart.invalidate();
-                break;
-            }
-            case R.id.actionToggleXVals: {
-                if (mChart.isDrawXValuesEnabled())
-                    mChart.setDrawXValues(false);
-                else
-                    mChart.setDrawXValues(true);
-                mChart.invalidate();
-                break;
-            }
-            case R.id.actionSave: {
-                // mChart.saveToGallery("title"+System.currentTimeMillis());
-                mChart.saveToPath("title" + System.currentTimeMillis(), "");
-                break;
-            }
-            case R.id.animateX: {
-                mChart.animateX(1800);
-                break;
-            }
-            case R.id.animateY: {
-                mChart.animateY(1800);
-                break;
-            }
-            case R.id.animateXY: {
-                mChart.animateXY(1800, 1800);
-                break;
-            }
-        }
-        return true;
     }
 }
 
