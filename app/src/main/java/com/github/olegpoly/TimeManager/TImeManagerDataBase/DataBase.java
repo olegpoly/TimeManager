@@ -5,10 +5,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.github.olegpoly.TimeManager.Core.ApplicationData;
-import com.github.olegpoly.TimeManager.TImeManagerDataBase.Table.TimePeriodTable;
 import com.github.olegpoly.TimeManager.TImeManagerDataBase.Table.ActionTable;
-import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.TimePeriodDBEntry;
+import com.github.olegpoly.TimeManager.TImeManagerDataBase.Table.TimePeriodTable;
 import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.ActionDBEntry;
+import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.TimePeriodDBEntry;
 
 import java.util.Date;
 

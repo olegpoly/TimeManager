@@ -1,0 +1,33 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.github.olegpoly.TimeManager.Fragments.FilterFragment"
+    android:id="@+id/filterFragment"
+    >
+
+    <TextView
+        android:id="@+id/findSelected"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/filter_length"
+        android:layout_below="@+id/pie_view"
+        android:gravity="center"
+        android:onClick="generate"
+        android:text="filter"
+        android:textSize="16sp" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="apply"
+        android:id="@+id/applyFilterButton"
+        />
+
+    <ListView
+        android:id="@+id/listView1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/findSelected" />
+
+</LinearLayout>

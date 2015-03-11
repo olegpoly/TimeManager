@@ -34,5 +34,7 @@
     </string-array>
     <string name="title_activity_charts">ChartsActivity</string>
     <string name="title_activity_demo">DemoActivity</string>
+    <string name="title_activity_bar_chart_activity_multi_dataset">BarChartActivityMultiDataset
+    </string>
 
 </resources>

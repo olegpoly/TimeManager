@@ -43,6 +43,10 @@
             android:name=".Activity.DemoActivity"
             android:label="@string/title_activity_demo" >
         </activity>
+        <activity
+            android:name=".Activity.BarChartActivityMultiDataset"
+            android:label="@string/title_activity_bar_chart_activity_multi_dataset" >
+        </activity>
     </application>
 
 </manifest>

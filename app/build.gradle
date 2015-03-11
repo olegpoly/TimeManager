@@ -19,21 +19,14 @@ android {
     productFlavors {
     }
     dexOptions {
-        incremental true
-    }
-    configurations {
-        all*.exclude group: 'nineoldandroids', module: 'nineoldandroids'
     }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile files('libs/mpandroidchartlibrary-1-7-4.jar')
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'com.google.code.gson:gson:2.2.4'
-    compile('com.sothree.slidinguppanel:library:+') {
-        exclude module: 'com.android.support:support-v4:21.0.3'
-    }
+    compile 'com.sothree.slidinguppanel:library:+'
     compile 'com.google.guava:guava:18.0'
     compile 'com.android.support:support-v4:21.0.3'
     compile 'com.android.support:recyclerview-v7:21.0.+'

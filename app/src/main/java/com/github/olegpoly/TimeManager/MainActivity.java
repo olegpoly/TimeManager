@@ -19,20 +19,17 @@ import android.widget.Toast;
 
 import com.github.olegpoly.TimeManager.Activity.ChartsActivity;
 import com.github.olegpoly.TimeManager.Activity.DemoActivity;
+import com.github.olegpoly.TimeManager.Activity.ManageActionsActivity;
 import com.github.olegpoly.TimeManager.Core.ActionTimer;
 import com.github.olegpoly.TimeManager.Core.ApplicationData;
 import com.github.olegpoly.TimeManager.Core.SessionNumber;
 import com.github.olegpoly.TimeManager.Core.TimeSpan;
 import com.github.olegpoly.TimeManager.DataBaseExporter.DataBaseToJson;
-import com.github.olegpoly.TimeManager.Fragments.ListViewCheckboxesFragment;
-import com.github.olegpoly.TimeManager.TImeManagerDataBase.Table.TimePeriodTable;
-import com.github.olegpoly.TimeManager.TImeManagerDataBase.Table.ActionTable;
-import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.TimePeriodDBEntry;
-import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.ActionDBEntry;
-import com.github.olegpoly.TimeManager.TImeManagerDataBase.DataBase;
-import com.github.olegpoly.TimeManager.Activity.ManageActionsActivity;
 import com.github.olegpoly.TimeManager.Fragments.NavigationDrawerFragment;
-import com.github.olegpoly.TimeManager.Activity.PieChartActivity;
+import com.github.olegpoly.TimeManager.TImeManagerDataBase.Table.ActionTable;
+import com.github.olegpoly.TimeManager.TImeManagerDataBase.Table.TimePeriodTable;
+import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.ActionDBEntry;
+import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.TimePeriodDBEntry;
 import com.github.olegpoly.TimeManager.UiUtils.UIApdater;
 
 import java.io.File;
@@ -41,6 +38,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+//import com.github.olegpoly.TimeManager.Activity.BarChartActivityMultiDataset;
+//import com.github.olegpoly.TimeManager.Activity.PieChartActivity;
 
 public class MainActivity extends ActionBarActivity {
     /**
@@ -379,7 +379,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void openChart(View view) {
-        //startActivity(new Intent(this, Chart.class));
+        startActivity(new Intent(this, ChartsActivity.class));
     }
 
     public void showList(View view) {
@@ -387,6 +387,6 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void showPieChart23(View view) {
-        startActivity(new Intent(this, PieChartActivity.class));
+       // startActivity(new Intent(this, BarChartActivityMultiDataset.class));
     }
 }

@@ -55,6 +55,15 @@
                 android:layout_gravity="center_horizontal" />
 
             <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="show charts"
+                android:id="@+id/button"
+                android:layout_gravity="center_horizontal"
+                android:onClick="openChart"
+                />
+
+            <Button
                 android:onClick="showPieChart23"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -79,16 +88,6 @@
                 android:layout_gravity="center_horizontal"
                 android:onClick="databaseToXml"
                 />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="show charts"
-                android:id="@+id/button"
-                android:layout_gravity="center_horizontal"
-                android:onClick="openChart"
-                />
-
 
         </LinearLayout>
 

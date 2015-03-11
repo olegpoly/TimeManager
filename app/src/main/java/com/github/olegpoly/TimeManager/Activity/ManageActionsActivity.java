@@ -5,8 +5,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
 
 import com.github.olegpoly.TimeManager.Fragments.AddActionFragment;
-import com.github.olegpoly.TimeManager.R;
 import com.github.olegpoly.TimeManager.Fragments.RemoveActionFragment;
+import com.github.olegpoly.TimeManager.R;
 
 /**
  * This FragmentActivity contain fragments for removing and adding activities

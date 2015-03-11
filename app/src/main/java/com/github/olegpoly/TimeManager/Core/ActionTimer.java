@@ -9,8 +9,8 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.github.olegpoly.TimeManager.TImeManagerDataBase.Table.TimePeriodTable;
-import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.TimePeriodDBEntry;
 import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.ActionDBEntry;
+import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.TimePeriodDBEntry;
 import com.github.olegpoly.TimeManager.UiUtils.UIApdater;
 
 import java.util.Calendar;
