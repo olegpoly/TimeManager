@@ -16,10 +16,10 @@ public class FilterArrayAdapter extends ArrayAdapter<ActionListItem> {
     public List<ActionListItem> countryList;
     public Context context;
 
-    public FilterArrayAdapter(Context context, int textViewResourceId, List<ActionListItem> countryList) {
-        super(context, textViewResourceId, countryList);
+    public FilterArrayAdapter(Context contextParam, int textViewResourceId, List<ActionListItem> countryList) {
+        super(contextParam, textViewResourceId, countryList);
 
-        this.context = context;
+        this.context = contextParam;
         this.countryList = new ArrayList<>();
         this.countryList.addAll(countryList);
     }

@@ -49,11 +49,6 @@ public class PieChartFragment extends Fragment implements OnChartValueSelectedLi
         mChart.setHoleColor(ColorTemplate.getHoloBlue());
         // mChart.setHoleColorTransparent(true);
 
-        Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Regular.ttf");
-
-        mChart.setValueTypeface(tf);
-        mChart.setCenterTextTypeface(Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Light.ttf"));
-
         mChart.setHoleRadius(60f);
 
         mChart.setDescription("");

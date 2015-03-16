@@ -25,6 +25,7 @@ import com.github.olegpoly.TimeManager.Core.SessionNumber;
 import com.github.olegpoly.TimeManager.Core.TimeSpan;
 import com.github.olegpoly.TimeManager.DataBaseExporter.DataBaseToJson;
 import com.github.olegpoly.TimeManager.Fragments.NavigationDrawerFragment;
+import com.github.olegpoly.TimeManager.TImeManagerDataBase.DataBase;
 import com.github.olegpoly.TimeManager.TImeManagerDataBase.Table.ActionTable;
 import com.github.olegpoly.TimeManager.TImeManagerDataBase.Table.TimePeriodTable;
 import com.github.olegpoly.TimeManager.TImeManagerDataBase.TableEntry.ActionDBEntry;
@@ -136,13 +137,13 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // TODO: delete these test lines
-        /*
-        this.deleteDatabase(TimePeriodTable.TABLE_NAME);
-        this.deleteDatabase(UserActivitiesTable.TABLE_NAME);
-        UserActivityDB db = UserActivityDB.getInstance();
-        UserActivityDB.deleteAll();
-        UserActivityDB.addAll();
-        */
+
+        /*this.deleteDatabase(TimePeriodTable.TABLE_NAME);
+        this.deleteDatabase(ActionTable.TABLE_NAME);
+        DataBase db = DataBase.getInstance();
+        db.deleteAll();
+        db.addAll();*/
+
 
         // initialize pointers to view's elements
         timerTextView = (TextView) findViewById(R.id.timerTextView);

@@ -28,9 +28,6 @@ import java.util.ArrayList;
 
 public class BarChartFragment extends Fragment implements OnChartValueSelectedListener, ChartFragment {
     private BarChart mChart;
-    //private SeekBar mSeekBarX, mSeekBarY;
-    private TextView tvX, tvY;
-
     View v;
 
     @Override
@@ -44,9 +41,6 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        tvX = (TextView) v.findViewById(R.id.tvXMax);
-        tvY = (TextView) v.findViewById(R.id.tvYMax);
 
         mChart = (BarChart) v.findViewById(R.id.chartBar);
         mChart.setOnChartValueSelectedListener(this);
@@ -62,47 +56,19 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
         mChart.setDrawBarShadow(false);
 
         mChart.setDrawGridBackground(false);
-        mChart.setDrawHorizontalGrid(false);
-
-        // create a custom MarkerView (extend MarkerView) and specify the layout
-        // to use for it
-        //MyMarkerView mv = new MyMarkerView(this, R.layout.custom_marker_view);
-
-        // define an offset to change the original position of the marker
-        // (optional)
-//        mv.setOffsets(-mv.getMeasuredWidth() / 2, -mv.getMeasuredHeight());
-
-        // set the marker to the chart
-        // mChart.setMarkerView(mv);
-
-      //  mSeekBarX.setProgress(10);
-        //mSeekBarY.setProgress(100);
-
-//        Typeface tf = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
-
-        Legend l = mChart.getLegend();
-//        l.setPosition(Legend.LegendPosition.RIGHT_OF_CHART_INSIDE);
-        // l.setTypeface(tf);
+        mChart.setDrawHorizontalGrid(false);;
 
         XLabels xl  = mChart.getXLabels();
         xl.setCenterXLabelText(true);
-        //   xl.setTypeface(tf);
 
         YLabels yl = mChart.getYLabels();
-        //   yl.setTypeface(tf);
         yl.setFormatter(new LargeValueFormatter());
-
-        //  mChart.setValueTypeface(tf);
     }
 
     @Override
     public void changeFilter(int count) {
-
         int xProg = 2;
         int yProg = 2;
-
-        tvX.setText("" + (xProg + 1));
-        tvY.setText("" + (yProg));
 
         ArrayList<String> xVals = new ArrayList<String>();
         for (int i = 0; i < xProg; i++) {
