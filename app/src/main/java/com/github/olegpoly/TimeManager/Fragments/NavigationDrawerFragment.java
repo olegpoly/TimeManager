@@ -47,7 +47,7 @@ public class NavigationDrawerFragment extends Fragment {
      */
     public List<Information> getData() {
         List<Information> data = new ArrayList<>();
-        int[] icons = {R.drawable.abc_btn_check_material};
+        int[] icons = {R.drawable.icon};
 
         Resources res =  getResources();
         String[] planets = res.getStringArray(R.array.menu_options);

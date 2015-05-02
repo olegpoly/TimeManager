@@ -99,7 +99,7 @@ public class ActionTimer {
      */
     public void bindTimer() {
         final Intent timerServiceIntent = new Intent(activityContext, TimerService.class);
-        activityContext.bindService(timerServiceIntent, timerServiceConnection, Context.BIND_AUTO_CREATE);
+//        activityContext.bindService(timerServiceIntent, timerServiceConnection, Context.BIND_AUTO_CREATE);
     }
 
     /**
@@ -147,7 +147,7 @@ public class ActionTimer {
      * Called when startTimerButton is clicked. Starts the service's timer.
      */
     public void startTimer() {
-        if (timerServiceBound) {
+        //if (timerServiceBound) {
             timerService.startTimer();
 
             int startWhen = 0;
@@ -156,7 +156,7 @@ public class ActionTimer {
             startStopPeriod.setStartDate(Calendar.getInstance());
 
             getTimeHandler.postDelayed(displayTime, period);
-        }
+        //}
     }
 
     private void setTimerViewText(final String text) {

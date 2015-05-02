@@ -13,9 +13,7 @@ import com.github.olegpoly.TimeManager.R;
  */
 public class ManageActionsActivity extends FragmentActivity {
     /**
-     * Initialize FragmentTabHost and add to it tabs for adding and removing user activities
-     *
-     * @param savedInstanceState
+     * {inherit}
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {

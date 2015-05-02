@@ -36,5 +36,6 @@
     <string name="title_activity_demo">DemoActivity</string>
     <string name="title_activity_bar_chart_activity_multi_dataset">BarChartActivityMultiDataset
     </string>
+    <string name="title_activity_exports">ExportsActivity</string>
 
 </resources>

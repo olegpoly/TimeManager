@@ -1,8 +1,10 @@
 package com.github.olegpoly.TimeManager;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,8 +27,10 @@ import com.github.olegpoly.TimeManager.Core.ActionTimer;
 import com.github.olegpoly.TimeManager.Core.ApplicationData;
 import com.github.olegpoly.TimeManager.Core.SessionNumber;
 import com.github.olegpoly.TimeManager.Core.TimeSpan;
+import com.github.olegpoly.TimeManager.Core.TimerFragementFactory;
 import com.github.olegpoly.TimeManager.DataBaseExporter.DataBaseToJson;
 import com.github.olegpoly.TimeManager.Fragments.NavigationDrawerFragment;
+import com.github.olegpoly.TimeManager.Fragments.TimerFragment;
 import com.github.olegpoly.TimeManager.TImeManagerDataBase.DataBase;
 import com.github.olegpoly.TimeManager.TImeManagerDataBase.Table.ActionTable;
 import com.github.olegpoly.TimeManager.TImeManagerDataBase.Table.TimePeriodTable;
@@ -146,20 +152,35 @@ public class MainActivity extends ActionBarActivity {
 
 
         // initialize pointers to view's elements
-        timerTextView = (TextView) findViewById(R.id.timerTextView);
-        activitiesSpinner = (Spinner) findViewById(R.id.activitiesSpinner);
+       // timerTextView = (TextView) findViewById(R.id.timerTextView);
+        //activitiesSpinner = (Spinner) findViewById(R.id.activitiesSpinner);
 
         // for testing porpoises, loads all table entries into the spinner
-        loadTimePeriodsIntoSpinner();
+       // loadTimePeriodsIntoSpinner();
 
         appState = ((ApplicationData) getApplicationContext());
 
         UIApdater uiApdater = new UIApdater(this, timerTextView);
         timer = new ActionTimer(this, uiApdater);
         timer.startService();
-        timer.bindTimer();
+//        timer.bindTimer();
 
-        activitiesSpinner.setOnItemSelectedListener(activitiesSpinnerItemSelectedListener);
+      //  activitiesSpinner.setOnItemSelectedListener(activitiesSpinnerItemSelectedListener);
+    }
+
+    public void showTimers() {
+        TimerFragment fragment = new TimerFragment();
+        LinearLayout rl = (LinearLayout) findViewById(R.id.FragmentContainer);
+
+        int num = 0;
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+
+        for (TimerFragment frag :TimerFragementFactory.getTimerFragments()) {
+            ft.add(rl.getId(), frag);
+            num++;
+        }
+
+        ft.commit();
     }
 
     /**
@@ -200,7 +221,7 @@ public class MainActivity extends ActionBarActivity {
             timer.startTimer();
         }
 
-        loadActivitiesIntoActivitiesSpinner();
+//        loadActivitiesIntoActivitiesSpinner();
     }
 
     /**
@@ -213,6 +234,12 @@ public class MainActivity extends ActionBarActivity {
         timer.unbindTimer();
 
         super.onStop();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showTimers();
     }
 
     /**
@@ -261,7 +288,7 @@ public class MainActivity extends ActionBarActivity {
 
     // only for testing purposes
     private void loadTimePeriodsIntoSpinner() {
-        Spinner s = (Spinner) findViewById(R.id.spinner);
+        //Spinner s = (Spinner) findViewById(R.id.spinner);
 
         List<TimePeriodDBEntry> timePeriods = TimePeriodTable.getAll();
         List<String> timePeriodsStrings = new ArrayList<>();
@@ -281,7 +308,7 @@ public class MainActivity extends ActionBarActivity {
         ArrayAdapter<String> activitiesAdaptor = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item, timePeriodsStrings);
 
-        s.setAdapter(activitiesAdaptor);
+        ///s.setAdapter(activitiesAdaptor);
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.github.olegpoly.TimeManager.UiUtils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.olegpoly.TimeManager.Activity.ChartsActivity;
+import com.github.olegpoly.TimeManager.Activity.ExportsActivity;
+import com.github.olegpoly.TimeManager.Activity.ManageActionsActivity;
+import com.github.olegpoly.TimeManager.Core.ApplicationData;
+import com.github.olegpoly.TimeManager.MainActivity;
 import com.github.olegpoly.TimeManager.R;
 
 import java.util.Collections;
@@ -27,7 +33,23 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
     }
 
     public void doSmth(int position) {
-        Toast.makeText(context, "smth " + position, Toast.LENGTH_SHORT).show();
+        if (position == 0) {
+            Intent i = new Intent(ApplicationData.getAppContext(), MainActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            ApplicationData.getAppContext().startActivity(i);
+        } else if (position == 1) {
+            Intent i = new Intent(ApplicationData.getAppContext(), ManageActionsActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            ApplicationData.getAppContext().startActivity(i);
+        } else if (position == 2) {
+            Intent i = new Intent(ApplicationData.getAppContext(), ExportsActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            ApplicationData.getAppContext().startActivity(i);
+        } else if (position == 3) {
+            Intent i = new Intent(ApplicationData.getAppContext(), ChartsActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            ApplicationData.getAppContext().startActivity(i);
+        }
     }
 
     @Override

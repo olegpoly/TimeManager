@@ -30,10 +30,12 @@
             android:label="@string/title_activity_chart"
             android:screenOrientation="portrait" >
         </activity>
-       <!-- <activity
+        <!--
+        <activity
             android:name=".Fragments.ListViewCheckboxesFragment"
             android:label="ListView title" >
-        </activity> -->
+        </activity>
+        -->
         <activity android:name=".Activity.PieChartActivity" />
         <activity
             android:name=".Activity.ChartsActivity"
@@ -46,6 +48,10 @@
         <activity
             android:name=".Activity.BarChartActivityMultiDataset"
             android:label="@string/title_activity_bar_chart_activity_multi_dataset" >
+        </activity>
+        <activity
+            android:name=".Activity.ExportsActivity"
+            android:label="@string/title_activity_exports" >
         </activity>
     </application>
 

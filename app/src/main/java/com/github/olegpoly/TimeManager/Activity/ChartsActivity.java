@@ -15,9 +15,7 @@ import com.github.olegpoly.TimeManager.R;
 
 public class ChartsActivity extends FragmentActivity {
     /**
-     * Called when a fragment is attached to the activity.
-     *
-     * @param fragment
+     * {inherit}
      */
     @Override
     public void onAttachFragment(Fragment fragment) {
@@ -64,7 +62,7 @@ public class ChartsActivity extends FragmentActivity {
         });
 
         ////////
-        FilterFragment ff = (FilterFragment)getSupportFragmentManager().findFragmentById(R.id.ff);
+        FilterFragment ff = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.ff);
         ff.filterListener = chartFragmentPagerAdapter;
     }
 

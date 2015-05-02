@@ -13,81 +13,15 @@
 
         <LinearLayout android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:id="@+id/timersLayoutCollective"
+            >
 
-            <Button android:id="@+id/startTimerButton"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="start"
-                android:onClick="startTimer"/>
-
-            <Button android:id="@+id/stopTimerButton"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="stop"
-                android:onClick="stopTimer" />
-
-            <TextView
+            <LinearLayout
+                android:id="@+id/FragmentContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="0:0:0"
-                android:id="@+id/timerTextView"
-                android:layout_gravity="center_horizontal" />
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/activitiesSpinner"/>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Manage activities"
-                android:id="@+id/ManageActivitiesButton"
-                android:layout_gravity="center_horizontal"
-                android:onClick="manageActivitiesButton"/>
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/spinner"
-                android:layout_gravity="center_horizontal" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="show charts"
-                android:id="@+id/button"
-                android:layout_gravity="center_horizontal"
-                android:onClick="openChart"
-                />
-
-            <Button
-                android:onClick="showPieChart23"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="show test chart"
-                android:id="@+id/buttonChart"
-                android:layout_gravity="center_horizontal" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="test"
-                android:id="@+id/newSessionButton"
-                android:layout_gravity="center_horizontal"
-                android:onClick="showList"
-                />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Export to xml"
-                android:id="@+id/databaseToXmlButton"
-                android:layout_gravity="center_horizontal"
-                android:onClick="databaseToXml"
-                />
+                android:orientation="vertical" />
 
         </LinearLayout>
 
