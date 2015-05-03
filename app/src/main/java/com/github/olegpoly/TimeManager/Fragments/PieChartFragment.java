@@ -99,7 +99,7 @@ public class PieChartFragment extends Fragment implements OnChartValueSelectedLi
         // drawn above each other.
         for (int i = 0; i < count; i++) {
             yVals1.add(new Entry((float) 2, i+1));
-            xVals.add(String.valueOf(i));
+            xVals.add("activity " + String.valueOf(i));
         }
 
         PieDataSet set1 = new PieDataSet(yVals1, "Activities");
