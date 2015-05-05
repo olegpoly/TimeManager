@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,9 +14,10 @@ import android.view.MenuItem;
 import com.github.olegpoly.TimeManager.Activity.stab.ChartFragmentPagerAdapter;
 import com.github.olegpoly.TimeManager.Activity.stab.SlidingTabLayout;
 import com.github.olegpoly.TimeManager.Fragments.FilterFragment;
+import com.github.olegpoly.TimeManager.Fragments.NavigationDrawerFragment;
 import com.github.olegpoly.TimeManager.R;
 
-public class ChartsActivity extends FragmentActivity {
+public class ChartsActivity extends ActionBarActivity {
     /**
      * {inherit}
      */
@@ -26,6 +30,15 @@ public class ChartsActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charts);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
+
+        NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment)
+                getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
+        drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
+
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // Layout manager that allows the user to flip through the pages
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);

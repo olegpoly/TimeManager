@@ -1,45 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:sothree="http://schemas.android.com/apk/res-auto"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/sliding_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="bottom"
-    sothree:umanoPanelHeight="@dimen/filter_length"
-    sothree:umanoShadowHeight="1dp">
+    android:orientation="vertical">
 
-    <LinearLayout
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/application_bar" />
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <!-- The sliding tab -->
-        <com.github.olegpoly.TimeManager.Activity.stab.SlidingTabLayout
-            android:id="@+id/sliding_tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        android:layout_height="match_parent">
 
-        <!-- The pager that allows us to swipe between fragments -->
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="0px"
-            android:layout_weight="1"
-            android:background="@android:color/white" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <fragment
-            android:id="@+id/ff"
+        <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:sothree="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/sliding_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:name="com.github.olegpoly.TimeManager.Fragments.FilterFragment"
-            tools:layout="@layout/fragment_filter"/>
+            android:gravity="bottom"
+            sothree:umanoPanelHeight="@dimen/filter_length"
+            sothree:umanoShadowHeight="1dp">
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <!-- The sliding tab -->
+                <com.github.olegpoly.TimeManager.Activity.stab.SlidingTabLayout
+                    android:id="@+id/sliding_tabs"
+                    android:background="#ffb74d"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-</com.sothree.slidinguppanel.SlidingUpPanelLayout>
+                <!-- The pager that allows us to swipe between fragments -->
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="0px"
+                    android:layout_weight="1"
+                    android:background="#ffcc80" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <fragment
+                    android:id="@+id/ff"
+                    android:name="com.github.olegpoly.TimeManager.Fragments.FilterFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:layout="@layout/fragment_filter" />
+
+            </LinearLayout>
+
+        </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
+
+        <fragment
+            android:id="@+id/fragment_navigation_drawer"
+            android:name="com.github.olegpoly.TimeManager.Fragments.NavigationDrawerFragment"
+            android:layout_width="@dimen/nav_drawer_width"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            tools:layout="@layout/fragment_navigation_drawer" />
+
+    </android.support.v4.widget.DrawerLayout>
+
+</LinearLayout>

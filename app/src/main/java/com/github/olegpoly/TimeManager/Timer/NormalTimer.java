@@ -28,6 +28,8 @@ public class NormalTimer {
 
         timerHandler = new Handler();
         timerHandler.postDelayed(mUpdateTimeTask, 1000);
+
+        timerWorking = true;
     }
 
     private long secPassed = 0;
@@ -35,6 +37,7 @@ public class NormalTimer {
     private TimeSpan startStopPeriod;
     private UIApdater timerTextViewSetter;
     private SessionNumber currentSessionNumber = SessionNumber.getInstance();
+    public boolean timerWorking = false;
 
     public NormalTimer(UIApdater timerTextViewSetter) {
         this.timerTextViewSetter = timerTextViewSetter;
@@ -57,6 +60,10 @@ public class NormalTimer {
             return;
         }
 
+        if (!timerWorking) {
+            return;
+        }
+
         timerHandler.removeCallbacks(mUpdateTimeTask);
         timerHandler = null;
 
@@ -71,6 +78,8 @@ public class NormalTimer {
         TimePeriodTable.add(timePeriodEntry);
 
         startStopPeriod.reset();
+
+        timerWorking = false;
     }
 
     private String getFormattedTimeString(long secs) {

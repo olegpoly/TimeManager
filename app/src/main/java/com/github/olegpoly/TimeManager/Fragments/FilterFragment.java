@@ -17,14 +17,14 @@ import com.github.olegpoly.TimeManager.R;
 public class FilterFragment extends Fragment {
 
     public interface FilterListener {
-        void filterApplied();
+        void filterApplied(FilterFragment filterFragment);
     }
 
     public FilterListener filterListener;
 
 
-View v;
-    ListSetUp listSetUp = new ListSetUp();
+    public View v;
+    public ListSetUp listSetUp = new ListSetUp();
 
     public FilterFragment() {
         // Required empty public constructor
@@ -40,10 +40,11 @@ View v;
             listSetUp.setThisView(v);
 
         Button b = (Button) v.findViewById(R.id.applyFilterButton);
+        final FilterFragment that = this;
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                filterListener.filterApplied();
+                filterListener.filterApplied(that);
             }
         });
 

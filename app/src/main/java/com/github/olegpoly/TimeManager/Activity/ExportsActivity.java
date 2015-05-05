@@ -1,14 +1,17 @@
 package com.github.olegpoly.TimeManager.Activity;
 
 import android.os.Environment;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.github.olegpoly.TimeManager.DataBaseExporter.DataBaseToJson;
 import com.github.olegpoly.TimeManager.DataBaseExporter.DatabaseToXml;
+import com.github.olegpoly.TimeManager.Fragments.NavigationDrawerFragment;
 import com.github.olegpoly.TimeManager.R;
 import com.github.olegpoly.TimeManager.TImeManagerDataBase.DataBase;
 
@@ -20,6 +23,15 @@ public class ExportsActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exports);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
+
+        NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment)
+                getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
+        drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
+
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
 

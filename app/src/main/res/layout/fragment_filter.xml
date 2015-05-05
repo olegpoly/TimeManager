@@ -5,6 +5,7 @@
     android:orientation="vertical"
     tools:context="com.github.olegpoly.TimeManager.Fragments.FilterFragment"
     android:id="@+id/filterFragment"
+    android:background="#ffcc80"
     >
 
     <TextView
@@ -15,6 +16,7 @@
         android:gravity="center"
         android:onClick="generate"
         android:text="filter"
+        android:background="#ff9800"
         android:textSize="16sp" />
 
     <Button

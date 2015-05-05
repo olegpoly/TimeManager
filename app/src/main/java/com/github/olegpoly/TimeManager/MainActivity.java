@@ -155,11 +155,11 @@ public class MainActivity extends ActionBarActivity {
 
 
         // initialize pointers to view's elements
-       // timerTextView = (TextView) findViewById(R.id.timerTextView);
+        // timerTextView = (TextView) findViewById(R.id.timerTextView);
         //activitiesSpinner = (Spinner) findViewById(R.id.activitiesSpinner);
 
         // for testing porpoises, loads all table entries into the spinner
-       // loadTimePeriodsIntoSpinner();
+        // loadTimePeriodsIntoSpinner();
 
         appState = ((ApplicationData) getApplicationContext());
 
@@ -168,19 +168,53 @@ public class MainActivity extends ActionBarActivity {
         timer.startService();
 //        timer.bindTimer();
 
-      //  activitiesSpinner.setOnItemSelectedListener(activitiesSpinnerItemSelectedListener);
+        //  activitiesSpinner.setOnItemSelectedListener(activitiesSpinnerItemSelectedListener);
     }
+
+    List<String> names = new ArrayList<>();
 
     public void showTimers() {
         TimerFragment fragment = new TimerFragment();
         LinearLayout rl = (LinearLayout) findViewById(R.id.FragmentContainer);
 
+//        if (TimerFragementFactory.getTimerFragments().size() == 0) {
+//            FragmentTransaction ft = getFragmentManager().beginTransaction();
+//
+//            for (String frag : names) {
+//                android.app.Fragment fragmentByTag = getFragmentManager().findFragmentByTag(frag);
+//                if(fragmentByTag != null)
+//                    ft.remove(fragmentByTag);
+//            }
+//
+//            ft.commit();
+//        }
+
+        for (String name : names) {
+            boolean exists = false;
+
+            for (TimerFragment timerFragment : TimerFragementFactory.getTimerFragments()) {
+                if (timerFragment.getName().equals(name)) {
+                    exists = true;
+                }
+            }
+
+            if (!exists) {
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                android.app.Fragment fragmentByTag = getFragmentManager().findFragmentByTag(name);
+                ft.remove(fragmentByTag).commit();
+            }
+
+        }
+
         int num = 0;
         FragmentTransaction ft = getFragmentManager().beginTransaction();
 
-        for (TimerFragment frag :TimerFragementFactory.getTimerFragments()) {
-            ft.add(rl.getId(), frag);
-            num++;
+        for (TimerFragment frag : TimerFragementFactory.getTimerFragments()) {
+            if (!names.contains(frag.getName())) {
+                names.add(frag.getName());
+                ft.add(rl.getId(), frag, frag.getName());
+                num++;
+            }
         }
 
         ft.commit();
@@ -417,6 +451,6 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void showPieChart23(View view) {
-       // startActivity(new Intent(this, BarChartActivityMultiDataset.class));
+        // startActivity(new Intent(this, BarChartActivityMultiDataset.class));
     }
 }

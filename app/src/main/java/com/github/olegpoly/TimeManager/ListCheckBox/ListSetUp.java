@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ListSetUp {
     private FilterArrayAdapter dataAdapter = null;
-    private List<ActionListItem> actionList;
+    public List<ActionListItem> actionList;
     private View thisView;
     private Context context;
 

@@ -47,14 +47,17 @@ public class NavigationDrawerFragment extends Fragment {
      */
     public List<Information> getData() {
         List<Information> data = new ArrayList<>();
-        int[] icons = {R.drawable.icon};
+        int[] icons = {R.drawable.menu_option_red,
+                R.drawable.menu_option_blue,
+                R.drawable.menu_option_violet,
+                R.drawable.menu_option_yellow};
 
         Resources res =  getResources();
         String[] planets = res.getStringArray(R.array.menu_options);
 
         for (int i = 0; i < planets.length; i++) {
             Information current = new Information();
-            current.iconId = icons[0];
+            current.iconId = icons[i];
             current.title = planets[i];
             data.add(current);
         }
@@ -114,8 +117,6 @@ public class NavigationDrawerFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        Toast.makeText(this.getActivity(), "onCreateView", Toast.LENGTH_SHORT).show();
-
         return layout;
     }
 
@@ -135,8 +136,6 @@ public class NavigationDrawerFragment extends Fragment {
 
                 // redraw the menu
                 getActivity().invalidateOptionsMenu();
-
-                Toast.makeText(drawerView.getContext(), "onDrawerOpened", Toast.LENGTH_SHORT).show();
             }
 
             @Override

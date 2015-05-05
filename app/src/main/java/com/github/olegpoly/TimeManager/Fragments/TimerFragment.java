@@ -78,9 +78,12 @@ public class TimerFragment extends Fragment {
         UIApdater uiApdater = new UIApdater(this.getActivity(), timePassed);
         timer = new NormalTimer(uiApdater);
 
+        if (stopForRedraw) {
+            timer.startTimer();
+        }
+
         return view;
     }
-
 
     public void setName(String name) {
         this.name = name;
@@ -90,6 +93,18 @@ public class TimerFragment extends Fragment {
         this.time = time;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public NormalTimer getTimer() {
+        return timer;
+    }
+
+    public void setTimer(NormalTimer timer) {
+        this.timer = timer;
+    }
+
     public ActionDBEntry getThisEntry() {
         return thisEntry;
     }
@@ -97,4 +112,6 @@ public class TimerFragment extends Fragment {
     public void setThisEntry(ActionDBEntry thisEntry) {
         this.thisEntry = thisEntry;
     }
+
+    public boolean stopForRedraw = false;
 }

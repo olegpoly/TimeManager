@@ -1,5 +1,6 @@
 package com.github.olegpoly.TimeManager.Core;
 
+import com.github.olegpoly.TimeManager.Fragments.SeparatorFragment;
 import com.github.olegpoly.TimeManager.Fragments.TimerFragment;
 import com.github.olegpoly.TimeManager.TImeManagerDataBase.Table.ActionTable;
 import com.github.olegpoly.TimeManager.TImeManagerDataBase.Table.TimePeriodTable;

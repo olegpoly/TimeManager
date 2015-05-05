@@ -18,10 +18,12 @@ import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.Legend;
 import com.github.olegpoly.TimeManager.Interfaces.ChartFragment;
+import com.github.olegpoly.TimeManager.ListCheckBox.ActionListItem;
 import com.github.olegpoly.TimeManager.ListCheckBox.ListSetUp;
 import com.github.olegpoly.TimeManager.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PieChartFragment extends Fragment implements OnChartValueSelectedListener, ChartFragment {
     private PieChart mChart;
@@ -77,29 +79,29 @@ public class PieChartFragment extends Fragment implements OnChartValueSelectedLi
         //mChart.setCenterText("MPAndroidChart\nLibrary");
 
        // listSetUp.setData(listSetUp.countryList.size());
-        changeFilter(2);
+        //changeFilter(2);
 
         mChart.animateXY(1500, 1500);
         mChart.animateXY(1500, 1500);
         // mChart.spin(2000, 0, 360);
 
         Legend l = mChart.getLegend();
-        l.setPosition(Legend.LegendPosition.RIGHT_OF_CHART);
-        l.setXEntrySpace(7f);
-        l.setYEntrySpace(5f);
+//        l.setPosition(Legend.LegendPosition.RIGHT_OF_CHART);
+//        l.setXEntrySpace(7f);
+//        l.setYEntrySpace(5f);
     }
 
     @Override
-    public void changeFilter(int count) {
+    public void changeFilter(List<ActionListItem> actionList) {
         ArrayList<Entry> yVals1 = new ArrayList<Entry>();
         ArrayList<String> xVals = new ArrayList<String>();
 
         // IMPORTANT: In a PieChart, no values (Entry) should have the same
         // xIndex (even if from different DataSets), since no values can be
         // drawn above each other.
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < actionList.size(); i++) {
             yVals1.add(new Entry((float) 2, i+1));
-            xVals.add("activity " + String.valueOf(i));
+            xVals.add(actionList.get(i).getUserActivityName());
         }
 
         PieDataSet set1 = new PieDataSet(yVals1, "Activities");

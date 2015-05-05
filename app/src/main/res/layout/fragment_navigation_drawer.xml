@@ -2,7 +2,7 @@
     android:id="@+id/fragment_navigation_drawer"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EEE"
+    android:background="#ff9800"
     tools:context="com.github.olegpoly.TimeManager.Fragments.NavigationDrawerFragment">
 
     <android.support.v7.widget.RecyclerView

@@ -6,6 +6,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
 import java.util.List;
+import java.util.Vector;
 
 public class TransformList {
     static private Function<ActionDBEntry, ActionListItem> transformFunction =
@@ -22,6 +23,13 @@ public class TransformList {
 
     static public List<ActionListItem> transform() {
         List<ActionDBEntry> ua = ActionTable.getAll();
-        return transform(ua);
+
+        List<ActionListItem> list = new Vector<>();
+
+        for (ActionListItem actionListItem : transform(ua)) {
+            list.add(actionListItem);
+        }
+        
+        return list;
     }
 }

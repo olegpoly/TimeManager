@@ -8,9 +8,12 @@ import com.github.olegpoly.TimeManager.Fragments.BarChartFragment;
 import com.github.olegpoly.TimeManager.Fragments.FilterFragment;
 import com.github.olegpoly.TimeManager.Fragments.PieChartFragment;
 import com.github.olegpoly.TimeManager.Interfaces.ChartFragment;
+import com.github.olegpoly.TimeManager.ListCheckBox.ActionListItem;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
+import java.util.logging.Filter;
 
 public class ChartFragmentPagerAdapter extends FragmentStatePagerAdapter implements FilterFragment.FilterListener  {
     class NamedFragment {
@@ -50,8 +53,16 @@ public class ChartFragmentPagerAdapter extends FragmentStatePagerAdapter impleme
     }
 
     @Override
-    public void filterApplied() {
-        tabs2.get(0).fragment.changeFilter(3);
-        tabs2.get(1).fragment.changeFilter(3);
+    public void filterApplied(FilterFragment filterFragment) {
+        List<ActionListItem> actionList = filterFragment.listSetUp.actionList;
+
+        List<ActionListItem> actionListCorrect = new Vector<>();
+
+        for (ActionListItem actionListItem : actionList) {
+            actionListCorrect.add(actionListItem);
+        }
+
+        tabs2.get(0).fragment.changeFilter(actionListCorrect);
+        tabs2.get(1).fragment.changeFilter(actionListCorrect);
     }
 }

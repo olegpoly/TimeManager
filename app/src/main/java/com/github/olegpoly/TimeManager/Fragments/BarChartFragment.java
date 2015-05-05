@@ -22,9 +22,11 @@ import com.github.mikephil.charting.utils.Legend;
 import com.github.mikephil.charting.utils.XLabels;
 import com.github.mikephil.charting.utils.YLabels;
 import com.github.olegpoly.TimeManager.Interfaces.ChartFragment;
+import com.github.olegpoly.TimeManager.ListCheckBox.ActionListItem;
 import com.github.olegpoly.TimeManager.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BarChartFragment extends Fragment implements OnChartValueSelectedListener, ChartFragment {
     private BarChart mChart;
@@ -66,7 +68,7 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
     }
 
     @Override
-    public void changeFilter(int count) {
+    public void changeFilter(List<ActionListItem> actionList) {
         int xProg = 2;
         int yProg = 2;
 
