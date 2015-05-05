@@ -49,6 +49,8 @@ import java.util.concurrent.TimeUnit;
 //import com.github.olegpoly.TimeManager.Activity.BarChartActivityMultiDataset;
 //import com.github.olegpoly.TimeManager.Activity.PieChartActivity;
 
+//asdasd
+
 public class MainActivity extends ActionBarActivity {
     /**
      * This timer interacts with the service's timer from an activity's context.
