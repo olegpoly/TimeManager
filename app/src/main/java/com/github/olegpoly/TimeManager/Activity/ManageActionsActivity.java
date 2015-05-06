@@ -21,6 +21,8 @@ public class ManageActionsActivity extends ActionBarActivity {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTitle("Manage actions");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_action);
 

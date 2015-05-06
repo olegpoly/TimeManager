@@ -17,7 +17,14 @@
             android:id="@+id/timersLayoutCollective"
             android:background="#ffcc80">
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp" />
+
     <Button
+android:layout_marginEnd="@dimen/export_margin"
+        android:layout_marginStart="@dimen/export_margin"
+        style="@style/btnStyleHaiti"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Export to JSON"
@@ -26,7 +33,14 @@
         android:onClick="exportToJSON"
         />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp" />
+
     <Button
+        android:layout_marginEnd="@dimen/export_margin"
+        android:layout_marginStart="@dimen/export_margin"
+        style="@style/btnStyleHaiti"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Export to XML"

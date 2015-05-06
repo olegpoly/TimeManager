@@ -24,6 +24,8 @@ public class ExportsActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exports);
 
+        setTitle("Exports");
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
 

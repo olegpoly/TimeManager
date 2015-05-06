@@ -31,6 +31,8 @@ public class ChartsActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charts);
 
+        setTitle("Charts");
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
 

@@ -45,12 +45,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-//asdasd asdasd asdasd
-//import com.github.olegpoly.TimeManager.Activity.BarChartActivityMultiDataset;
-//import com.github.olegpoly.TimeManager.Activity.PieChartActivity;
-
-//asdasd
-
 public class MainActivity extends ActionBarActivity {
     /**
      * This timer interacts with the service's timer from an activity's context.
@@ -145,30 +139,11 @@ public class MainActivity extends ActionBarActivity {
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        // TODO: delete these test lines
-
-        /*this.deleteDatabase(TimePeriodTable.TABLE_NAME);
-        this.deleteDatabase(ActionTable.TABLE_NAME);
-        DataBase db = DataBase.getInstance();
-        db.deleteAll();
-        db.addAll();*/
-
-
-        // initialize pointers to view's elements
-        // timerTextView = (TextView) findViewById(R.id.timerTextView);
-        //activitiesSpinner = (Spinner) findViewById(R.id.activitiesSpinner);
-
-        // for testing porpoises, loads all table entries into the spinner
-        // loadTimePeriodsIntoSpinner();
-
         appState = ((ApplicationData) getApplicationContext());
 
         UIApdater uiApdater = new UIApdater(this, timerTextView);
         timer = new ActionTimer(this, uiApdater);
         timer.startService();
-//        timer.bindTimer();
-
-        //  activitiesSpinner.setOnItemSelectedListener(activitiesSpinnerItemSelectedListener);
     }
 
     List<String> names = new ArrayList<>();
@@ -176,18 +151,6 @@ public class MainActivity extends ActionBarActivity {
     public void showTimers() {
         TimerFragment fragment = new TimerFragment();
         LinearLayout rl = (LinearLayout) findViewById(R.id.FragmentContainer);
-
-//        if (TimerFragementFactory.getTimerFragments().size() == 0) {
-//            FragmentTransaction ft = getFragmentManager().beginTransaction();
-//
-//            for (String frag : names) {
-//                android.app.Fragment fragmentByTag = getFragmentManager().findFragmentByTag(frag);
-//                if(fragmentByTag != null)
-//                    ft.remove(fragmentByTag);
-//            }
-//
-//            ft.commit();
-//        }
 
         for (String name : names) {
             boolean exists = false;

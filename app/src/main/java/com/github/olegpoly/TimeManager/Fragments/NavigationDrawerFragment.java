@@ -13,7 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.github.olegpoly.TimeManager.R;
 import com.github.olegpoly.TimeManager.UiUtils.CustomRecyclerViewAdapter;
@@ -102,8 +101,6 @@ public class NavigationDrawerFragment extends Fragment {
             // after rotation
             mFromSavedInstanceState = true;
         }
-
-        Toast.makeText(this.getActivity(), "onCreate", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -142,8 +139,6 @@ public class NavigationDrawerFragment extends Fragment {
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
                 getActivity().invalidateOptionsMenu();
-
-                Toast.makeText(drawerView.getContext(), "onDrawerClosed", Toast.LENGTH_SHORT).show();
             }
         };
 

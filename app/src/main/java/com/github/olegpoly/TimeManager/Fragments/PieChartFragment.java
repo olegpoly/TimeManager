@@ -104,7 +104,7 @@ public class PieChartFragment extends Fragment implements OnChartValueSelectedLi
             xVals.add(actionList.get(i).getUserActivityName());
         }
 
-        PieDataSet set1 = new PieDataSet(yVals1, "Activities");
+        PieDataSet set1 = new PieDataSet(yVals1, "");
         set1.setSliceSpace(20f);
 
         // add a lot of colors

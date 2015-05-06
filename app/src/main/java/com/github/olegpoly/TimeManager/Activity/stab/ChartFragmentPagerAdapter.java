@@ -59,6 +59,7 @@ public class ChartFragmentPagerAdapter extends FragmentStatePagerAdapter impleme
         List<ActionListItem> actionListCorrect = new Vector<>();
 
         for (ActionListItem actionListItem : actionList) {
+            if (actionListItem.getIsSelected())
             actionListCorrect.add(actionListItem);
         }
 

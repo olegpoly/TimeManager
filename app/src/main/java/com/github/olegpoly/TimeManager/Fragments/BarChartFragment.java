@@ -27,6 +27,7 @@ import com.github.olegpoly.TimeManager.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class BarChartFragment extends Fragment implements OnChartValueSelectedListener, ChartFragment {
     private BarChart mChart;
@@ -69,12 +70,12 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
 
     @Override
     public void changeFilter(List<ActionListItem> actionList) {
-        int xProg = 2;
+        int xProg = 1;
         int yProg = 2;
 
         ArrayList<String> xVals = new ArrayList<String>();
         for (int i = 0; i < xProg; i++) {
-            xVals.add((i+1990) + "");
+            xVals.add("06.05.2015");
         }
 
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
@@ -99,18 +100,27 @@ public class BarChartFragment extends Fragment implements OnChartValueSelectedLi
         }
 
         // create 3 datasets with different types
-        BarDataSet set1 = new BarDataSet(yVals1, "Sport");
-//        set1.setColors(ColorTemplate.createColors(getApplicationContext(), ColorTemplate.FRESH_COLORS));
-        set1.setColor(Color.rgb(104, 241, 175));
-        BarDataSet set2 = new BarDataSet(yVals2, "Study");
-        set2.setColor(Color.rgb(164, 228, 251));
-        BarDataSet set3 = new BarDataSet(yVals3, "Rest");
-        set3.setColor(Color.rgb(242, 247, 158));
+//        BarDataSet set1 = new BarDataSet(yVals1, "Sport");
+////        set1.setColors(ColorTemplate.createColors(getApplicationContext(), ColorTemplate.FRESH_COLORS));
+//        set1.setColor(Color.rgb(104, 241, 175));
+//        BarDataSet set2 = new BarDataSet(yVals2, "Study");
+//        set2.setColor(Color.rgb(164, 228, 251));
+//        BarDataSet set3 = new BarDataSet(yVals3, "Rest");
+//        set3.setColor(Color.rgb(242, 247, 158));
 
         ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
-        dataSets.add(set1);
-        dataSets.add(set2);
-        dataSets.add(set3);
+        Random rnd = new Random();
+
+        for (ActionListItem actionListItem : actionList) {
+            BarDataSet set = new BarDataSet(yVals2, actionListItem.getUserActivityName());
+            set.setColor(Color.rgb(rnd.nextInt(250), rnd.nextInt(250), rnd.nextInt(250)));
+
+            dataSets.add(set);
+        }
+
+//        dataSets.add(set1);
+//        dataSets.add(set2);
+//        dataSets.add(set3);
 
         BarData data = new BarData(xVals, dataSets);
 
