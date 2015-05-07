@@ -77,8 +77,17 @@ public class ChartsActivity extends ActionBarActivity {
         });
 
         ////////
-        FilterFragment ff = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.ff);
+        ff = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.ff);
         ff.filterListener = chartFragmentPagerAdapter;
+    }
+
+    FilterFragment ff;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //ff.invokeFilter();
     }
 
     @Override

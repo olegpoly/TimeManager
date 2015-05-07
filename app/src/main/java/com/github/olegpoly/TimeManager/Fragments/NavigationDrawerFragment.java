@@ -97,10 +97,10 @@ public class NavigationDrawerFragment extends Fragment {
                 KEY_USER_LEARNED_DRAWER,
                 "false")); // default value
 
-        if (savedInstanceState != null) {
+        //if (savedInstanceState != null) {
             // after rotation
             mFromSavedInstanceState = true;
-        }
+        //}
     }
 
     @Override

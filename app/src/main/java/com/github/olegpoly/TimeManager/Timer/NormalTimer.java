@@ -82,7 +82,7 @@ public class NormalTimer {
         timerWorking = false;
     }
 
-    private String getFormattedTimeString(long secs) {
+    public static String getFormattedTimeString(long secs) {
         long hours = TimeUnit.SECONDS.toHours(secs);
         long minutes = TimeUnit.SECONDS.toMinutes(secs) - TimeUnit.HOURS.toMinutes(hours);
         long seconds = TimeUnit.SECONDS.toSeconds(secs) - TimeUnit.HOURS.toSeconds(hours) -
@@ -95,5 +95,13 @@ public class NormalTimer {
 
     private void setTimerViewText(final String text) {
         timerTextViewSetter.setTextViewText(text);
+    }
+
+    public long getSecPassed() {
+        return secPassed;
+    }
+
+    public void setSecPassed(long secPassed) {
+        this.secPassed = secPassed;
     }
 }

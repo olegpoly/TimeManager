@@ -7,13 +7,18 @@
     tools:context="com.github.olegpoly.TimeManager.Fragments.RemoveActionFragment">
 
     <Spinner
+        style="@style/btnStyleHaiti"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/activitiesSelectorSpinner"
+        android:layout_marginBottom="10dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:popupBackground="@drawable/custom_btn_haiti"/>
+    />
 
     <Button
+        style="@style/btnStyleHaiti"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="remove"

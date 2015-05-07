@@ -393,13 +393,6 @@ public class MainActivity extends ActionBarActivity {
     public void databaseToXml(View view) {
         File sd = Environment.getExternalStorageDirectory();
 
-       /*
-       String path = sd + "/" + "test" + ".xml";
-        UserActivityDB database = UserActivityDB.getInstance();
-        DatabaseToXmlExporter xmlExporter = new DatabaseToXmlExporter(database.getWritableDatabase(), path);
-        xmlExporter.exportData();
-        */
-
         String path = sd + "/" + "test" + ".json";
         DataBaseToJson dataBaseToJson = new DataBaseToJson(path);
         dataBaseToJson.exportData();

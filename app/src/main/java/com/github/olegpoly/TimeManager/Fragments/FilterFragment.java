@@ -51,6 +51,10 @@ public class FilterFragment extends Fragment {
         return v;
     }
 
+    public void invokeFilter() {
+        filterListener.filterApplied(this);
+    }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

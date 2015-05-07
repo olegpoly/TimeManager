@@ -70,13 +70,14 @@ public class TimerFragment extends Fragment {
         activityName = (TextView) view.findViewById(R.id.activityName);
         activityName.setText(name);
         timePassed = (TextView) view.findViewById(R.id.timeTextView);
-        timePassed.setText(time);
+        timePassed.setText(NormalTimer.getFormattedTimeString(Long.parseLong(time)));
 
         view.setId(id);
         id++;
 
         UIApdater uiApdater = new UIApdater(this.getActivity(), timePassed);
         timer = new NormalTimer(uiApdater);
+        timer.setSecPassed(Long.parseLong(time));
 
         if (stopForRedraw) {
             timer.startTimer();
